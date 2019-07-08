@@ -1,0 +1,104 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+        <div class="row">
+                <div class="form-group col-md-3">
+                    <label>任务等级</label>
+                    <select name="type" class="form-control">
+                        {foreach $flag1 as  $k=>$v}
+                        <option value="{$k}" {notempty name="info['type']"}{if $info['type']==$k}selected{/if}{/notempty}>{$v}</option>
+                        {/foreach}
+                    </select>
+                </div>
+        </div>
+          <div class="row">
+                <div class="form-group col-md-3">
+                    <label>任务类型</label>
+                    <select name="tasktype" class="form-control" id="tasktype">
+                        {foreach $flag2 as  $k=>$v}
+                        <option value="{$k}" {notempty name="info['tasktype']"}{if $info['tasktype']==$k}selected{/if}{/notempty}>{$v}</option>
+                        {/foreach}
+                    </select>
+            </div>
+            </div>
+
+
+          <div class="row">
+            <div class="form-group col-md-3" id="title" {notempty name="info['tasktype']"}{if $info['tasktype']!=1 && $info['tasktype']!=5}hidden{/if} {/notempty}>
+              <label>任务标题</label>
+              <input class="form-control" name="title" placeholder="请输入任务标题名称" value="{$info['title']|default=''}" type="text">
+            </div>
+          </div>
+          <div class="row">
+              <div class="form-group col-md-3" id="url"  {notempty name="info['tasktype']"}{if $info['tasktype']!=1 && $info['tasktype']!=5}show {else} hidden{/if} {/notempty}>
+                      <label>跳转ID或url(阅读和其他任务可不填)</label>
+                      <input class="form-control" name="url" placeholder="请输入跳转ID或url" value="{$info['url']|default=''}" type="text">
+              </div>
+          </div>
+          <div class="row">
+                <div class="form-group col-md-3" id="score" {notempty name="info['tasktype']"}{if $info['tasktype']!=1 && $info['tasktype']!=5}hidden{/if} {/notempty}>
+                    <label>奖励积分</label>
+                    <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default='0'}" type="number">
+                </div>
+            </div>
+    <div class="row">
+          <div class="col-md-6 form-group" id="describe" {notempty name="info['tasktype']"}{if $info['tasktype']!=1 && $info['tasktype']!=5}hidden{/if} {/notempty}>
+            <div class="form-group">
+                <label>描述</label>
+                <span class="">（任务描述信息/简介）</span>
+                <textarea class="form-control" name="describe" rows="3" placeholder="请输入任务描述信息/简介">{$info['describe']|default=''}</textarea>
+            </div>
+          </div>
+          </div>
+
+        <div class="row">
+
+
+          <!--<div class="col-md-12">-->
+            <!--<div class="form-group">-->
+                <!--<label>文章内容</label>-->
+                <!--<textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>-->
+                <!--{:widget('editor/index', array('name'=> 'content','value'=> ''))}-->
+            <!--</div>-->
+          <!--</div>-->
+            <!--<div class="col-md-6">-->
+            <!--<div class="form-group">-->
+            <!--<label>附件</label>-->
+            <!--<span class="">（任务可下载附件）</span>-->
+            <!--<br/>-->
+            <!--{assign name="file_id" value="$info.file_id|default='0'" /}-->
+            <!--{:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+
+      <div class="box-footer">
+
+        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+        {include file="layout/edit_btn_group"/}
+
+      </div>
+
+      </div>
+      </div>
+</form>
+<script>
+    $('#tasktype').change(function(){
+        var task=$('#tasktype').val();
+        //1阅读新闻 2下载app 3观看视频 4玩小游戏 5其他任务
+        //1,5
+        console.log(task);
+        if(task!=1 && task!=5){
+            $('#title').hide();
+            $('#describe').hide();
+            $('#score').hide();
+            $('#url').show();
+        }else{
+            $('#title').show();
+            $('#describe').show();
+            $('#score').show();
+            $('#url').hide();
+        }
+    })
+</script>

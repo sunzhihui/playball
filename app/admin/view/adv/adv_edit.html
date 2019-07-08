@@ -1,0 +1,78 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+          <div class="row">
+            <div class="form-group col-md-3" id="name" {notempty name="info['type']"}{if $info['type']!=1 && $info['type']!=5}hidden{/if} {/notempty}>
+              <label>广告标题</label>
+              <input class="form-control" name="name" placeholder="请输入广告标题名称" value="{$info['name']|default=''}" type="text">
+            </div>
+          </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>封面图片</label>
+                <span class="">（请上传单张封面图片）</span>
+                <br/>
+                {assign name="cover_id" value="$info.cover_id|default='0'" /}
+                {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3" >
+                <label>广告类型</label>
+                <select name="type" class="form-control" id="type">
+                    <option value="1" {notempty name="info['type']"}{if condition="$info['type'] eq 1"} selected="selected" {/if}{/notempty}>自有广告</option>
+                    <option value="2" {notempty name="info['type']"}{if condition="$info['type'] eq 2"} selected="selected" {/if}{/notempty}>外链广告</option>
+                    <option value="3" {notempty name="info['type']"}{if condition="$info['type'] eq 3"} selected="selected" {/if}{/notempty}>ID跳转广告</option>
+                </select>
+            </div>
+        </div>
+            <div class="row">
+          <div class="col-md-6 form-group" id="describe">
+            <div class="form-group">
+                <label>简介</label>
+                <span class="">（广告描述简介）</span>
+                <textarea class="form-control" name="describe" rows="3" placeholder="请输入广告描述信息/简介">{$info['describe']|default=''}</textarea>
+            </div>
+          </div>
+          </div>
+        <div class="row">
+            <div class="form-group col-md-3" id="url" hidden {notempty name="info['type']"}{if $info['type']==2 || $info['type']==3}show{/if} {/notempty}>
+                <label>外部url或ID</label>
+                <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}" type="text">
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-12" id="content" {notempty name="info['type']"}{if $info['type']==2}hidden{/if} {/notempty}>
+                <div class="form-group">
+                    <label>广告详情</label>
+                    <textarea class="form-control textarea_editor" name="content" placeholder="请输入广告详情">{$info['content']|default=''}</textarea>
+                    {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+                </div>
+            </div>
+
+        </div>
+
+      <div class="box-footer">
+
+        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+        {include file="layout/edit_btn_group"/}
+
+      </div>
+
+      </div>
+      </div>
+</form>
+<script>
+    $('#type').change(function(){
+        var type=$('#type').val();
+        if(type!=1){
+            $('#content').hide();
+            $('#url').show();
+        }else{
+            $('#content').show();
+            $('#url').hide();
+        }
+    })
+</script>

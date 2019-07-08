@@ -1,0 +1,101 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+      <div class="box-body">
+          <div class="row">
+            <div class="form-group col-md-3" id="name" {notempty name="info['type']"}{if $info['type']!=1 && $info['type']!=5}hidden{/if} {/notempty}>
+              <label>游戏标题</label>
+              <input class="form-control" name="name" placeholder="请输入游戏标题名称" value="{$info['name']|default=''}" type="text">
+            </div>
+          </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>封面图片</label>
+                <span class="">（请上传单张封面图片）</span>
+                <br/>
+                {assign name="cover_id" value="$info.cover_id|default='0'" /}
+                {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
+            </div>
+        </div>
+          <div class="row">
+              <div class="form-group col-md-3" id="url">
+                      <label>外部url</label>
+                      <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}" type="text">
+              </div>
+          </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label>奖励积分</label>
+                <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}" type="text">
+            </div>
+        </div>
+            <div class="row">
+          <div class="col-md-6 form-group" id="describe">
+            <div class="form-group">
+                <label>简介</label>
+                <span class="">（游戏描述简介）</span>
+                <textarea class="form-control" name="describe" rows="3" placeholder="请输入游戏描述信息/简介">{$info['describe']|default=''}</textarea>
+            </div>
+          </div>
+          </div>
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>游戏详情</label>
+                    <textarea class="form-control textarea_editor" name="content" placeholder="请输入游戏详情">{$info['content']|default=''}</textarea>
+                    {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+
+          <!--<div class="col-md-12">-->
+            <!--<div class="form-group">-->
+                <!--<label>文章内容</label>-->
+                <!--<textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>-->
+                <!--{:widget('editor/index', array('name'=> 'content','value'=> ''))}-->
+            <!--</div>-->
+          <!--</div>-->
+            <!--<div class="col-md-6">-->
+            <!--<div class="form-group">-->
+            <!--<label>附件</label>-->
+            <!--<span class="">（游戏可下载附件）</span>-->
+            <!--<br/>-->
+            <!--{assign name="file_id" value="$info.file_id|default='0'" /}-->
+            <!--{:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}-->
+            <!--</div>-->
+            <!--</div>-->
+        </div>
+
+      <div class="box-footer">
+
+        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+        {include file="layout/edit_btn_group"/}
+
+      </div>
+
+      </div>
+      </div>
+</form>
+<script>
+    jQuery("#type  option:selected").text();
+    $('#type').change(function(){
+        var task=$('#type').val();
+        //1阅读新闻 2下载app 3观看视频 4玩小游戏 5其他游戏
+        //1,5
+        console.log(task);
+        if(task!=1 && task!=5){
+            $('#name').hide();
+            $('#describe').hide();
+            $('#url').show();
+        }else{
+            $('#name').show();
+            $('#describe').show();
+            $('#url').hide();
+        }
+    })
+</script>

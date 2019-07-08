@@ -1,0 +1,99 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+
+
+            <div class="col-sm-12">
+                <div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right"
+                               value="{:input('search_data')}" placeholder="支持手机号|昵称">
+
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('tixianList')}" class="btn btn-info btn-
+flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>手机号</th>
+                <th>昵称</th>
+                <th>微信openid</th>
+                <th>支付宝账号</th>
+                <th>支付宝姓名</th>
+                <th>积分</th>
+                <th>兑换金额</th>
+                <th>描述</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+
+            <tr>
+                <td><img class="admin-list-img-size" src="{$vo.photo|get_picture_url}"/></td>
+                <td>{$vo.phone}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.openid}</td>
+                <td>{$vo.zfbnum}</td>
+                <td>{$vo.zfbname}</td>
+                <td>{$vo.score}</td>
+                <td>{$vo.money}</td>
+                <td>{$vo.remark}</td>
+                <td>
+                    {if $vo.type eq 2}
+                        {if $vo.status eq 1}
+                            <span class="badge bg-green">已兑换</span>
+                        {elseif $vo.status eq 2}
+                            <span class="badge bg-red">已拒绝</span>
+                        {else}
+                            <span class="badge bg-blue">待审核</span>
+                        {/if}
+                    {/if}
+                </td>
+                <td>{$vo.create_time}</td>
+                <td class="col-md-2 text-center">
+
+                    {if $vo.type eq 2 && $vo.status eq 0}
+                    <ob_link><a href="{:url('scoreExamine', array('scoreid' => $vo['scoreid'], 'status'=>1))}" class="btn confirm ajax-get" style="background-color: #48c18a"><i class="fa fa-
+ edit"></i> 审核通过</a></ob_link>
+                    <ob_link><a href="{:url('scoreExamine', array('scoreid' => $vo['scoreid'], 'status'=>2))}" class="btn confirm ajax-get" style="background-color: #ec5e5e"><i class="fa fa-
+ edit"></i> 审核拒绝</a></ob_link>
+                    {/if}
+                    <!--<ob_link><a href="{:url('tixianInfo', array('scoreid' => $vo['scoreid']))}" class="btn "><i class="fa fa-
+ edit"></i> 查看</a></ob_link>-->
+
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+
+            {/notempty}
+        </table>
+
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>
+
+<script>
+    ob.setValue("type", {:input('type')});
+</script>
