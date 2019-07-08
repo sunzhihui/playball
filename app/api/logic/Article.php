@@ -52,7 +52,6 @@ class Article extends ApiBase
         
         $where = [];
         !empty($data['category_id']) && $where['a.category_id'] = $data['category_id'];
-        dy(12);
         return static::$commonArticleLogic->getArticleList($where, 'a.id,a.name,a.category_id,a.describe,a.create_time', 'a.create_time desc');
     }
     
