@@ -13,7 +13,7 @@
         </div>
           <div class="row">
                 <div class="form-group col-md-3">
-                    <label>任务类型</label>
+                    <label>任务类型（选择玩游戏将只会出现在星球游乐园）</label>
                     <select name="tasktype" class="form-control" id="tasktype">
                         {foreach $flag2 as  $k=>$v}
                         <option value="{$k}" {notempty name="info['tasktype']"}{if $info['tasktype']==$k}selected{/if}{/notempty}>{$v}</option>

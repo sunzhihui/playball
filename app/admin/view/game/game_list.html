@@ -9,8 +9,14 @@
         <div class="col-sm-8">
             <div class="box-tools search-form pull-right">
                 <div class="input-group input-group-sm">
-                    
+
                     <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持标题|描述">
+                    <select name="type" class="form-control pull-right" style="width: 150px;margin-right: 5px;" value="">
+                        <option value="" >====应用类型====</option>
+                        <option value="1" {if $where.gtype==1}selected{/if}>星球游乐园</option>
+                        <option value="2" {if $where.gtype==2}selected{/if}>手游试玩</option>
+                        <option value="3" {if $where.gtype==3}selected{/if}>app下载类</option>
+                    </select>
                     <div class="input-group-btn">
                       <button type="button" id="search"  url="{:url('gamelist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
                     </div>
@@ -33,6 +39,8 @@
           <th width="60px">游戏ID</th>
           <th>游戏标题</th>
           <th>列表图</th>
+          <th>横向图</th>
+          <th>应用类型</th>
           <th>简介</th>
           <th>外部url</th>
           <th>奖励积分</th>
@@ -57,6 +65,8 @@
                   <td style="text-align: center">{$vo.id}</td>
                   <td>{$vo.name}</td>
                   <td><img class="admin-list-img-size" src="{$vo.cover_id|get_picture_url}"/></td>
+                  <td><img class="admin-list-img-size" src="{$vo.dphoto|get_picture_url}"/></td>
+                    <td>{if $vo.gtype==1}游戏试玩{else}下载app{/if}</td>
                     <td>{$vo.describe}</td>
                     <td>{$vo.url}</td>
                     <td>{$vo.score}</td>
