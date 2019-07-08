@@ -37,6 +37,7 @@
           <th>发布者</th>
           <th>发布时间</th>
           <th>点击量</th>
+          <th>是否首页轮播</th>
           <th class="status-th">状态</th>
           <th>操作</th>
       </tr>
@@ -58,6 +59,7 @@
                     <td>{$vo.nickname}</td>
                     <td>{$vo.create_time}</td>
                     <td>{$vo.views}</td>
+                    <td>{if $vo.ifindex==1}是{else}否{/if}</td>
                   <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
                   <td class="col-md-2 text-center">
                       <ob_link><a href="{:url('advEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>

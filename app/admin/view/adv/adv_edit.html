@@ -41,6 +41,16 @@
                 <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}" type="text">
             </div>
         </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>是否首页轮播</label>
+            <br><br>
+            <div>
+                <label class="margin-r-5"><input type="radio" name="ifindex" value="2" {notempty name="info['ifindex']"}{if condition="$info['ifindex'] != 1"} checked {/if}{/notempty}> 否</label>
+                <label><input type="radio"  name="ifindex"  value="1" {notempty name="info['ifindex']"}{if condition="$info['ifindex'] eq 1"} checked {/if}{/notempty}> 是</label>
+            </div>
+        </div>
+    </div>
         <div class="row">
 
             <div class="col-md-12" id="content" {notempty name="info['type']"}{if $info['type']==2}hidden{/if} {/notempty}>
