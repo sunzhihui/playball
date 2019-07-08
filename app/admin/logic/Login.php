@@ -22,8 +22,6 @@ class Login extends AdminBase
      */
     public function loginHandle($username = '', $password = '', $verify = '')
     {
-        dy(1);
-        
         $validate_result = $this->validateLogin->scene('admin')->check(compact('username','password','verify'));
         
         if (!$validate_result) {
@@ -76,3 +74,5 @@ class Login extends AdminBase
         return [RESULT_SUCCESS, '清理成功', url('index/index')];
     }
 }
+
+
