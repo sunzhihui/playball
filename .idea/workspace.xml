@@ -2,9 +2,403 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5b20da8-f491-4038-82ee-253bbbaf00a6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/validate/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/common.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Addon.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/AdminBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Adv.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Article.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Auth.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Blogroll.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Database.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/File.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Fileclean.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Game.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Log.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Login.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Menu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Score.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Service.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Task.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Tixian.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Trash.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/controller/Widget.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/AdminBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Adv.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/AuthGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/AuthGroupAccess.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Blogroll.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Database.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/FileClean.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Game.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Log.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Login.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Membermoney.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Menu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Region.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Score.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Service.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Task.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/logic/Trash.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/ActionLog.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/AdminBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/Adv.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/AuthGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/AuthGroupAccess.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/Game.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/model/Menu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/service/AdminServiceBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/controller.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/logic.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/model.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/validate.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/view_edit.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/tpl/view_list.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/AdminBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/ApiGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Article.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/ArticleCategory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/AuthGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Blogroll.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Login.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Menu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/Task.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/validate/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/addon/addon_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/addon/hook_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/adv/adv_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/adv/adv_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/api/api_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/api/api_group_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/api/api_group_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/api/api_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/article/article_category_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/article/article_category_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/article/article_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/article/article_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/auth/group_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/auth/group_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/auth/menu_auth.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/blogroll/blogroll_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/blogroll/blogroll_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/config/config_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/config/config_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/config/setting.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/database/data_backup.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/database/data_restore.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/fileclean/file_clear.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/game/game_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/game/game_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/index/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/batch_btn_group.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/bottom.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/crumbs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/edit_btn_group.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/sidebar_left.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/sidebar_right.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/layout/top.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/log/log_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/login/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/member/edit_password.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/member/member_add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/member/member_auth.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/member/member_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/member/member_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/menu/menu_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/menu/menu_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/score/score_old.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/score/score_order.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/service/driver_install.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/service/driver_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/service/service_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/task/task_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/task/task_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/tixian/pass_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/tixian/tixian_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/trash/trash_data_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/trash/trash_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/user/user_add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/user/user_edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/user/user_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/editor/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/file/file.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/file/img.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/file/imgs.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/icon/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/view/widget/region/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/widget/Editor.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/widget/File.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/widget/Icon.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/widget/Region.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/widget/WidgetBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/command.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/behavior/InitBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/behavior/InitHook.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/controller/AddonBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/controller/ControllerBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Addon.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Article.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/File.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/LogicBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/Oss.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/logic/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Addon.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Api.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/ApiGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Article.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/ArticleCategory.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Blogroll.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Driver.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/File.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Hook.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Membermoney.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/ModelBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Picture.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Region.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Score.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/Task.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/model/User.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/BaseInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/Pay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/ServiceBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/Sms.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/Storage.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/Vod.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/Driver.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/Alipay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/Wxpay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/Yeepay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/Alipay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/AlipayNotify.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/AlipaySubmit.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/AopClient.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/AopEncrypt.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/alipay_core.function.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/alipay_md5.function.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/alipay_rsa.function.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/POSTGC.psd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/1/bank_small_8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/ABC.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/BOCB2C.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/CCB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/CIB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/CMB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/COMM-DEBIT.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/COMM-DEBIT2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/ICBCB2C.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/POSTGC.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/bankimg/SPDB.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/alipay/cacert.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/SDKRuntimeException.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/WxPay.pub.config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/WxPayPubHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/Wxpay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/jquery-2.0.3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/log_.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/qrcode.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/wxpay/tmp.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/HttpClient.class.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/callback.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/cancelOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/merchantProperties.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/payOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/queryOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/queryRefund.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/refundOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/sendCancelOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/sendPayOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/sendQueryOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/sendQueryRefund.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/sendRefundOrd.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/pay/driver/yeepay/yeepayCommon.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/sms/Driver.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/sms/driver/Alidy.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/sms/driver/alidy/SignatureHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/sms/driver/alidy/SmsApi.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/storage/Driver.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/storage/driver/Aliyun.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/storage/driver/Qiniu.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/Driver.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/Alivod.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/AcsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/AcsResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/AbstractCredential.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/Credential.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/EcsRamRoleCredential.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/EcsRamRoleService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/ISigner.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/RamRoleArnCredential.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/RamRoleArnService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/ShaHmac1Signer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Auth/ShaHmac256Signer.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Autoloader/Autoloader.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/ChangeLog.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/DefaultAcsClient.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Exception/ClientException.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Exception/ServerException.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Http/HttpHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Http/HttpResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/IAcsClient.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Profile/DefaultProfile.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Profile/IClientProfile.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/Endpoint.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/EndpointConfig.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/EndpointProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/LocationService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/ProductDomain.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/Regions/endpoints.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/RoaAcsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/RpcAcsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Auth/CredentialTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Auth/ShaHmac1SignerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Auth/ShaHmac256SignerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/BaseTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/BatchCompute/ListImagesRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/DefaultAcsClientTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Ecs/Rquest/DescribeRegionsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Ft/InteTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Ft/TestRoaApiRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Ft/TestRpcApiRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Http/HttpHelperTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Profile/DefaultProfileTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Regions/EndPointByLocationTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-core/UnitTest/Regions/EndpointProviderTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/ChangeLog.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/AddCategoryRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/AddEditingProjectRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/CreateAuditRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/CreateUploadImageRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/CreateUploadVideoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteCategoryRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteEditingProjectRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteImageRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteMezzaninesRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteStreamRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DeleteVideoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribeCdnDomainLogsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribeDomainBpsDataRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribeDomainFlowDataRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribePlayTopVideosRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribePlayUserAvgRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribePlayUserTotalRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribePlayVideoStatisRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribeRefreshQuotaRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/DescribeRefreshTasksRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetAuditHistoryRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetAuditResultRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetCDNStatisSumRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetCategoriesRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetEditingProjectMaterialsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetEditingProjectRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetImageInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetMessageCallbackRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetMezzanineInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetOSSStatisRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetPlayInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoConfigRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoInfosRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoListRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoPlayAuthRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/GetVideoPlayInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIASRJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoCategoryJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoCensorJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoCoverJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoPornRecogJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoSummaryJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAIVideoTerrorismRecogJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListAuditSecurityIpRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListLiveRecordVideoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ListSnapshotsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/OpenVodServiceRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/ProduceEditingProjectVideoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/PushObjectCacheRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/RefreshObjectCachesRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/RefreshUploadVideoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SearchEditingProjectRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SearchMediaRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SetAuditSecurityIpRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SetEditingProjectMaterialsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SetMessageCallbackRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIASRJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoCategoryJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoCensorJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoCoverJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoPornRecogJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoSummaryJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitAIVideoTerrorismRecogJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitPreprocessJobsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitSnapshotJobRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/SubmitTranscodeJobsRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UpdateCategoryRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UpdateEditingProjectRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UpdateImageInfosRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UpdateVideoInfoRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UpdateVideoInfosRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/service/vod/driver/alivod/aliyun-php-sdk-vod/vod/Request/V20170321/UploadMediaByURLRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/validate/AuthGroup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/validate/Config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/validate/Member.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/validate/ValidateBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/common/view/fakeloader.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/demo/controller/Demo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/demo/logic/Demo.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/extend.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/function.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/common.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/controller/Index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/controller/IndexBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/controller/Oss.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/logic/IndexBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/index/details.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/index/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/layout.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/layout/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/layout/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/index/view/layout/top.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/common.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/config.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/controller/Index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/data/database.tpl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/data/install.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/logic/Install.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/view/index/complete.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/view/index/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/view/index/step1.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/view/index/step2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/install/view/public/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/route.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/tags.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/controller/Common.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/Common.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/error/Common.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/error/Common.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/logic/Common.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/logic/Common.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,7 +418,7 @@
         <entry file="file://$PROJECT_DIR$/app/api/controller/Index.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="585">
-              <caret line="50" column="44" lean-forward="true" selection-start-line="50" selection-start-column="44" selection-end-line="50" selection-end-column="44" />
+              <caret line="50" column="44" selection-start-line="50" selection-start-column="44" selection-end-line="50" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -33,7 +427,7 @@
         <entry file="file://$PROJECT_DIR$/app/api/validate/Member.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="552">
-              <caret line="31" column="10" lean-forward="true" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+              <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -42,7 +436,7 @@
         <entry file="file://$PROJECT_DIR$/app/api/validate/User.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="192">
-              <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+              <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -51,25 +445,25 @@
         <entry file="file://$PROJECT_DIR$/app/api/error/Common.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="528">
-              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/api/controller/Common.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="648">
-              <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/api/controller/Common.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="648">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/api/logic/Common.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="31" column="19" lean-forward="true" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
+            <state relative-caret-position="96">
+              <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
               <folding>
                 <element signature="e#708#748#0#PHP" expanded="true" />
               </folding>
@@ -85,10 +479,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/api/logic/Common.php" />
         <option value="$PROJECT_DIR$/app/api/error/Common.php" />
         <option value="$PROJECT_DIR$/app/api/validate/User.php" />
         <option value="$PROJECT_DIR$/app/api/controller/Common.php" />
+        <option value="$PROJECT_DIR$/app/api/logic/Common.php" />
       </list>
     </option>
   </component>
@@ -134,13 +528,6 @@
               <item name="playball" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="playball" type="b2602c69:ProjectViewProjectNode" />
-              <item name="playball" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="error" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -165,6 +552,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -194,12 +582,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1562556044266</updated>
-      <workItem from="1562556045326" duration="1662000" />
+      <workItem from="1562556045326" duration="1915000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1662000" />
+    <option name="totallyTimeSpent" value="1915000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
@@ -240,45 +628,45 @@
     <entry file="file://$PROJECT_DIR$/app/api/controller/Index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="585">
-          <caret line="50" column="44" lean-forward="true" selection-start-line="50" selection-start-column="44" selection-end-line="50" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/api/logic/Common.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="31" column="19" lean-forward="true" selection-start-line="31" selection-start-column="19" selection-end-line="31" selection-end-column="19" />
-          <folding>
-            <element signature="e#708#748#0#PHP" expanded="true" />
-          </folding>
+          <caret line="50" column="44" selection-start-line="50" selection-start-column="44" selection-end-line="50" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/api/error/Common.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
-          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/api/validate/User.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
+          <caret line="8" column="1" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/api/validate/Member.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="552">
-          <caret line="31" column="10" lean-forward="true" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
+          <caret line="31" column="10" selection-start-line="31" selection-start-column="10" selection-end-line="31" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/api/controller/Common.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="648">
-          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/api/logic/Common.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <element signature="e#708#748#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

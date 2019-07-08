@@ -33,7 +33,7 @@ class Common extends ApiBase
 
         return $this->apiReturn($this->logicCommon->login($this->param));
     }
-        
+
     /**
      * 修改密码接口
      */

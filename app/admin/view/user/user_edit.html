@@ -1,0 +1,166 @@
+<form action="{:url()}" method="post" class="form_single" autocomplete="off">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>手机号</label>
+                        <span class="">（用户手机号）</span>
+                        <input class="form-control" name="phone" placeholder="请输入用户手机号" value="{$info['phone']}" type="text">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>头像</label>
+                        <span class="">（请上传头像）</span>
+                        <br/>
+                        {assign name="photo" value="$info.cover_id|default='0'" /}
+                        {:widget('file/index', ['name' => 'photo', 'value' => $photo, 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>密码</label>
+                        <span>（用户密码不能少于6位）</span>
+                        <input class="form-control" name="pwd" placeholder="不输入则表示不修改" type="password">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>确认密码</label>
+                        <span>（确认密码需要和密码一致）</span>
+                        <input class="form-control" name="pwd_confirm" placeholder="请输入确认密码" type="password">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>昵称</label>
+                        <span class="">(不得少于2个字符)</span>
+                        <input class="form-control" name="name" placeholder="请输入用户昵称" value="{$info['name']}" type="text">
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>积分</label>
+                        <span class="">(积分必须是数字)</span>
+                        <input class="form-control" name="score" placeholder="请输入用户积分" value="{$info['score']}" type="text">
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>生日</label>
+                        <span class="">(用户生日)</span>
+                        <input class="form-control birdate"  name="birdate"  placeholder="选择用户生日" value="{$info['birdate']}" autocomplete="off" type="text" >
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>性别</label>
+                        <span class="">(用户性别)</span>
+                        <br><br>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="sex" value="1"> 男</label>
+                            <label><input type="radio" checked="checked" name="sex"  value="0"> 女</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <span class="">(用户账号状态)</span>
+                        <br/>
+                        <div>
+                            <label class="margin-r-5">
+                                <input type="radio" checked="checked" name="status" value="1"> 启用
+                            </label>
+                            <label>
+                                <input type="radio" name="status"  value="0"> 禁用
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>是否认证</label>
+                        <span class="">(用户身份信息是否认证)</span>
+                        <br/>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="ifmanager" value="1" > 是</label>
+                            <label><input type="radio"  name="ifmanager"  value="2" > 否</label>
+                            <label><input type="radio"  name="ifmanager"  value="3" > 申请中</label>
+                            <label><input type="radio" checked="checked"  name="ifmanager"  value="0" > 未认证</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 card" style="display: none">
+                    <div class="form-group">
+                        <label>身份证号</label>
+                        <span class="">(用户身份证号)</span>
+                        <div>
+                            <input class="form-control" name="card" placeholder="请输入用户身份证号" value="{$info['card']|default=''}" type="text">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="userid" value="{$info['userid']|default='0'}"/>
+
+            {include file="layout/edit_btn_group"/}
+
+        </div>
+    </div>
+</form>
+
+<script>
+
+    ob.setValue("sex", {$info.sex|default=0});
+    ob.setValue("status", {$info.status|default=0});
+    ob.setValue("ifmanager", {$info.ifmanager|default=0});
+
+    laydate.render({
+        elem: '.birdate' //指定元素
+    });
+
+    $(function () {
+        var ifmanager = $("input[name='ifmanager']:checked").val();
+        if(ifmanager == 1){
+            $('.card').show();
+        }else{
+            $('.card').hide();
+        }
+    });
+
+    $("input[name='ifmanager']").change(function () {
+        var ifmanager = $("input[name='ifmanager']:checked").val();
+        if(ifmanager == 1){
+            $('.card').show();
+        }else{
+            $('.card').hide();
+        }
+    })
+
+</script>
+
+
+

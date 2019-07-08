@@ -1,0 +1,114 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <ob_link><a class="btn" href="{:url('UserAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+
+                <ob_link><a class="btn export" url="{:url('exportUserList')}"><i class="fa fa-download"></i> 导 出</a></ob_link>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right"
+                               value="{:input('search_data')}" placeholder="支持手机|昵称">
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('userlist')}" class="btn btn-info btn-
+flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th class="checkbox-select-all">
+                    <label>
+                        <input class="flat-grey js-checkbox-all" type="checkbox">
+                    </label>
+                </th>
+                <th>手机号</th>
+                <th>头像</th>
+                <th>昵称</th>
+                <th>常住地</th>
+                <th>生日</th>
+                <th>性别</th>
+                <th>身份证</th>
+                <th>积分</th>
+                <th>是否认证</th>
+                <th>是否在线</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+
+             <tr>
+                 <td>
+                     <label>
+                         <input class="flat-grey" type="checkbox" name="userid" value="{$vo.userid}">
+                     </label>
+                 </td>
+                 <td>{$vo.phone}</td>
+                 <td><img class="admin-list-img-size" src="{$vo.photo|get_picture_url}"/></td>
+                 <td>{$vo.name}</td>
+                 <td>{$vo.default_address}</td>
+                 <td>{$vo.birdate|default='未设置'}</td>
+                 <td>{$vo.sex == 1 ? '男' : '女'}</td>
+                 <td>{$vo.card}</td>
+                 <td>{$vo.score}</td>
+                 <td>
+                     {if $vo.ifmanager eq 0}
+                     <span>未认证</span>
+                     {elseif $vo.ifmanager eq 1}
+                     <span>已认证</span>
+                     {elseif $vo.ifmanager eq 2}
+                     <span>认证失败</span>
+                     {else}
+                     <span>认证中</span>
+                     {/if}
+                 </td>
+                 <td>{$vo.ifonline == 1 ? '在线' : '离开'}</td>
+                 <td><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['userid'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></td>
+                 <td>{$vo.create_time}</td>
+                 <td class="col-md-2 text-center">
+                     <ob_link><a href="{:url('userEdit', array('userid' => $vo['userid']))}" class="btn "><i class="fa fa-
+ edit"></i> 编辑</a></ob_link>
+
+                     <ob_link><a class="btn confirm ajax-get"  href="{:url('userDel', array('userid' => $vo['userid']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+
+                 </td>
+             </tr>
+            {/volist}
+            </tbody>
+            {else/}
+
+            {/notempty}
+        </table>
+        {include file="layout/batch_btn_group"/}
+
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>
+
+<script>
+    //导出功能
+    $(".export").click(function(){
+
+        window.location.href = searchFormUrl($(".export"));
+    });
+</script>

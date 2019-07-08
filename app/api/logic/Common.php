@@ -66,6 +66,7 @@ class Common extends ApiBase
     {
 
         $validate_result = $this->validateUser->scene('login')->check($data);
+
         if (!$validate_result) {
             return CommonError::$phoneCodeEmpty;
         }

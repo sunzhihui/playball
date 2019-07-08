@@ -1,0 +1,106 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+
+
+            <div class="col-sm-12">
+                <div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="phone" style="width: 200px;" class="form-control pull-right"
+                               value="{:input('phone')}" placeholder="查询用户手机号">
+
+                        <input type="text" name="name" style="width: 200px;" class="form-control pull-right"
+                               value="{:input('name')}" placeholder="查询用户昵称">
+
+                        <select class="form-control pull-right" name="status" style="width: 170px">
+                            <option value="">请选择积分类型</option>
+                            <option value="1">已兑换</option>
+                            <option value="2">已拒绝</option>
+                        </select>
+
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('passList')}" class="btn btn-info btn-
+flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>手机号</th>
+                <th>昵称</th>
+                <th>微信openid</th>
+                <th>支付宝账号</th>
+                <th>支付宝姓名</th>
+                <th>积分</th>
+                <th>描述</th>
+                <th>兑换金额</th>
+                <th>兑换方式</th>
+                <th>状态</th>
+                <th>创建时间</th>
+                <th>审核时间</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+
+            <tr>
+                <td><img class="admin-list-img-size" src="{$vo.photo|get_picture_url}"/></td>
+                <td>{$vo.phone}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.openid}</td>
+                <td>{$vo.zfbnum}</td>
+                <td>{$vo.zfbname}</td>
+                <td>{$vo.score}</td>
+                <td>{$vo.remark}</td>
+                <td>{$vo.money}</td>
+                <td>
+                    {if $vo.paytype eq 1}
+                        <span>微信</span>
+                    {else}
+                        <span>支付宝</span>
+                    {/if}
+                </td>
+                <td>
+                    {if $vo.type eq 2}
+                        {if $vo.status eq 1}
+                            <span class="badge bg-green">已兑换</span>
+                        {elseif $vo.status eq 2}
+                            <span class="badge bg-red">已拒绝</span>
+                        {else}
+                            <span class="badge bg-blue">待审核</span>
+                        {/if}
+                    {/if}
+                </td>
+                <td>{$vo.create_time}</td>
+                <td>{$vo.update_time}</td>
+
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+
+            {/notempty}
+        </table>
+
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>
+
+<script>
+    ob.setValue("status", {:input('status')});
+</script>
