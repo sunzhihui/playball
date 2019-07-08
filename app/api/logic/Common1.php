@@ -28,7 +28,6 @@ class Common extends ApiBase
     {
 
         $validate_result = $this->validateMember->scene('login')->check($data);
-        dy($validate_result);
         if (!$validate_result) {
             
             return CommonError::$usernameOrPasswordEmpty;
