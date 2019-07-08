@@ -16,16 +16,24 @@ namespace app\api\controller;
  */
 class Common extends ApiBase
 {
-    
+
     /**
-     * 登录接口
+     * 微信登录接口
+     */
+    public function wxLogin()
+    {
+        return $this->apiReturn($this->logicCommon->wxLogin($this->param));
+    }
+
+    /**
+     * 手机号登录接口
      */
     public function login()
     {
-        
+
         return $this->apiReturn($this->logicCommon->login($this->param));
     }
-    
+        
     /**
      * 修改密码接口
      */
