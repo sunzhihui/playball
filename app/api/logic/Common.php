@@ -76,16 +76,20 @@ class Common extends ApiBase
 
         $user = static::$commonUserLogic->getUserInfo(['phone' => $data['phone']]);
         // 若存在该手机号
-        if ($user)
+        if (!$user)
         {
+            //通过手机号注册新用户
             return CommonError::$phoneFail;
 
             goto begin;
         }
         //根据code_id查询验证码
-        $code = '123456';
 
-        if ($data['code'] !== $code) {
+        //查询code表
+        $codeid = $data['codeid'];//通过id查询
+        $code = $data['code'];
+
+        if ($data['code']==$codeid) {
 
             return CommonError::$codewordError;
         }
@@ -99,6 +103,12 @@ class Common extends ApiBase
         return $this->tokenSign($user);
     }
 
+    public function getcode($phone){
+        $code='123456';//$phone+$code
+        //写入数据库 $codeid
+        $codeid='1';
+        return $codeid;
+    }
 
     /**
      * JWT验签方法
