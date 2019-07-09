@@ -26,7 +26,7 @@ class Adv extends AdminBase
         $this->assign('list', $this->logicAdv->getAdvList($where, 'a.*,m.nickname'));
         //填充搜索栏的值
         $param=$this->param;
-//        array_key_exists('type', $param)?:$param['type']='';
+        array_key_exists('ifindex', $param)?:$param['ifindex']='';
 //        array_key_exists('advtype', $param)?:$param['advtype']='';
         $this->assign('where', $param);
         return $this->fetch('adv_list');
