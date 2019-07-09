@@ -103,12 +103,12 @@ class Common extends ApiBase
     /**
      * 发送验证码
      */
-    public function sendCode($phone)
+    public function sendCode($data = [])
     {
 
         $code = rand('100000', '999999');//$phone+$code
         $data = [
-            'phone' => $phone,
+            'phone' => $data['phone'],
             'code' => $code,
             'created_time' => time()
         ];
