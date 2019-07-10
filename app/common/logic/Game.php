@@ -63,7 +63,7 @@ class Game extends AdminBase
 
         empty($data['id']) && $data['member_id'] = MEMBER_ID;
 
-        //$data['content'] = html_entity_decode($data['content']);//html处理
+        $data['content'] = html_entity_decode($data['content']);//html处理
         $result = $this->modelGame->setInfo($data);
 
         $handle_text = empty($data['id']) ? '新增' : '编辑';

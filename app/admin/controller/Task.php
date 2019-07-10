@@ -16,75 +16,68 @@ namespace app\admin\controller;
  */
 class Task extends AdminBase
 {
-    
+
     /**
      * 任务列表
      */
-    public function taskList()
+    public function TaskList()
     {
-        $where = $this->logicTask->getWhere($this->param);
-        $this->assign('list', $this->logicTask->getTaskList($where, 'a.*,m.nickname'));
+        $where = $this->logicGame->getWhere($this->param);
+        $where['a.gtype']=2;
+        $list=$this->logicGame->getGameList($where, 'a.*,m.nickname');
+        $this->assign('list', $list);
         //填充搜索栏的值
         $param=$this->param;
         array_key_exists('type', $param)?:$param['type']='';
-        array_key_exists('tasktype', $param)?:$param['tasktype']='';
         $this->assign('where', $param);
-        $flag1=$this->logicTask->gettasktype(1);
-        $flag2=$this->logicTask->gettasktype(2);
-        $this->assign('flag1', $flag1);
-        $this->assign('flag2', $flag2);
         return $this->fetch('task_list');
     }
 
     /**
      * 任务添加
      */
-    public function taskAdd()
+    public function TaskAdd()
     {
 
-        IS_POST && $this->jump($this->logicTask->taskEdit($this->param));
-        $flag1=$this->logicTask->gettasktype(1);
-        $flag2=$this->logicTask->gettasktype(2);
-        $this->assign('flag1', $flag1);
-        $this->assign('flag2', $flag2);
+        IS_POST && $this->jump($this->logicGame->gameEdit($this->param));
+
         return $this->fetch('task_edit');
     }
 
     /**
      * 任务编辑
      */
-    public function taskEdit()
+    public function TaskEdit()
     {
 
-        IS_POST && $this->jump($this->logicTask->taskEdit($this->param));
+        IS_POST && $this->jump($this->logicGame->gameEdit($this->param));
 
-        $info = $this->logicTask->getTaskInfo(['id' => $this->param['id']]);
-        $flag1=$this->logicTask->gettasktype(1);
-        $flag2=$this->logicTask->gettasktype(2);
-        $this->assign('flag1', $flag1);
-        $this->assign('flag2', $flag2);
+        $info = $this->logicGame->getGameInfo(['id' => $this->param['id']]);
+
         $this->assign('info', $info);
 
         return $this->fetch('task_edit');
     }
-//
-//    /**
-//     * 任务添加与编辑通用方法
-//     */
-//    public function taskCommon()
-//    {
-//
-//        IS_POST && $this->jump($this->logicTask->taskEdit($this->param));
-//
-//        //$this->assign('article_category_list', $this->logicTask->getArticleCategoryList([], 'id,name', '', false));
-//        $this->assign();
-//    }
     /**
      * 数据状态设置
      */
     public function setStatus()
     {
-        
-        $this->jump($this->logicAdminBase->setStatus('Task', $this->param));
+
+        $this->jump($this->logicAdminBase->setStatus('Game', $this->param));
+    }
+    /**
+     * 数据状态设置
+     */
+    public function setIftop()
+    {
+        $this->jump($this->logicAdminBase->setStatus('Game', $this->param,'id','iftop'));
+    }
+    /**
+     * 排序
+     */
+    public function setSort()
+    {
+        $this->jump($this->logicAdminBase->setSort('Game', $this->param));
     }
 }

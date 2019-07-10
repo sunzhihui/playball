@@ -7,13 +7,14 @@
                 <input class="form-control" name="name" placeholder="请输入游戏标题名称" value="{$info['name']|default=''}" type="text">
             </div>
         </div>
+        <input name="gtype" value="1" hidden>
         <div class="row">
             <div class="form-group col-md-3" >
                 <label>应用类型</label>
-                <select name="gtype" class="form-control" id="gtype">
-                    <option value="1" {notempty name="info['gtype']"}{if condition="$info['gtype'] eq 1"} selected="selected" {/if}{/notempty}>星球游乐园</option>
-                    <option value="2" {notempty name="info['gtype']"}{if condition="$info['gtype'] eq 2"} selected="selected" {/if}{/notempty}>手游试玩</option>
-                    <option value="3" {notempty name="info['gtype']"}{if condition="$info['gtype'] eq 3"} selected="selected" {/if}{/notempty}>app下载类</option>
+                <select name="type" class="form-control" id="type">
+                    <option value="1" {notempty name="info['type']"}{if condition="$info['type'] eq 1"} selected="selected" {/if}{/notempty}>新人游戏</option>
+                    <option value="2" {notempty name="info['type']"}{if condition="$info['type'] eq 2"} selected="selected" {/if}{/notempty}>日常游戏</option>
+                    <option value="3" {notempty name="info['type']"}{if condition="$info['type'] eq 3"} selected="selected" {/if}{/notempty}>手游试玩 </option>
                 </select>
             </div>
         </div>

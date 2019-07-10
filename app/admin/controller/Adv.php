@@ -23,7 +23,7 @@ class Adv extends AdminBase
     public function advList()
     {
         $where = $this->logicAdv->getWhere($this->param);
-        $this->assign('list', $this->logicAdv->getAdvList($where, 'a.*,m.nickname'));
+        $this->assign('list', $this->logicAdv->getAdvList($where, 'a.*,m.nickname','a.sort desc,a.id desc'));
         //填充搜索栏的值
         $param=$this->param;
         array_key_exists('ifindex', $param)?:$param['ifindex']='';
