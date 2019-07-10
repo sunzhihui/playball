@@ -42,6 +42,7 @@ flat"><i class="fa fa-search"></i></button>
                 <th>微信openid</th>
                 <th>支付宝账号</th>
                 <th>支付宝姓名</th>
+                <th>兑换类型</th>
                 <th>积分</th>
                 <th>描述</th>
                 <th>兑换金额</th>
@@ -63,25 +64,32 @@ flat"><i class="fa fa-search"></i></button>
                 <td>{$vo.openid}</td>
                 <td>{$vo.zfbnum}</td>
                 <td>{$vo.zfbname}</td>
+                <td>
+                    {if $vo.type eq 2}
+                    <span class="badge" style="background-color: #00b7b7">普通提现</span>
+                    {elseif $vo.type eq 3}
+                    <span class="badge" style="background-color: #dd8539">活动提现</span>
+                    {/if}
+                </td>
                 <td>{$vo.score}</td>
                 <td>{$vo.remark}</td>
                 <td>{$vo.money}</td>
                 <td>
                     {if $vo.paytype eq 1}
-                        <span>微信</span>
+                    <span>微信</span>
                     {else}
-                        <span>支付宝</span>
+                    <span>支付宝</span>
                     {/if}
                 </td>
                 <td>
-                    {if $vo.type eq 2}
-                        {if $vo.status eq 1}
-                            <span class="badge bg-green">已兑换</span>
-                        {elseif $vo.status eq 2}
-                            <span class="badge bg-red">已拒绝</span>
-                        {else}
-                            <span class="badge bg-blue">待审核</span>
-                        {/if}
+                    {if $vo.type neq 1}
+                    {if $vo.status eq 1}
+                    <span class="badge bg-green">已兑换</span>
+                    {elseif $vo.status eq 2}
+                    <span class="badge bg-red">已拒绝</span>
+                    {else}
+                    <span class="badge bg-blue">待审核</span>
+                    {/if}
                     {/if}
                 </td>
                 <td>{$vo.create_time}</td>

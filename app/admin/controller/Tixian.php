@@ -18,7 +18,7 @@ class Tixian extends AdminBase
         $where = $this->logicMembermoney->getWhere($this->param);
 
         $where['s.status'] = ['=',0];
-        $where['s.type'] = ['=',2];
+        $where['s.type'] = ['<>',1];
 
         $list = $this->logicMembermoney->getScoreList($where);
 
@@ -46,9 +46,9 @@ class Tixian extends AdminBase
 
         $where = $this->logicMembermoney->getPassWhere($this->param);
 
-        if(empty($where['s.status'])) $where['s.status'] = ['<>',0];
+        $where['s.status'] = ['<>',0];
 
-        $where['s.type'] = ['=',2];
+        $where['s.type'] = ['<>',1];
 
 
         $list = $this->logicMembermoney->getScoreList($where);
