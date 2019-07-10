@@ -9,12 +9,12 @@
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
 
-namespace app\admin\logic;
+namespace app\common\logic;
 
 /**
  * 回收站逻辑
  */
-class Task extends AdminBase
+class Task extends LogicBase
 {
 
     /**
@@ -27,6 +27,7 @@ class Task extends AdminBase
 
         $join = [
             [SYS_DB_PREFIX . 'member m', 'a.member_id = m.id'],
+            [SYS_DB_PREFIX . 'game p', 'a.url = c.id'],
         ];
 
         $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
@@ -43,17 +44,19 @@ class Task extends AdminBase
                 $this->modelTask->alias('a');
                 $join = [
                     [SYS_DB_PREFIX . 'game c', 'a.url = c.id'],
+                    [SYS_DB_PREFIX . 'picture m', 'm.id = c.cover_id'],
                 ];
                 $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
                 $where['a.id'] = ['=', $v['id']];
                 //dy($where);
                 $this->modelTask->join = $join;
-                $info = $this->modelTask->getInfo($where, 'a.*,c.name,c.describe,c.cover_id');
+                $info = $this->modelTask->getInfo($where, 'a.*,c.name,c.describe,c.cover_id,m.path as listpic');
                 if ($info) {
                     $v['cover_id'] = $info['cover_id'];
                     $v['title'] = $info['name'];
                     $v['describe'] = $info['describe'];
                     $v['score'] = $info['score'];
+                    $v['listpic'] = $info['listpic'];
                 }
             }
             $flag1=$this->gettasktype(1);

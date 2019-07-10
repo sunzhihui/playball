@@ -23,11 +23,12 @@ class Game extends AdminBase
     public function gameList()
     {
         $where = $this->logicGame->getWhere($this->param);
+        $where['a.gtype']=1;
         $list=$this->logicGame->getGameList($where, 'a.*,m.nickname');
         $this->assign('list', $list);
         //填充搜索栏的值
         $param=$this->param;
-        array_key_exists('gtype', $param)?:$param['gtype']='';
+        array_key_exists('type', $param)?:$param['type']='';
 //        array_key_exists('gametype', $param)?:$param['gametype']='';
         $this->assign('where', $param);
         return $this->fetch('game_list');
