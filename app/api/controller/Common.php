@@ -35,6 +35,15 @@ class Common extends ApiBase
     }
 
     /**
+     * 手机号发送验证码
+     */
+    public function sendCode()
+    {
+
+        return $this->apiReturn($this->logicCommon->sendCode($this->param));
+    }
+    
+    /**
      * 修改密码接口
      */
     public function changePassword()
