@@ -12,7 +12,7 @@
 namespace app\common\model;
 use app\common\model\ModelBase;
 
-class User extends ModelBase
+class Yqlist extends ModelBase
 {
 
 
