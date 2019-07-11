@@ -14,6 +14,8 @@ namespace app\api\error;
 class Common
 {
 
+    public static $error                = [API_CODE_NAME => 1010000, API_MSG_NAME => '操作失败'];
+
     public static $passwordError            = [API_CODE_NAME => 1010001, API_MSG_NAME => '登录密码错误'];
 
     public static $codewordError            = [API_CODE_NAME => 1010002, API_MSG_NAME => '验证码错误'];
@@ -31,6 +33,9 @@ class Common
     public static $phoneFail                = [API_CODE_NAME => 1010008, API_MSG_NAME => '手机号已使用'];
 
     public static $setPhoneFail                = [API_CODE_NAME => 1010009, API_MSG_NAME => '手机号绑定失败'];
+
+    public static $pidError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '已存在上级'];
+
 
 
 
