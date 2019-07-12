@@ -14,7 +14,7 @@ namespace app\common\model;
 /**
  * 文章模型
  */
-class Game extends ModelBase
+class Gamedetail extends ModelBase
 {
     
 }

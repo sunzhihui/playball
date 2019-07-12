@@ -75,7 +75,6 @@ class User extends LogicBase
 
     public function getUserInfo($where = [], $field = true)
     {
-
         $info = $this->modelUser->getInfo($where, $field);
 
         return $info;

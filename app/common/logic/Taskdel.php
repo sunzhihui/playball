@@ -14,7 +14,7 @@ namespace app\common\logic;
 /**
  * 回收站逻辑
  */
-class Task extends LogicBase
+class Taskdel extends LogicBase
 {
 
     /**

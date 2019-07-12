@@ -138,7 +138,6 @@ class ModelBase extends Model
      */
     final protected function getColumn($where = [], $field = '', $key = '')
     {
-        
         return Db::name($this->name)->where($where)->column($field, $key);
     }
     
