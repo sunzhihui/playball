@@ -24,4 +24,12 @@ class User extends ApiBase
 
         return $this->apiReturn($this->logicUser->wallet($this->param));
     }
+
+    /**
+     * 邀请好友
+     */
+    public function invite()
+    {
+        return $this->apiReturn($this->logicUser->invite($this->param));
+    }
 }

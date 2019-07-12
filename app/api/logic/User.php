@@ -3,9 +3,13 @@
 namespace app\api\logic;
 
 use app\api\error\Common as CommonError;
+use app\api\error\CodeBase;
 use app\api\logic\Common as CommonApi;
 use app\common\logic\User as CommonUser;
+use app\common\model\Code;
+use app\common\model\Score;
 use think\Db;
+use app\api\model\User as Users;
 
 
 class User extends ApiBase
@@ -24,6 +28,7 @@ class User extends ApiBase
         if (empty(static::$commonUserLogic)) {
             static::$commonUserLogic = get_sington_object('User', CommonUser::class);
         }
+
     }
 
     /**
@@ -41,13 +46,15 @@ class User extends ApiBase
 
         begin:
         //根据code_id查询验证码
-        $codeInfo = $this->modelCode->getInfo(['id' => $data['code_id']]);
+        $codeMOdel = new Code();
+        $codeInfo = $codeMOdel->getInfo(['id' => $data['code_id']]);
 
         if ($data['code'] !== /*$codeInfo['code']*/'123456') {
             return CommonError::$codewordError;
         }
 
         $user = static::$commonUserLogic->getUserInfo(['phone' => $data['phone']]);
+
         if ($user) return CommonError::$phoneExist;
 
         $list = [
@@ -66,7 +73,7 @@ class User extends ApiBase
     public function wallet($data = [])
     {
         $type = $data['type'] ? $data['type'] : 1;
-        $status = $data['type'] ? 0 : 2;
+        $status = $data['type'] ? 2 : 0;
 
         $userInfo = get_member_by_token($data['user_token']);
 
@@ -77,52 +84,66 @@ class User extends ApiBase
             'type' => ['=', $type],
             'status' => ['<>', $status]
         ];
-
         $list = Db::table('yb_score')->where($map)->field(['score','remark','create_time'])->order('create_time desc')->select();
-        $arr['listArr'] = $this->groupVisit($list,$type,$status,$userInfo->user_id);
+//        $list = $this->modelScore->getList($map,"score,remark,create_time",'create_time desc');
+        $model = new Users();
+        $arr['list'] = $model->groupVisit($list,$type,$status,$userInfo->user_id);
+
         //今日收益金币
         $post = [
             'type' => 1,
             'userid' => $userInfo->user_id,
             'status' => ['<>',0],
         ];
-        $arr['todayScore'] = Db::table('yb_score')->where($post)->whereTime('create_time','today')->sum('score');
+        $arr['todayScore'] = Score::where($post)->whereTime('create_time','today')->sum('score');
         //累计收益金币
-        $arr['totalScore'] = Db::table('yb_score')->where(['type' => 1,'userid' => $userInfo->user_id,'status'=>1])->sum('score');
+        $arr['totalScore'] = Score::where(['type' => 1,'userid' => $userInfo->user_id,'status'=>1])->sum('score');
         //累计支出金币
         $where = [
             'type' => ['=', 2],
             'status' => ['<>' ,2],
             'userid' => $userInfo->user_id,
         ];
-        $arr['outScore'] = Db::table('yb_score')->where($where)->sum('score');
-        $arr['useableScore'] = Db::table('yb_user')->where(['userid' => $userInfo->user_id])->field('score')->find()['score'];
+        $arr['outScore'] = Score::where($where)->sum('score');
+        $scoreModel = new Score();
+        $useableScore = $scoreModel->getInfo(['userid' => $userInfo->user_id],'score');
+        $arr['useableScore'] = $useableScore['score'];
+
         return $arr;
     }
 
-    //处理收益（支出）明细列表数据
-    function groupVisit($list,$type,$status,$user_id)
+
+    /**
+     * 邀请好友
+     */
+    public function invite($data = [])
     {
-        $year = date('Y');
-        $listArr = [];
-        foreach ($list as $k=>$v) {
-            if ($year == date('Y', $v['create_time'])) {
-                $date = date('m月d日', $v['create_time']);
-            } else {
-                $date = date('Y年m月d日', $v['create_time']);
-            }
-            $listArr[$date]['date'] = $date;
-            $time = date('Y-m-d',$v['create_time']);
-            $map = [
-                'type' => ['=',$type],
-                'status' => ['<>',$status],
-                'userid' => $user_id,
-                'create_time' => ['between time',[$time . '00:00:00',$time . '23:59:59']]
-            ];
-            $todayTotal=Db::table('yb_score')->where($map)/*->whereTime('create_time', date('Y-m-d',$v['create_time']))*/->sum('score');
-            $listArr[$date]['todayTotal'] = $todayTotal;
-            $listArr[$date]['list'][] = $v;
+        $userInfo = get_member_by_token($data['user_token']);
+        $userList = static::$commonUserLogic->getUserInfo(['userid' => $userInfo->user_id],'pid');
+        if($userList['pid']){
+            return CommonError::$pidError;
         }
-        return $listArr;
+        //邀请人信息
+        $inviteUser = static::$commonUserLogic->getUserInfo(['yqcode' => $data['code']],'score,userid');
+        //邀请人已经邀请的人数
+        $pcount =Users::getInviteCount(['pid'=>$inviteUser['userid'],'status'=>1]);
+        //查询配置
+        $getValue = parse_config_array('yqconfig_get');
+        //积分比例
+        $score_bl = parse_config_array('score_bl');
+        //奖励发放规则
+        $sendValue = parse_config_array('yqconfig_send');
+        $model = new Users();
+        $reward = $model->rewardPoints($getValue,$pcount);
+        //积分 = 金额 * 比例
+        $scoreTotal = $reward * $score_bl['0'];
+        $result = $model->spcmoneyAdd($userInfo,$sendValue,$inviteUser,$score_bl[0],$scoreTotal);
+        $res = $model->yqlistAdd($userInfo,$inviteUser,$scoreTotal);
+        if($result && $res){
+            return CodeBase::$success;
+        }else{
+            return CodeBase::$error;
+        }
     }
+
 }

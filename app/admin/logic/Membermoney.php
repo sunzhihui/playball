@@ -64,9 +64,27 @@ class Membermoney extends AdminBase
 
         $result = $this->modelScore->updateInfo($where,['status' => $param['status'],'update_time' =>time()]);
 
-        $result && action_log('提现申请', '审核提现申请' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
+        if($result && $param['status'] == 2){
 
+            $scoreInfo = Db::table('yb_score')->where($where)->find();
+
+            Db::startTrans();
+            try {
+                Db::table('yb_user')->where(['userid'=>$scoreInfo['userid']])->setInc('score',$scoreInfo['score']);
+
+                if($scoreInfo['type'] == 3){
+                    Db::table('yb_spcmoney')->where(['id'=>$scoreInfo['pid']])->update(['status'=>1,'cantixian'=>1]);
+                    action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
+                }else{
+                    action_log('提现申请', '审核成功' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
+                }
+                Db::commit();
+            }catch (\Exception $e){
+                Db::rollback();
+            }
+        }
         return $result ? [RESULT_SUCCESS,'操作成功',$url] : [RESULT_ERROR, $this->modelScore->getError()];
+
 
     }
 
