@@ -1,101 +1,165 @@
+<style>
+    /*.oilfee_b{*/
+    /*width: 100px;*/
+    /*}*/
+    .moretask {
+        text-align: center;
+    }
+</style>
 <form action="{:url()}" method="post" class="form_single">
     <div class="box">
         <div class="box-body">
             <div class="row">
                 <div class="form-group col-md-3" id="name">
-                <label>任务标题</label>
-                <input class="form-control" name="name" placeholder="请输入任务标题名称" value="{$info['name']|default=''}" type="text">
+                    <label>任务标题</label>
+                    <input class="form-control" name="name" placeholder="请输入任务标题名称" value="{$info['name']|default=''}"
+                           type="text">
+                </div>
             </div>
-        </div>
             <input name="gtype" value="2" hidden>
-        <div class="row">
-            <div class="form-group col-md-3" >
-                <label>应用类型</label>
-                <select name="type" class="form-control" id="type">
-                    <option value="1" {notempty name="info['type']"}{if condition="$info['type'] eq 1"} selected="selected" {/if}{/notempty}>新人任务</option>
-                    <option value="2" {notempty name="info['type']"}{if condition="$info['type'] eq 2"} selected="selected" {/if}{/notempty}>日常任务</option>
-                    <option value="3" {notempty name="info['type']"}{if condition="$info['type'] eq 3"} selected="selected" {/if}{/notempty}>星球福利社</option>
-                    <option value="4" {notempty name="info['type']"}{if condition="$info['type'] eq 3"} selected="selected" {/if}{/notempty}>进阶任务</option>
-                    <option value="5" {notempty name="info['type']"}{if condition="$info['type'] eq 3"} selected="selected" {/if}{/notempty}>今日试用</option>
-                </select>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>logo图</label>
-                <span class="">（请上传单张封面图片）</span>
-                <br/>
-                {assign name="cover_id" value="$info.cover_id|default='0'" /}
-                {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>任务横图</label>
-                <span class="">（任务类请上传单张横向）</span>
-                <br/>
-                {assign name="dphoto" value="$info.dphoto|default='0'" /}
-                {:widget('file/index', ['name' => 'dphoto', 'value' => $dphoto, 'type' => 'img'])}
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3" id="url">
-                <label>外部url</label>
-                <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}" type="text">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label>奖励积分</label>
-                <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}" type="text">
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label>app端按钮</label>
-                <input class="form-control" name="appbtn" placeholder="请输入app端按钮" value="{$info['appbtn']|default=''}" type="text">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>高额推荐</label>
-                <br><br>
-                <div>
-                    <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 0"} checked {/if}{/notempty}> 不推荐</label>
-                    <label><input type="radio"  name="gstatus"  value="1" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 1"} checked {/if}{/notempty}> 推荐</label>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>应用类型</label>
+                    <select name="type" class="form-control" id="type">
+                        <option value="1" {notempty name="info['type']" }{if condition="$info['type'] eq 1" }
+                                selected="selected" {
+                        /if}{/notempty}>新人任务</option>
+                        <option value="2" {notempty name="info['type']" }{if condition="$info['type'] eq 2" }
+                                selected="selected" {
+                        /if}{/notempty}>日常任务</option>
+                        <option value="3" {notempty name="info['type']" }{if condition="$info['type'] eq 3" }
+                                selected="selected" {
+                        /if}{/notempty}>星球福利社</option>
+                        <option value="4" {notempty name="info['type']" }{if condition="$info['type'] eq 3" }
+                                selected="selected" {
+                        /if}{/notempty}>进阶任务</option>
+                        <option value="5" {notempty name="info['type']" }{if condition="$info['type'] eq 3" }
+                                selected="selected" {
+                        /if}{/notempty}>今日试用</option>
+                    </select>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 form-group" id="describe">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>logo图</label>
+                    <span class="">（请上传单张封面图片）</span>
+                    <br/>
+                    {assign name="cover_id" value="$info.cover_id|default='0'" /}
+                    {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>任务横图</label>
+                    <span class="">（任务类请上传单张横向）</span>
+                    <br/>
+                    {assign name="dphoto" value="$info.dphoto|default='0'" /}
+                    {:widget('file/index', ['name' => 'dphoto', 'value' => $dphoto, 'type' => 'img'])}
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3" id="url">
+                    <label>外部url</label>
+                    <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}"
+                           type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>奖励积分</label>
+                    <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}"
+                           type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>app端按钮</label>
+                    <input class="form-control" name="appbtn" placeholder="请输入app端按钮"
+                           value="{$info['appbtn']|default=''}" type="text">
+                </div>
+            </div>
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label>简介</label>
-                    <span class="">（任务描述简介）</span>
-                    <textarea class="form-control" name="describe" rows="3" placeholder="请输入任务描述信息/简介">{$info['describe']|default=''}</textarea>
+                    <label>高额推荐</label>
+                    <br><br>
+                    <div>
+                        <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty
+                                                         name="info['gstatus']" }{if condition="$info['gstatus'] eq 0" }
+                                                         checked {/if}{/notempty}> 不推荐</label>
+                        <label><input type="radio" name="gstatus" value="1" {notempty name="info['gstatus']" }{if
+                                      condition="$info['gstatus'] eq 1" } checked {/if}{/notempty}> 推荐</label>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label>任务详情</label>
-                    <textarea class="form-control textarea_editor" name="content" placeholder="请输入任务详情">{$info['content']|default=''}</textarea>
-                    {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+            <div class="row">
+                <div class="col-md-6 form-group" id="describe">
+                    <div class="form-group">
+                        <label>简介</label>
+                        <span class="">（任务描述简介）</span>
+                        <textarea class="form-control" name="describe" rows="3" placeholder="请输入任务描述信息/简介">{$info['describe']|default=''}</textarea>
+                    </div>
                 </div>
+            </div>
+            <!--<div class="row col-md-12">-->
+                <!--<label>任务详情</label>-->
+                <!--<table class="table table-bordered moretask">-->
+                    <!--<tr>-->
+                        <!--<td>任务名称</td>-->
+                        <!--<td>任务简介</td>-->
+                        <!--<td>任务积分</td>-->
+                        <!--<td>排序</td>-->
+                        <!--<td>标题tips</td>-->
+                        <!--<td>按钮文字</td>-->
+                        <!--<td>是否可重复</td>-->
+                        <!--<td>请求数据格式</td>-->
+                        <!--<td>操作-->
+                        <!--<td>-->
+                    <!--</tr>-->
+                    <!--<tr class="mancar1">-->
+                        <!--<td><input type="text" id="oilfee1" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee2" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee3" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee4" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee5" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee6" value=""></td>-->
+                        <!--<td><input type="text" id="oilfee7" value=""></td>-->
+                        <!--<td><textarea type="text" id="oilfee8" value=""></textarea></td>-->
+                        <!--<td>-->
+                            <!--<a style="font-size: 24px" href="javascript:void(0)" onclick="adpass()" title="添加">+</a>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<div id="passlist">-->
+
+                    <!--</div>-->
+                <!--</table>-->
+            <!--</div>-->
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>任务说明</label>
+                        <textarea class="form-control textarea_editor" name="content" placeholder="请输入任务说明">{$info['content']|default=''}</textarea>
+                        {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+                    </div>
+                </div>
+
+            </div>
+            <div class="box-footer">
+
+                <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+                {include file="layout/edit_btn_group"/}
+
             </div>
 
         </div>
-        <div class="box-footer">
-
-            <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
-
-            {include file="layout/edit_btn_group"/}
-
-        </div>
-
-    </div>
     </div>
 </form>
 <script>
+    function adpass() {
+        var feeval = $("#passfees").val();
+        var feetext = $("#passfees").find("option:selected").text();
+        var str = '<div class="passfee">' + feetext + '：<input name="passlist[' + feeval + '][]" value="0" type="number" step="0.01" class="span2"> 元 &nbsp;<a href="javascript:void(0)" onclick="delpass(this)" title="删除" class="btn btn-mini btn-primary">X</a></div>'
+        $('#passlist').append(str);
+    }
 </script>
