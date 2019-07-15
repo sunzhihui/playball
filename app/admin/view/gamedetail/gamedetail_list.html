@@ -1,0 +1,90 @@
+<div class="box">
+  <div class="box-header">
+      
+    <div class="row">
+        <div class="col-sm-4">
+            <ob_link><a class="btn" href="{:url('gameDetailAdd', array('gameid' => $where.gameid))}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+        </div>
+        
+        <div class="col-sm-8">
+            <div class="box-tools search-form pull-right">
+                <div class="input-group input-group-sm">
+
+                    <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持标题|描述">
+                    <input type="text" name="gameid"  value="{:input('gameid')}" hidden>
+                    <div class="input-group-btn">
+                      <button type="button" id="search"  url="{:url('gamelist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                    </div>
+
+                </div>
+           </div>
+        </div>
+    </div>
+
+  </div>
+  <div class="box-body table-responsive">
+    <table  class="table table-bordered table-hover">
+      <thead>
+      <tr>
+          <th class="checkbox-select-all">
+              <label>
+                <input class="flat-grey js-checkbox-all" type="checkbox">
+              </label>
+          </th>
+          <th width="80px">子任务ID</th>
+          <th>任务名称</th>
+          <th>任务简介</th>
+          <th>任务积分</th>
+
+          <th>标题tips</th>
+          <th>按钮文字</th>
+          <th width="80px">下载任务</th>
+          <th>排序</th>
+          <th width="150px">是否可重复</th>
+          <th class="status-th">状态</th>
+          <th style="text-align: center">操作</th>
+      </tr>
+      </thead>
+      
+      {notempty name='list'}
+        <tbody>
+            {volist name='list' id='vo'}
+                <tr>
+                  <td>
+                    <label>
+                        <input class="flat-grey" type="checkbox" name="ids" value="{$vo.id}">
+                    </label>
+                  </td>
+                  <td style="text-align: center">{$vo.id}</td>
+                  <td>{$vo.name}</td>
+                  <td>{$vo.remark}</td>
+                  <td>{$vo.score}</td>
+                  <td>{$vo.tips}</td>
+                  <td>{$vo.btn}</td>
+                    <td>{if $vo.ifdown==1}是{else}否{/if}</td>
+                    <td><input type="text" class="sort-th sort-text" href="{:url('setSort')}" id="{$vo.id}" value="{$vo.sort}" /></td>
+                    {if $vo.ifdown==1}
+                    <td >不重复</td>
+                    {else}
+                    <td ><ob_link><a class="ajax-get" href="{:url('setIftop', array('ids' => $vo['id'],'id' => $vo['id'],'gameid' => $vo['gameid'], 'ifonce' => (int)!$vo['ifonce']))}">{if $vo.ifonce==1}可重复{else}不重复{/if}</a></ob_link></td>
+                    {/if}
+
+                  <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'],'id' => $vo['id'],'gameid' => $vo['gameid'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
+                  <td class="col-md-2 text-center">
+                      <ob_link><a href="{:url('gamedetailEdit', array('id' => $vo['id'],'gameid' => $vo['gameid']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
+                      <ob_link><a class="btn confirm ajax-get" href="{:url('setStatus', array('ids' => $vo['id'],'gameid' => $vo['gameid'],'id' => $vo['id'], 'status' => $Think.DATA_DELETE, 'ifdown' => $vo.ifdown))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+                  </td>
+                </tr>
+            {/volist}
+        </tbody>
+        {else/}
+        <tbody><tr class="odd"><td colspan="8" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+      {/notempty}
+    </table>
+      
+    {include file="layout/batch_btn_group"/}
+  </div>
+  <div class="box-footer clearfix text-center">
+      {$list->render()}
+  </div>
+</div>

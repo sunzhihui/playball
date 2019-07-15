@@ -30,38 +30,25 @@
             </div>
           </div>
             
-          <div class="col-md-6">
-            <div class="form-group">
-                <label>封面图片</label>
-                <span class="">（请上传单张封面图片）</span>
-                <br/>
-                {assign name="cover_id" value="$info.cover_id|default='0'" /}
-                {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
-            </div>
-          </div>
+          <!--<div class="col-md-6">-->
+            <!--<div class="form-group">-->
+                <!--<label>封面图片</label>-->
+                <!--<span class="">（请上传单张封面图片）</span>-->
+                <!--<br/>-->
+                <!--{assign name="cover_id" value="$info.cover_id|default='0'" /}-->
+                <!--{:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}-->
+            <!--</div>-->
+          <!--</div>-->
             
-          <div class="col-md-6">
-            <div class="form-group">
-                <label>多图片</label>
-                <span class="">（请上传多图片）</span>
-                <br/>
-                
-                {assign name="img_ids" value="$info.img_ids|default=''" /}
-                {:widget('file/index', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
-                
-            </div>
-          </div>
-            
-            
-          <div class="col-md-6">
-            <div class="form-group">
-                <label>附件</label>
-                <span class="">（文章可下载附件）</span>
-                <br/>
-                {assign name="file_id" value="$info.file_id|default='0'" /}
-                {:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}
-            </div>
-          </div>
+          <!--<div class="col-md-6">-->
+            <!--<div class="form-group">-->
+                <!--<label>附件</label>-->
+                <!--<span class="">（文章可下载附件）</span>-->
+                <!--<br/>-->
+                <!--{assign name="file_id" value="$info.file_id|default='0'" /}-->
+                <!--{:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}-->
+            <!--</div>-->
+          <!--</div>-->
             
           </div>
         <div class="row">

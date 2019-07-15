@@ -8,14 +8,13 @@
 // +---------------------------------------------------------------------+
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
-
-namespace app\admin\logic;
+namespace app\common\logic;
 use think\Db;
 
 /**
  * 回收站逻辑
  */
-class Adv extends AdminBase
+class Adv extends LogicBase
 {
 
     /**

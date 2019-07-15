@@ -12,7 +12,7 @@
 namespace app\common\model;
 
 /**
- * 文章模型
+ * 广告接口
  */
 class Adv extends ModelBase
 {

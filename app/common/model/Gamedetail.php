@@ -14,7 +14,7 @@ namespace app\common\model;
 /**
  * 文章模型
  */
-class Taskend extends ModelBase
+class Gamedetail extends ModelBase
 {
     
 }

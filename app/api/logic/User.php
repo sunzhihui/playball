@@ -151,6 +151,10 @@ class User extends ApiBase
             return CodeBase::$error;
         }
     }
+    //获取用户信息
+    public function getuinfo($where = [], $field = true){
+        return $this->modelUser->getInfo($where,$field);
+    }
 
     /**
      * 帮助问题列表

@@ -24,10 +24,10 @@ class Login extends AdminBase
     {
         $validate_result = $this->validateLogin->scene('admin')->check(compact('username','password','verify'));
         
-        if (!$validate_result) {
-            
-            return [RESULT_ERROR, $this->validateLogin->getError()];
-        }
+//        if (!$validate_result) {
+//
+//            return [RESULT_ERROR, $this->validateLogin->getError()];
+//        }
         
         $member = $this->logicMember->getMemberInfo(['username' => $username]);
         
@@ -58,8 +58,9 @@ class Login extends AdminBase
      */
     public function logout()
     {
-        clear_login_session();
-        
+        //clear_login_session();
+        //session_start();
+        session_destroy();
         return [RESULT_SUCCESS, '注销成功', url('login/login')];
     }
     

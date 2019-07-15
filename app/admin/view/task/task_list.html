@@ -68,7 +68,7 @@
                   <td>{$vo.name}</td>
                   <td><img class="admin-list-img-size" src="{$vo.cover_id|get_picture_url}"/></td>
                   <td><img class="admin-list-img-size" src="{$vo.dphoto|get_picture_url}"/></td>
-                    <td>{if $vo.type==1}新人任务{elseif $vo.type==2}日常任务 {elseif $vo.type==3}星球福利社 {elseif $vo.type==4}进阶任务{elseif $vo.type==4}今日试用{/if}</td>
+                    <td>{if $vo.type==1}新人任务{elseif $vo.type==2}日常任务 {elseif $vo.type==3}星球福利社 {elseif $vo.type==4}进阶任务{elseif $vo.type==5}今日试用{/if}</td>
                     <td>{$vo.describe}</td>
                     <td>{$vo.url}</td>
                     <td>{$vo.score}</td>
@@ -78,6 +78,7 @@
                   <td style="text-align: center"><ob_link><a class="ajax-get" href="{:url('setIftop', array('ids' => $vo['id'], 'iftop' => (int)!$vo['iftop']))}">{if $vo.iftop==1}置顶{else}未置顶{/if}</a></ob_link></td>
                   <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
                   <td class="col-md-2 text-center">
+                      <ob_link><a href="{:url('gamedetail/gameDetailList', array('gameid' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑子任务</a></ob_link>
                       <ob_link><a href="{:url('taskEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
                       <ob_link><a class="btn confirm ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => $Think.DATA_DELETE))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
                   </td>

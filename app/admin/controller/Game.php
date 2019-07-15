@@ -31,6 +31,7 @@ class Game extends AdminBase
         array_key_exists('type', $param)?:$param['type']='';
 //        array_key_exists('gametype', $param)?:$param['gametype']='';
         $this->assign('where', $param);
+
         return $this->fetch('game_list');
     }
 

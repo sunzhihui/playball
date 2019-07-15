@@ -52,7 +52,25 @@ class Article extends ApiBase
         
         $where = [];
         !empty($data['category_id']) && $where['a.category_id'] = $data['category_id'];
-        return static::$commonArticleLogic->getArticleList($where, 'a.id,a.name,a.category_id,a.describe,a.create_time', 'a.create_time desc');
+        $where['a.status']=1;
+        $list=static::$commonArticleLogic->getArticleList($where, 'a.id,a.name,a.category_id,a.describe,a.create_time,a.content', 'a.create_time desc');
+        if($list){
+            foreach ($list as &$v){
+                $v['imgs']=$this->getimgs($v['content']);
+                unset($v['content']);
+            }
+        }
+        return $list;
+    }
+    //字符串中获取所有图片并反馈数组
+    function getimgs($str) {
+        $reg = '/((http|https):\/\/)+(\w+\.)+(\w+)[\w\/\.\-]*(jpg|gif|png)/';
+        $matches = array();
+        preg_match_all($reg, $str, $matches);
+        foreach ($matches[0] as $value) {
+            $data[] = $value;
+        }
+        return $data;
     }
     
     /**
@@ -61,6 +79,8 @@ class Article extends ApiBase
     public function getArticleInfo($data = [])
     {
         
-        return static::$commonArticleLogic->getArticleInfo(['a.id' => $data['article_id']], 'a.*,m.nickname,c.name as category_name');
+        $info=static::$commonArticleLogic->getArticleInfo(['a.id' => $data['article_id']], 'a.*,m.nickname,c.name as category_name');
+        !empty($info['content']) && $info['content']=html_entity_decode($info['content']);
+        return $info;
     }
 }

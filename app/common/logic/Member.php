@@ -22,7 +22,6 @@ class Member extends LogicBase
      */
     public function getMemberInfo($where = [], $field = true)
     {
-        dy(11);
         return $this->modelMember->getInfo($where, $field);
     }
 }

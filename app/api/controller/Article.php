@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------+
 
 namespace app\api\controller;
+use app\api\error\CodeBase;
 
 /**
  * 文章接口控制器
@@ -18,7 +19,7 @@ class Article extends ApiBase
 {
     
     /**
-     * 文章分类接口
+     * 新闻分类接口
      */
     public function categoryList()
     {
@@ -26,10 +27,17 @@ class Article extends ApiBase
     }
     
     /**
-     * 文章列表接口
+     * 新闻列表接口
      */
     public function articleList()
     {
-        return $this->apiReturn($this->logicArticle->getArticleList($this->param));
+        $res['list']=$this->logicArticle->getArticleList($this->param);
+        $res['category']=$this->logicArticle->getArticleCategoryList();
+        return $this->apiReturn($res);
+    }
+    //新闻详情
+    public function ArticleInfo(){
+        empty($this->param['article_id']) && $this->logicApiBase->apiError(CodeBase::$emptyId);
+        return $this->apiReturn($this->logicArticle->getArticleInfo($this->param));
     }
 }

@@ -21,7 +21,7 @@
         <div class="row">
             <div class="form-group col-md-6">
                 <label>logo图</label>
-                <span class="">（请上传单张封面图片）</span>
+                <span class="">（请上传单张应用logo图片）</span>
                 <br/>
                 {assign name="cover_id" value="$info.cover_id|default='0'" /}
                 {:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}
@@ -29,8 +29,8 @@
         </div>
         <div class="row">
             <div class="form-group col-md-6">
-                <label>游戏横图</label>
-                <span class="">（游戏类请上传单张横向）</span>
+                <label>列表图</label>
+                <span class="">（请上传单张列表图）</span>
                 <br/>
                 {assign name="dphoto" value="$info.dphoto|default='0'" /}
                 {:widget('file/index', ['name' => 'dphoto', 'value' => $dphoto, 'type' => 'img'])}
@@ -41,27 +41,34 @@
                 <label>外部url</label>
                 <input class="form-control" name="url" placeholder="请输入跳转url" value="{$info['url']|default=''}" type="text">
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-md-3">
                 <label>奖励积分</label>
                 <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}" type="text">
             </div>
-        </div>
-        <div class="row">
             <div class="form-group col-md-3">
                 <label>app端按钮</label>
                 <input class="form-control" name="appbtn" placeholder="请输入app端按钮" value="{$info['appbtn']|default=''}" type="text">
             </div>
+
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label>应用状态</label>
-                <br><br>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label>是否需要下载</label>
+                <span class="">（选择是将会自动添加一个下载的子任务）</span>
                 <div>
                     <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 0"} checked {/if}{/notempty}> 无</label>
                     <label><input type="radio"  name="gstatus"  value="1" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 1"} checked {/if}{/notempty}> 新</label>
                     <label><input type="radio"  name="gstatus"  value="2" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 2"} checked {/if}{/notempty}> 热门</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>应用状态</label>
+                    <div>
+                        <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 0"} checked {/if}{/notempty}> 无</label>
+                        <label><input type="radio"  name="gstatus"  value="1" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 1"} checked {/if}{/notempty}> 新</label>
+                        <label><input type="radio"  name="gstatus"  value="2" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 2"} checked {/if}{/notempty}> 热门</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,6 +81,27 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>游戏详情轮播图</label>
+                <span class="">（请上传多图片）</span>
+                <br/>
+                {assign name="img_ids" value="$info.img_ids|default=''" /}
+                {:widget('file/index', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>游戏截图</label>
+                <span class="">（请上传多图片4张内）</span>
+                <br/>
+                {assign name="gimg_ids" value="$info.gimg_ids|default=''" /}
+                {:widget('file/index', ['name' => 'gimg_ids', 'value' => $gimg_ids, 'type' => 'imgs'])}
+
+            </div>
+        </div>
+
         <div class="row">
 
             <div class="col-md-12">

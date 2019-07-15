@@ -9,31 +9,42 @@
 // | Repository | https://gitee.com/Bigotry/OneBase                      |
 // +---------------------------------------------------------------------+
 
-namespace app\admin\logic;
+namespace app\common\logic;
 
 /**
  * 回收站逻辑
  */
-class Game extends AdminBase
+class Game extends LogicBase
 {
 
     /**
      * 获取游戏列表
      */
-    public function getGameList($where = [], $field = 'a.*,m.nickname', $order = 'a.sort')
+    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as listpic,s.path as detailpic', $order = 'a.sort',$paginate=0)
     {
+        //如果传入userid 需要过滤掉
+        if(!empty($where['g.userid'])){
 
+            $wherestr=['userid'=>$where['g.userid'],'status'=>1];
+            unset($where['g.userid']);
+        }
         $this->modelGame->alias('a');
-
         $join = [
             [SYS_DB_PREFIX . 'member m', 'a.member_id = m.id'],
+            [SYS_DB_PREFIX . 'picture t', 't.id = a.cover_id','left'],
+            [SYS_DB_PREFIX . 'picture s', 's.id = a.dphoto','left'],
         ];
-
         $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
 
         $this->modelGame->join = $join;
-        //dy($where);
-        $list=$this->modelGame->getList($where, $field, $order);
+        $list=$this->modelGame->getList($where, $field, $order,$paginate);
+        if(!empty($wherestr)){
+            foreach($list as &$v){
+                $wherestr['gameid']=$v['id'];
+                $v['ifdown']=$this->modelTaskend->getValue($wherestr, 'gameid')?1:0;
+            }
+        }
+
         return $list;
     }
     /**
@@ -59,12 +70,26 @@ class Game extends AdminBase
 //
 //            return [RESULT_ERROR, $this->validateArticle->getError()];
 //        }
-        $url = url('gameList');
-
+        if($data['type']==1){
+            $url = url('gameList');
+        }else{
+            $url = url('taskList');
+        }
         empty($data['id']) && $data['member_id'] = MEMBER_ID;
 
         $data['content'] = html_entity_decode($data['content']);//html处理
         $result = $this->modelGame->setInfo($data);
+        //empty($data['id']) && $data['id']=$result;
+        //$info = $this->modelGame->getInfo(['id'=>$data['id']], 'ifdown');
+        if($data['needdown']==1){
+            //新增需要判断是否为下载任务，选择1则需要新增一条下载子任务
+            if(!empty($data['id'])){
+
+            }else{
+                //新增
+                $this->modelGame->setInfo($arr=['name'=>'下载'.$data['name'],'ifdown'=>1,'gameid'=>$result,'btn'=>'去下载']);
+            }
+        }
 
         $handle_text = empty($data['id']) ? '新增' : '编辑';
         //写日志
@@ -81,5 +106,44 @@ class Game extends AdminBase
         $info = $this->modelGame->getInfo($where, $field);
         return $info;
     }
+
+    //获取子任务详情列表
+    function getGamedetailList($where = [], $field = 'a.*', $order = 'a.sort',$paginate=0){
+        if(!empty($where['g.userid'])){
+
+            $wherestr=['userid'=>$where['g.userid'],'status'=>1];
+            unset($where['g.userid']);
+        }
+        $this->modelGamedetail->alias('a');
+        $join = [
+//            [SYS_DB_PREFIX . 'game m', 'a.gameid = m.id'],
+        ];
+        $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+        $this->modelGamedetail->join = $join;
+        $list=$this->modelGamedetail->getList($where, $field, $order,$paginate);
+        return $list;
+    }
+
+    //获取子任务详情
+    function getGamedetailInfo($where = [], $field = true){
+        $info = $this->modelGamedetail->getInfo($where, $field);
+        return $info;
+    }
+    //编辑子任务详情
+    function gameDetailEdit($data = []){
+
+        $url = url('gameDetailList',['gameid'=>$data['gameid']]);
+
+        empty($data['id']) && $data['member_id'] = MEMBER_ID;
+
+        $result = $this->modelGamedetail->setInfo($data);
+
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+        //写日志
+        $result && action_log($handle_text, '子任务' . $handle_text . '，name：' . $data['name']);
+
+        return $result ? [RESULT_SUCCESS, '子任务操作成功', $url] : [RESULT_ERROR, $this->modelGame->getError()];
+    }
+
 
 }

@@ -1,0 +1,54 @@
+<form action="{:url()}" method="post" class="form_single">
+    <input name="gameid" value="{$gameid}" hidden>
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="form-group col-md-3">
+                <label>子任务标题</label>
+                <input class="form-control" name="name" placeholder="请输入子任务标题名称" value="{$info['name']|default=''}" type="text">
+            </div>
+        </div>
+        <input name="gtype" value="1" hidden>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label>奖励积分</label>
+                <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label>app端按钮</label>
+                <input class="form-control" name="appbtn" placeholder="请输入app端按钮" value="{$info['btn']|default=''}" type="text">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <div class="form-group">
+                    <label>简介</label>
+                    <span class="">（子任务描述简介）</span>
+                    <textarea class="form-control" name="remark" rows="3" placeholder="请输入子任务描述信息/简介">{$info['remark']|default=''}</textarea>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <div class="form-group">
+                        <label>对应接口参数</label>
+                        <span class="">（每个子任务对应接口不同）</span>
+                        <textarea class="form-control" name="param" rows="3" placeholder="请输入子任务描述信息/简介">{$info['param']|default=''}</textarea>
+                    </div>
+                </div>
+            </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+            {include file="layout/edit_btn_group"/}
+
+        </div>
+
+    </div>
+    </div>
+</form>
+<script>
+</script>
