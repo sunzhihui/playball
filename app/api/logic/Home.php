@@ -77,7 +77,9 @@ class Home extends ApiBase
 
     //任务详情含任务完成情况
     function getTaskdetail($parm=[]){
-
+        $userInfo = get_member_by_token($parm['user_token']);
+        $where['userid'] = $userInfo->user_id;
+        dy($where['userid']);
     }
 
 
