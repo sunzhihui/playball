@@ -12,10 +12,7 @@
 namespace app\api\model;
 use app\common\model\ModelBase;
 use app\common\model\Score;
-use app\common\model\Spcmoney;
-use app\common\model\User as Users;
-use app\common\model\Yqlist;
-use app\common\model\Yqmoney;
+
 use think\Db;
 
 class User extends ModelBase
@@ -25,10 +22,10 @@ class User extends ModelBase
      * 获取邀请好友数量
      */
 
-    public static function getInviteCount($where = [],$stat_type = 'count', $field = 'id')
+    public function getInviteCount($where = [],$stat_type = 'count', $field = 'id')
     {
-        $yqlistModel = new Yqlist();
-        $pcount = $yqlistModel->stat($where,$stat_type = 'count', $field = 'id');
+
+        $pcount = $this->modelYqlist->stat($where,$stat_type = 'count', $field = 'id');
         return $pcount;
     }
 
@@ -105,8 +102,7 @@ class User extends ModelBase
                 //已发放总积分
                 $scoreSum +=$score;
                 if($k == 0){
-                    $scoreModel= new Score();
-                    $scoreModel->setInfo([
+                    $this->modelScore->setInfo([
                         'userid' => $inviteUser['userid'],
                         'type' => 1,
                         'status' => 1,
@@ -114,8 +110,7 @@ class User extends ModelBase
                         'score' => $score,
                         'create_time' =>time()
                     ]);
-                    $spcmoneyModel= new Spcmoney();
-                    $spcmoneyModel->setInfo([
+                    $this->modelSpcmoney->setInfo([
                         'score' => $score,
                         'userid' => $inviteUser['userid'],
                         'status' =>1,
@@ -123,11 +118,10 @@ class User extends ModelBase
                         'type' =>2,
                         'create_time' => time()
                     ]);
-                    $userModel = new Users();
-                    $userModel->setFieldValue(['userid'=>$inviteUser['userid']],$field = 'score', $value = $inviteUser['score']+$score);
-                    $userModel->setFieldValue(['userid'=>$userInfo->user_id],$field = 'pid', $value = $inviteUser['userid']);
 
-//                    Db::table('yb_user')->where(['userid'=>$inviteUser['userid']])->setInc('score', $score);
+                    $this->modelUser->setFieldValue(['userid'=>$inviteUser['userid']],$field = 'score', $value = $inviteUser['score']+$score);
+                    $this->modelUser->setFieldValue(['userid'=>$userInfo->user_id],$field = 'pid', $value = $inviteUser['userid']);
+
                 }
                 $status = $vo['0'] == 1 ? 1 : 0;
                 $ifsend = $vo['0'] == 1 ? 1 : 0;
@@ -137,8 +131,7 @@ class User extends ModelBase
                     //剩余积分 = 总积分 - 已发放积分
                     $score = $scoreTotal - $scoreSum;
                 }
-                $yqmoneyModel = new Yqmoney();
-                $yqmoneyModel->setInfo([
+                $this->modelYqmoney->setInfo([
                     'userid' => $inviteUser['userid'],
                     'day' => $vo['0'],
                     'status' =>$status,
@@ -160,8 +153,7 @@ class User extends ModelBase
     //邀请表加数据
     public function yqlistAdd($userInfo,$inviteUser,$score)
     {
-        $yqlistModel = new Yqlist();
-        $result = $yqlistModel->setInfo([
+        $result = $this->modelYqlist->setInfo([
             'userid' => $userInfo->user_id,
             'pid' => $inviteUser['userid'],
             'score' => $score,

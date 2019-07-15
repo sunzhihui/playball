@@ -5,37 +5,12 @@ namespace app\api\logic;
 use app\api\error\Common as CommonError;
 use app\api\error\CodeBase;
 use app\api\logic\Common as CommonApi;
-use app\common\logic\User as CommonUser;
-use app\common\model\Code;
-use app\common\model\Help;
 use app\common\model\Score;
 use think\Db;
-use app\api\model\User as Users;
-use app\common\logic\Help as CommonHelp;
 
 class User extends ApiBase
 {
 
-    public static $commonUserLogic = null;
-    public static $commonHelpLogic = null;
-
-    /**
-     * 基类初始化
-     */
-    public function __construct()
-    {
-        // 执行父类构造方法
-        parent::__construct();
-
-        if (empty(static::$commonUserLogic)) {
-            static::$commonUserLogic = get_sington_object('User', CommonUser::class);
-        }
-
-        if (empty(static::$commonHelpLogic)) {
-            static::$commonHelpLogic = get_sington_object('Help', CommonHelp::class);
-        }
-
-    }
 
     /**
      * 绑定手机号
@@ -52,14 +27,14 @@ class User extends ApiBase
 
         begin:
         //根据code_id查询验证码
-        $codeMOdel = new Code();
-        $codeInfo = $codeMOdel->getInfo(['id' => $data['code_id']]);
+
+        $codeInfo = $this->modelCode->getInfo(['id' => $data['code_id']]);
 
         if ($data['code'] !== /*$codeInfo['code']*/'123456') {
             return CommonError::$codewordError;
         }
 
-        $user = static::$commonUserLogic->getUserInfo(['phone' => $data['phone']]);
+        $user = $this->logicUser->getUserInfo(['phone' => $data['phone']]);
 
         if ($user) return CommonError::$phoneExist;
 
@@ -68,7 +43,7 @@ class User extends ApiBase
             'phone' => $data['phone'],
             'name' => substr_replace($data['phone'], '****', 3, 4),
         ];
-        $result = static::$commonUserLogic->setInfo($list);
+        $result = $this->logicUser->setInfo($list);
 
         return $result ? $data['phone'] : CommonError::$setPhoneFail;
     }
@@ -92,8 +67,8 @@ class User extends ApiBase
         ];
         $list = Db::table('yb_score')->where($map)->field(['score','remark','create_time'])->order('create_time desc')->select();
 //        $list = $this->modelScore->getList($map,"score,remark,create_time",'create_time desc');
-        $model = new Users();
-        $arr['list'] = $model->groupVisit($list,$type,$status,$userInfo->user_id);
+
+        $arr['list'] = $this->modelUser->groupVisit($list,$type,$status,$userInfo->user_id);
 
         //今日收益金币
         $post = [
@@ -101,6 +76,7 @@ class User extends ApiBase
             'userid' => $userInfo->user_id,
             'status' => ['<>',0],
         ];
+
         $arr['todayScore'] = Score::where($post)->whereTime('create_time','today')->sum('score');
         //累计收益金币
         $arr['totalScore'] = Score::where(['type' => 1,'userid' => $userInfo->user_id,'status'=>1])->sum('score');
@@ -111,11 +87,12 @@ class User extends ApiBase
             'userid' => $userInfo->user_id,
         ];
         $arr['outScore'] = Score::where($where)->sum('score');
-        $scoreModel = new Score();
-        $useableScore = $scoreModel->getInfo(['userid' => $userInfo->user_id],'score');
+
+        $useableScore = $this->modelScore->getInfo(['userid' => $userInfo->user_id],'score');
+
         $arr['useableScore'] = $useableScore['score'];
 
-        return $this->apiReturn($arr);
+        return $arr;
     }
 
 
@@ -125,35 +102,32 @@ class User extends ApiBase
     public function invite($data = [])
     {
         $userInfo = get_member_by_token($data['user_token']);
-        $userList = static::$commonUserLogic->getUserInfo(['userid' => $userInfo->user_id],'pid');
+        $userList = $this->logicUser->getUserInfo(['userid' => $userInfo->user_id],'pid');
         if($userList['pid']){
             return CommonError::$pidError;
         }
         //邀请人信息
-        $inviteUser = static::$commonUserLogic->getUserInfo(['yqcode' => $data['code']],'score,userid');
+        $inviteUser = $this->logicUser->getUserInfo(['yqcode' => $data['code']],'score,userid');
         //邀请人已经邀请的人数
-        $pcount =Users::getInviteCount(['pid'=>$inviteUser['userid'],'status'=>1]);
+        $pcount =$this->modelUser->getInviteCount(['pid'=>$inviteUser['userid'],'status'=>1]);
         //查询配置
         $getValue = parse_config_array('yqconfig_get');
         //积分比例
         $score_bl = parse_config_array('score_bl');
         //奖励发放规则
         $sendValue = parse_config_array('yqconfig_send');
-        $model = new Users();
-        $reward = $model->rewardPoints($getValue,$pcount);
+
+        $reward = $this->modelUser->rewardPoints($getValue,$pcount);
         //积分 = 金额 * 比例
         $scoreTotal = $reward * $score_bl['0'];
-        $result = $model->spcmoneyAdd($userInfo,$sendValue,$inviteUser,$score_bl[0],$scoreTotal);
-        $res = $model->yqlistAdd($userInfo,$inviteUser,$scoreTotal);
+        $result = $this->modelUser->spcmoneyAdd($userInfo,$sendValue,$inviteUser,$score_bl[0],$scoreTotal);
+
+        $res = $this->modelUser->yqlistAdd($userInfo,$inviteUser,$scoreTotal);
         if($result && $res){
             return CodeBase::$success;
         }else{
             return CodeBase::$error;
         }
-    }
-    //获取用户信息
-    public function getuinfo($where = [], $field = true){
-        return $this->modelUser->getInfo($where,$field);
     }
 
     /**
@@ -161,9 +135,9 @@ class User extends ApiBase
      */
     public function helpList()
     {
-        $data['hotList'] = static::$commonHelpLogic->getHelpList(['if_hot'=>1,'status'=>1],'id,name','create_time desc',false);
+        $data['hotList'] = $this->logicHelp->getHelpList(['if_hot'=>1,'status'=>1],'id,name','create_time desc',false);
         $data['type'] = parse_config_array('help_gethelp');
-        return $this->apiReturn($data);
+        return $data;
     }
 
     /**
@@ -177,13 +151,53 @@ class User extends ApiBase
             $type = parse_config_array('help_gethelp');
             $typeList['typeName'] = $type[$data['id']];
 
-            $helpList = static::$commonHelpLogic->getHelpList(['catid'=>$data['id'],'status'=>1],'id,name','create_time desc',false);
+            $helpList = $this->logicHelp->getHelpList(['catid'=>$data['id'],'status'=>1],'id,name','create_time desc',false);
             $list = array_merge($typeList,$helpList);
         }else{
             //标题id查询详情内容
-            $list = static::$commonHelpLogic->getHelpInfo(['id'=>$data['id']],'name,content');
+
+            $list = $this->logicHelp->getHelpInfo(['id'=>$data['id']],'name,content');
         }
-        return $this->apiReturn($list);
+        return $list;
+    }
+
+    /**
+     * 反馈
+     */
+    public function feedback($data = [])
+    {
+        $userInfo = get_member_by_token($data['user_token']);
+
+        $type = parse_config_array('help_gethelp');
+
+        $picData = $this->loginFile->pictureUpload();
+        $data['img_ids'] = $picData['id'];
+        $result = $this->modelFeedback->setInfo([
+            'catid' => $data['catid'],
+            'name' => $type[$data['catid']],
+            'content' => $data['content'],
+            'userid' => $userInfo->user_id,
+            'img_ids' =>$picData['id'],
+            'contact' => $data['contact']
+        ]);
+        $result ? $result : CodeBase::$error;
+    }
+
+    /**
+     * 我的反馈
+     */
+    public function feedbackList($data = [])
+    {
+        $userInfo = get_member_by_token($data['user_token']);
+        $this->modelFeedback->alias('f');
+        $join = [
+            [SYS_DB_PREFIX . 'picture p', 'f.img_ids = p.id', 'LEFT'],
+        ];
+        $where['f.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+
+        $this->modelFeedback->join = $join;
+
+        return $this->modelFeedback->getList(['f.userid'=>$userInfo->user_id,'f.status'=>1], 'f.name,content,contact,p.name as p_name,path', 'f.create_time desc', false);
     }
 
 }

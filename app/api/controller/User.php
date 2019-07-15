@@ -51,5 +51,20 @@ class User extends ApiBase
         return $this->apiReturn($this->logicUser->helpDetail($this->param));
     }
 
+    /**
+     * 反馈信息
+     */
+    public function feedback()
+    {
+        return $this->apiReturn($this->logicUser->feedback($this->param));
+    }
+
+    /**
+     * 反馈信息列表
+     */
+    public function feedbackList()
+    {
+        return $this->apiReturn($this->logicUser->feedbackList($this->param));
+    }
 
 }
