@@ -2,7 +2,7 @@
     <div class="box">
         <div class="box-body">
             <div class="row">
-                <div class="form-group col-md-3" id="name" {notempty name="info['type']"}{if $info['type']!=1 && $info['type']!=5}hidden{/if} {/notempty}>
+                <div class="form-group col-md-3" id="name">
                 <label>游戏标题</label>
                 <input class="form-control" name="name" placeholder="请输入游戏标题名称" value="{$info['name']|default=''}" type="text">
             </div>
@@ -46,6 +46,11 @@
                 <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}" type="text">
             </div>
             <div class="form-group col-md-3">
+                <label>应用评分</label>
+                <input class="form-control" name="grade" placeholder="请输入应用推荐评分" value="{$info['grade']|default=''}"
+                       type="text">
+            </div>
+            <div class="form-group col-md-3">
                 <label>app端按钮</label>
                 <input class="form-control" name="appbtn" placeholder="请输入app端按钮" value="{$info['appbtn']|default=''}" type="text">
             </div>
@@ -56,9 +61,16 @@
                 <label>是否需要下载</label>
                 <span class="">（选择是将会自动添加一个下载的子任务）</span>
                 <div>
-                    <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 0"} checked {/if}{/notempty}> 无</label>
-                    <label><input type="radio"  name="gstatus"  value="1" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 1"} checked {/if}{/notempty}> 新</label>
-                    <label><input type="radio"  name="gstatus"  value="2" {notempty name="info['gstatus']"}{if condition="$info['gstatus'] eq 2"} checked {/if}{/notempty}> 热门</label>
+                    <label class="margin-r-5"><input type="radio" name="needdown" value="0" {if info['needdown']!=1}checked {/if}> 不需要</label>
+                    <label><input type="radio"  name="needdown"  value="1" {notempty name="info['needdown']"}{if condition="$info['needdown'] eq 1"} checked {/if}{/notempty}> 需要</label>
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label>是否H5应用</label>
+                <span class="">（此标识客户端直接跳转H5）</span>
+                <div>
+                    <label class="margin-r-5"><input type="radio" name="if_h5" value="0" {if info['if_h5']!=1}checked {/if}> 否</label>
+                    <label><input type="radio"  name="if_h5"  value="1" {notempty name="info['if_h5']"}{if condition="$info['if_h5'] eq 1"} checked {/if}{/notempty}> 是</label>
                 </div>
             </div>
             <div class="col-md-3">

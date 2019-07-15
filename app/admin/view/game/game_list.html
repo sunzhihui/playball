@@ -76,6 +76,7 @@
                   <td style="text-align: center"><ob_link><a class="ajax-get" href="{:url('setIftop', array('ids' => $vo['id'], 'iftop' => (int)!$vo['iftop']))}">{if $vo.iftop==1}置顶{else}未置顶{/if}</a></ob_link></td>
                   <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
                   <td class="col-md-2 text-center">
+                      <ob_link><a href="{:url('gamedetail/gameDetailList', array('gameid' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 子任务</a></ob_link>
                       <ob_link><a href="{:url('gameEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
                       <ob_link><a class="btn confirm ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => $Think.DATA_DELETE))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
                   </td>

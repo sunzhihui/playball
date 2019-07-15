@@ -35,14 +35,12 @@ class Homepage extends ApiBase
         //任务类型 1新人 2日常 3星球福利社 4进阶任务 5今日试用
         $where['a.gtype'] =  2;
         $where['a.status'] =  1;
-
-        if(!empty($parm['userid'])){
-            $list['score'] = $this->logicHome->getScore(['userid'=>$parm['userid']],'score');
-            //已完成任务ID
-            $endids=$this->logicHome->getEndtaskids(" and a.userid=".$parm['userid']." and m.type=2 and a.gtype=2");
-            $where['a.id'] = ['NOT IN',$endids];
+        if(!empty($parm['user_token'])){
+            $userInfo = get_member_by_token($parm['user_token']);
+            $where['userid'] = $userInfo->user_id;
+            $list['score'] = $this->logicHome->getScore(['userid'=>$where['userid']],'score');
+            $where['userid'] = $parm['userid'];
         }
-        //$filed='a.*,m.nickname,t.path as listpic,s.path as detailpic';
         $list['today_top'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2,'iftop'=>1]),$this->filed,'',false);
         //高额奖励推荐
         $list['moreMoney'] = $this->logicHome->getTaskList(array_merge($where,['a.gstatus'=>1]),$this->filed,'',false);
@@ -57,16 +55,17 @@ class Homepage extends ApiBase
         //每日任务（数量）
         $where['a.gtype'] =  2;
         $where['a.status'] =  1;
-
         $result['endtaskCount']=0;
-        $result['ifgetdayscore']=0;
         $scoredata=[];
         $ifget=0;
         $score_taskend_config=parse_config_array('score_taskend');
-        if(!empty($parm['userid'])){
-            $uinfo=$this->logicUser->getuinfo(['userid'=>$parm['userid']],'userid,outendcount,getendcount');
+        if(!empty($parm['user_token'])){
+            $userInfo = get_member_by_token($parm['user_token']);
+            $where['userid'] = $userInfo->user_id;
+            $uinfo=$this->logicUser->getuinfo(['userid'=>$userInfo['userid']],'userid,outendcount,getendcount');
             foreach($score_taskend_config as $k=>$v){
-                strpos($uinfo['getendcount'],$k)?$ifget=1:'';
+                strpos($uinfo['getendcount'],$k)?$ifget=1:'';//等于1可领取
+                strpos($uinfo['outendcount'],$k)?$ifget=2:'';//等于2已领取
                 $scoredata[]=['count'=>$k,'score'=>$v,'ifget'=>$ifget];
             }
         }else{
@@ -74,13 +73,13 @@ class Homepage extends ApiBase
                 $scoredata[]=['count'=>$k,'score'=>$v,'ifget'=>$ifget];
             }
         }
+
         $result['score_taskend_config'] =$scoredata;
+
         if(!empty($parm['userid'])){
-            $where['g.userid'] = $parm['userid'];
-            $endids=$this->endids($parm['userid']);//已完成的gameid;
+            $where['userid'] = $parm['userid'];
+            $endids=$this->logicHome->endids($parm['userid']);//已完成的gameid;
             !empty($endids) && $result['endtaskCount']=count($endids)?:0;
-            //$where['a.id'] = ['NOT IN',$endids];
-            //$result['endtaskCount']=count($endids);
         }
         //新手任务
         $result['newtask'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>1]),$this->filed,'',false);
@@ -88,22 +87,16 @@ class Homepage extends ApiBase
         //每日任务
         $result['todaytask'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2]),$this->filed,'',false);
 
-        $result['allendtaskCount']=count($result['todaytask'])?:0;//所有日常任务的数量
+        $result['alltaskCount']=count($result['todaytask'])?:0;//所有日常任务的数量
         //星球福利社
         $result['balltask'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>3]),$this->filed,'',3);
 
         //进阶任务
         $result['movetask'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>4]),$this->filed,'',false);
 
-
-
-
         return $this->apiReturn($result);
     }
-    public function endids($userid){
-        $where=" and a.userid=".$userid." and m.type=2 and a.gtype=2";
-        return $this->logicHome->getEndtaskids($where);
-    }
+
 
     //星球福利社
     public function ballboon(){
@@ -111,36 +104,44 @@ class Homepage extends ApiBase
         $where['a.gtype'] =  2;
         $where['a.status'] =  1;
         if(!empty($parm['userid'])){
-            $where['g.userid'] = $parm['userid'];
+            $where['userid'] = $parm['userid'];
         }
         $result = $this->logicHome->getTaskList(array_merge($where,['a.type'=>3]),$this->filed,'',true);
-        $result['pic']=config('ballboon_pic');
+        $pic=config('ballboon_pic');
+        $result['pic']='';
+        !empty($pic) && $result['pic']=$this->logicHome->getimgUrl($pic);
         return $this->apiReturn($result);
     }
     //星球游乐园
     public function ballgame(){
         $parm=$this->param;
-
-        //今日任务数量+金钱
         $where['a.gtype'] =  1;//游戏任务
         $where['a.status'] =  1;
+        if(!empty($parm['user_token'])){
+            $userInfo = get_member_by_token($parm['user_token']);
+            $where['userid'] = $userInfo->user_id;
+        }
+        //今日游戏任务数量+金钱
         $result['today_count']=$this->logicHome->getTaskList(array_merge($where,['a.type'=>2]),'count(1) as gcount,IFNULL(sum(a.score),0) as scores','',false);
+
         //试玩手游可领取金币
         $result['hand_count']=$this->logicHome->getTaskList(array_merge($where,['a.type'=>3]),'count(1) as gcount,IFNULL(sum(a.score),0) as scores','',false);
 
+        //今日游戏推荐
+        $result['new_game'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>1,'iftop'=>1]),$this->filed.',a.gstatus','',false);
 
-        //今日任务推荐
-        $result['new_game'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>1]),$this->filed.',a.gstatus','',false);
-
-        $result['day_game'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2]),$this->filed.',a.gstatus','',false);
-
-        //即点即玩()
-        $result['now_game'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2,'a.iftop'=>1]),$this->filed.',a.gstatus','',false);
+        //即点即玩(H5游戏)
+        $result['now_game'] = $this->logicHome->getTaskList(array_merge($where,['a.iftop'=>1,'a.if_h5'=>1]),$this->filed.',a.gstatus','',false);
 
         //玩手游赚钱(iftop)
         $result['head_game'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2]),$this->filed.',a.gstatus','',false);
 
         return $this->apiReturn($result);
     }
-    //app安装完成接口（任务完成表添加记录）
+    //任务详情（含任务完成情况，必须传user_token）
+    public function Taskdetail(){
+        $parm=$this->param;
+        return $info=$this->logicHome->getTaskdetail($parm);
+    }
+
 }
