@@ -66,14 +66,13 @@ class Membermoney extends AdminBase
 
         if($result && $param['status'] == 2){
 
-            $scoreInfo = Db::table('yb_score')->where($where)->find();
-
+            $scoreInfo = $this->modelScore->getInfo($where);
             Db::startTrans();
             try {
-                Db::table('yb_user')->where(['userid'=>$scoreInfo['userid']])->setInc('score',$scoreInfo['score']);
-
+                $userInfo = $this->modelUser->getInfo(['userid'=>$scoreInfo['userid']],'score');
+                $this->modelUser->setFieldValue(['userid'=>$scoreInfo['userid']],'score',$userInfo['score']+$scoreInfo['score']);
                 if($scoreInfo['type'] == 3){
-                    Db::table('yb_spcmoney')->where(['id'=>$scoreInfo['pid']])->update(['status'=>1,'cantixian'=>1]);
+                    $this->modelSpcmoney->updateInfo(['id'=>$scoreInfo['pid']],['status'=>1,'cantixian'=>1]);
                     action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
                 }else{
                     action_log('提现申请', '审核成功' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);

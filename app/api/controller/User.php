@@ -2,6 +2,8 @@
 
 namespace app\api\controller;
 
+use app\common\model\Help;
+
 /**
  * 用户控制器
  */
@@ -32,4 +34,22 @@ class User extends ApiBase
     {
         return $this->apiReturn($this->logicUser->invite($this->param));
     }
+
+    /**
+     * 帮助问题
+     */
+    public function helpList()
+    {
+        return $this->apiReturn($this->logicUser->helpList());
+    }
+
+    /**
+     * 问题详情
+     */
+    public function helpDetail()
+    {
+        return $this->apiReturn($this->logicUser->helpDetail($this->param));
+    }
+
+
 }

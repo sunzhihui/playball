@@ -1,0 +1,78 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <span class="">（帮助问题标题名称）</span>
+                        <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>分类</label>
+                        <span class="">（帮助问题类型）</span>
+                        <select name="catid" class="form-control">
+                            {volist name='helpType' id='vo' key="k"}
+                            <option value="{$k}" {notempty name="info['catid']"}{if condition="$info['catid'] eq $k"} selected="selected" {/if}{/notempty} >{$vo}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>详情</label>
+                        <span class="">（帮助问题描述信息/简介）</span>
+                        <textarea class="form-control" name="content" rows="3" placeholder="请输入文章描述信息/简介">{$info['content']|default=''}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>是否热门</label>
+                        <span class="">(热门推荐)</span>
+                        <br><br>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="if_hot" value="1"> 是</label>
+                            <label><input type="radio" checked="checked" name="if_hot"  value="0"> 否</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <span class="">(用户账号状态)</span>
+                        <br/>
+                        <div>
+                            <label class="margin-r-5">
+                                <input type="radio" checked="checked" name="status" value="1"> 启用
+                            </label>
+                            <label>
+                                <input type="radio" name="status"  value="0"> 禁用
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="box-footer">
+
+                <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+                {include file="layout/edit_btn_group"/}
+
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<script>
+    ob.setValue("sex", {$info.if_hot|default=0});
+    ob.setValue("status", {$info.status|default=1});
+</script>

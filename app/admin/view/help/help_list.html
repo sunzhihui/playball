@@ -1,0 +1,86 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <ob_link><a class="btn" href="{:url('helpAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持标题|内容">
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('helplist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th class="checkbox-select-all">
+                    <label>
+                        <input class="flat-grey js-checkbox-all" type="checkbox">
+                    </label>
+                </th>
+                <th>标题</th>
+                <th>分类名称</th>
+                <th>内容</th>
+                <th>是否热门</th>
+                <th class="status-th">状态</th>
+                <th>发布时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr>
+                <td>
+                    <label>
+                        <input class="flat-grey" type="checkbox" name="ids" value="{$vo.id}">
+                    </label>
+                </td>
+                <td>{$vo.name}</td>
+                <td>{$helpType[$vo.catid]}</td>
+                <td>{$vo.content}</td>
+                <td>
+                    <ob_link>
+                        <a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">
+                            {if $vo.if_hot eq 1}
+                            <span class="badge" style="background-color: #f39c12">是</span>
+                            {else}
+                            <span class="badge" style="background-color: #22abb9">否</span>
+                            {/if}
+                        </a>
+                    </ob_link>
+                </td>
+                <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
+                <td>{$vo.create_time}</td>
+                <td class="col-md-2 text-center">
+                    <ob_link><a href="{:url('helpEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
+                    <ob_link><a class="btn confirm ajax-get" href="{:url('helpDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+            <tbody><tr class="odd"><td colspan="8" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+            {/notempty}
+        </table>
+
+        {include file="layout/batch_btn_group"/}
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>

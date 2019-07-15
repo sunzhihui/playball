@@ -7,15 +7,17 @@ use app\api\error\CodeBase;
 use app\api\logic\Common as CommonApi;
 use app\common\logic\User as CommonUser;
 use app\common\model\Code;
+use app\common\model\Help;
 use app\common\model\Score;
 use think\Db;
 use app\api\model\User as Users;
-
+use app\common\logic\Help as CommonHelp;
 
 class User extends ApiBase
 {
 
     public static $commonUserLogic = null;
+    public static $commonHelpLogic = null;
 
     /**
      * 基类初始化
@@ -27,6 +29,10 @@ class User extends ApiBase
 
         if (empty(static::$commonUserLogic)) {
             static::$commonUserLogic = get_sington_object('User', CommonUser::class);
+        }
+
+        if (empty(static::$commonHelpLogic)) {
+            static::$commonHelpLogic = get_sington_object('Help', CommonHelp::class);
         }
 
     }
@@ -109,7 +115,7 @@ class User extends ApiBase
         $useableScore = $scoreModel->getInfo(['userid' => $userInfo->user_id],'score');
         $arr['useableScore'] = $useableScore['score'];
 
-        return $arr;
+        return $this->apiReturn($arr);
     }
 
 
@@ -144,6 +150,36 @@ class User extends ApiBase
         }else{
             return CodeBase::$error;
         }
+    }
+
+    /**
+     * 帮助问题列表
+     */
+    public function helpList()
+    {
+        $data['hotList'] = static::$commonHelpLogic->getHelpList(['if_hot'=>1,'status'=>1],'id,name','create_time desc',false);
+        $data['type'] = parse_config_array('help_gethelp');
+        return $this->apiReturn($data);
+    }
+
+    /**
+     * 根据type值 判断
+     * 根据id值 查询
+     */
+    public function helpDetail($data = [])
+    {
+        if($data['type'] == 1){
+            //分类id查询标题
+            $type = parse_config_array('help_gethelp');
+            $typeList['typeName'] = $type[$data['id']];
+
+            $helpList = static::$commonHelpLogic->getHelpList(['catid'=>$data['id'],'status'=>1],'id,name','create_time desc',false);
+            $list = array_merge($typeList,$helpList);
+        }else{
+            //标题id查询详情内容
+            $list = static::$commonHelpLogic->getHelpInfo(['id'=>$data['id']],'name,content');
+        }
+        return $this->apiReturn($list);
     }
 
 }
