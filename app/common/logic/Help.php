@@ -12,9 +12,9 @@ class Help extends LogicBase
      * 获取帮助问题信息
      */
 
-    public function getHelpList($where = [], $field = 'h.*', $order = '', $paginate = DB_LIST_ROWS)
+    public function getHelpList($where = [], $field = '*', $order = '', $paginate = DB_LIST_ROWS)
     {
-        $this->modelHelp->alias('h');
+//        $this->modelHelp->alias('h');
         $list = $this->modelHelp->getList($where, $field, $order, $paginate);
         $helpType = parse_config_array('help_gethelp');
 
@@ -60,7 +60,7 @@ class Help extends LogicBase
     /**
      * 获取帮助问题信息
      */
-    public function getHelpInfo($where = [],$field = '*')
+    public function getHelpInfo($where = [], $field = '*')
     {
         return $this->modelHelp->getInfo($where, $field);
     }
@@ -73,9 +73,40 @@ class Help extends LogicBase
 
         $result = $this->modelHelp->deleteInfo($where);
 
-        $result && action_log('删除', '帮助问题删除删除，where：' . http_build_query($where));
+        $result && action_log('删除', '帮助问题删除成功，where：' . http_build_query($where));
 
         return $result ? [RESULT_SUCCESS, '帮助问题删除删除成功'] : [RESULT_ERROR, $this->modelHelp->getError()];
     }
+
+
+
+    /**
+     * 反馈问题信息
+     */
+
+    public function feedbackList($where = [], $field = 'f.*,u.name as u_name', $order = '', $paginate = DB_LIST_ROWS)
+    {
+        $this->modelFeedback->alias('f');
+
+        $join = [
+            [SYS_DB_PREFIX . 'user u', 'f.userid = u.userid', 'LEFT'],
+        ];
+
+        $this->modelFeedback->join = $join;
+        $list = $this->modelFeedback->getList($where, $field, $order, $paginate);
+
+        return $list;
+    }
+
+    /**
+     * 反馈问题搜索条件
+     */
+    public function getBackWhere($data = [])
+    {
+        $where = [];
+        !empty($data['search_data']) && $where['f.name|f.content'] = ['like', '%' . $data['search_data'] . '%'];
+        return $where;
+    }
+
 
 }
