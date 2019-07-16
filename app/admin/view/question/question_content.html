@@ -1,0 +1,100 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>问卷名称</label>
+                        <span>（所属问卷名称)</span>
+                        <select class="form-control" name="questionclassid">
+                            <option value="0">请选择</option>
+                            {volist name="item" id="vo"}}
+                            <option value="{$vo.id}">{$vo.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <span class="">（问题标题）</span>
+                        <input class="form-control" name="name" type="text" value="{$info['name']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6 box_a">
+                    <div class="form-group">
+                        <label>选项A</label>
+                        <span>(最少2个选项)</span>
+                        <input class="form-control" name="item1" placeholder="请输入选项A" type="text" value="{$info['item1']|default=''}">
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>选项B</label>
+                        <span>(最少2个选项)</span>
+                        <input class="form-control" name="item2" placeholder="请输入选项B" type="text" value="{$info['item2']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>选项C</label>
+                        <span>(没有就不填)</span>
+                        <input class="form-control" name="item3" placeholder="请输入选项C" type="text" value="{$info['item3']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>选项D</label>
+                        <span>(没有就不填)</span>
+                        <input class="form-control" name="item4" placeholder="请输入选项D" type="text" value="{$info['item4']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <span>（问卷调查状态）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="status" value="1"> 启用</label>
+                            <label><input type="radio" checked="checked" name="status"  value="0"> 禁止</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>选项类型</label>
+                        <span>（问卷调查状态）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="questiontype" value="1"> 单选</label>
+                            <label><input type="radio" checked="checked" name="questiontype"  value="2"> 多选</label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+            {include file="layout/edit_btn_group"/}
+        </div>
+    </div>
+</form>
+
+<script>
+    ob.setValue("questionclassid", {$info.questionclassid|default=0});
+    ob.setValue("questiontype", {$info.questiontype|default=1});
+    ob.setValue("status", {$info.status|default=1});
+
+</script>

@@ -16,7 +16,7 @@ class Help extends AdminBase
     {
         $where = $this->logicHelp->getWhere($this->param);
 
-        $this->assign('list', $this->logicHelp->getHelpList($where, 'h.*', 'create_time desc'));
+        $this->assign('list', $this->logicHelp->getHelpList($where));
 
         $helpType = parse_config_array('help_gethelp');
         $this->assign('helpType',$helpType);
@@ -75,4 +75,28 @@ class Help extends AdminBase
 
         $this->jump($this->logicAdminBase->setStatus('Help', $this->param));
     }
+
+    /**
+     * 反馈列表
+     */
+    public function feedbackList()
+    {
+        $where = $this->logicHelp->getBackWhere($this->param);
+
+        $this->assign('list', $this->logicHelp->feedbackList($where));
+
+        $helpGetfk = parse_config_array('help_getfk');
+        $this->assign('helpGetfk',$helpGetfk);
+
+        return $this->fetch('feedback_list');
+    }
+
+    /**
+     * 数据状态设置
+     */
+    public function setBackStatus()
+    {
+        $this->jump($this->logicAdminBase->setStatus('Feedback', $this->param));
+    }
+
 }

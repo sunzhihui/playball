@@ -1,0 +1,66 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>名称</label>
+                        <span>（调查项目的名称）</span>
+                        <input class="form-control" name="name" placeholder="请输入调查项目的名称" type="text" value="{$info['name']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>原因</label>
+                        <span class="">（调查项目的原因）</span>
+                        <textarea class="form-control" name="remark" rows="3" placeholder="请输入调查项目的原因">{$info['remark']|default=''}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>奖励积分</label>
+                        <span>（提交问卷调查获得积分）</span>
+                        <input class="form-control" name="score" placeholder="请输入积分数量" type="score" value="{$info['score']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>是否最新</label>
+                        <span>（最新的用于用户填写）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="if_new" value="1"> 是</label>
+                            <label><input type="radio" checked="checked" name="if_new"  value="0"> 否</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <span>（问卷调查状态）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="status" value="1"> 启用</label>
+                            <label><input type="radio" checked="checked" name="status"  value="0"> 禁止</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+            {include file="layout/edit_btn_group"/}
+        </div>
+    </div>
+</form>
+
+<script>
+    ob.setValue("sex", {$info.if_new|default=0});
+    ob.setValue("status", {$info.status|default=1});
+</script>

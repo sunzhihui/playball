@@ -1,0 +1,67 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <ob_link><a class="btn" href="{:url('questionAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持标题|描述">
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('questionlist')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>调查项目名称</th>
+                <th>调查项目原因</th>
+                <th>奖励积分</th>
+                <th>发布人</th>
+                <th>是否最新</th>
+                <th class="status-th">状态</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr>
+                <td>{$vo.name}</td>
+                <td>{$vo.remark}</td>
+                <td>{$vo.score}</td>
+                <td>{$vo.nickname}</td>
+                <td>{$vo.if_new == 1 ? '<span class="badge" style="background-color: #f36d2d">是</span>' : '<span class="badge" style="background-color: #2db3f3">否</span>'}</td>
+                <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
+                <td>{$vo.create_time}</td>
+                <td class="col-md-2 text-center">
+                    <a href="{:url('questionItem',array('id' => $vo['id']))}" class="btn"><i class="fa fa-reorder"></i> 调查内容</a>
+                    <ob_link><a href="{:url('questionEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
+                    <ob_link><a class="btn confirm ajax-get" href="{:url('questionDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+            <tbody><tr class="odd"><td colspan="8" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+            {/notempty}
+        </table>
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>
