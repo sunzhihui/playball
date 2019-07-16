@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------+
 
 use \Firebase\JWT\JWT;
-
+use app\api\logic\userLog as LogicuserLog;
 // 解密user_token
 function decoded_user_token($token = '')
 {
@@ -61,4 +61,10 @@ function create_sign_filter($data = [], $key = '')
     $filter_data = sign_field_filter($data);
     
     return empty($key) ? data_md5_key($filter_data, API_KEY) : data_md5_key($filter_data, $key);
+}
+
+//用户行为轨迹
+function user_log($name = '', $describe = '',$userid=''){
+    $logLogic = get_sington_object('LogicuserLog', LogicuserLog::class);
+    $logLogic->userlogAdd($name, $describe,$userid);
 }

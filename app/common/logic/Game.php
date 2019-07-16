@@ -20,13 +20,12 @@ class Game extends LogicBase
     /**
      * 获取游戏列表
      */
-    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as listpic,s.path as detailpic', $order = 'a.sort',$paginate=0)
+    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as logopic,s.path as listpic', $order = 'a.sort',$paginate=0)
     {
         //如果传入userid 需要过滤掉
-        if(!empty($where['g.userid'])){
-
-            $wherestr=['userid'=>$where['g.userid'],'status'=>1];
-            unset($where['g.userid']);
+        if(!empty($where['userid'])){
+            $wherestr=['userid'=>$where['userid'],'status'=>1];
+            unset($where['userid']);
         }
         $this->modelGame->alias('a');
         $join = [
@@ -40,8 +39,10 @@ class Game extends LogicBase
         $list=$this->modelGame->getList($where, $field, $order,$paginate);
         if(!empty($wherestr)){
             foreach($list as &$v){
-                $wherestr['gameid']=$v['id'];
-                $v['ifdown']=$this->modelTaskend->getValue($wherestr, 'gameid')?1:0;
+                if(!empty($v['id'])){
+                    $ids=$this->logicHome->getEndtaskids(' and userid = '.$wherestr['userid'].' and m.gameid='.$v['id'],0);
+                    $v['havefinish']=$ids;
+                }
             }
         }
 
@@ -55,6 +56,7 @@ class Game extends LogicBase
 
         $where = [];
         !empty($data['search_data']) && $where['a.name|a.describe'] = ['like', '%'.$data['search_data'].'%'];
+        !empty($data['gameid']) && $where['a.gameid'] = ['=', $data['gameid']];
         return $where;
     }
 
@@ -70,7 +72,7 @@ class Game extends LogicBase
 //
 //            return [RESULT_ERROR, $this->validateArticle->getError()];
 //        }
-        if($data['type']==1){
+        if($data['gtype']==1){
             $url = url('gameList');
         }else{
             $url = url('taskList');
@@ -79,16 +81,20 @@ class Game extends LogicBase
 
         $data['content'] = html_entity_decode($data['content']);//html处理
         $result = $this->modelGame->setInfo($data);
-        //empty($data['id']) && $data['id']=$result;
-        //$info = $this->modelGame->getInfo(['id'=>$data['id']], 'ifdown');
+
+        empty($data['id'])?$id=$result:$id=$data['id'];
+        $Gamedetail = $this->modelGamedetail->getInfo(['gameid'=>$id,'ifdown'=>1]);//查询是否有瞎下载任务
         if($data['needdown']==1){
             //新增需要判断是否为下载任务，选择1则需要新增一条下载子任务
-            if(!empty($data['id'])){
-
+            if($Gamedetail){
+                $this->modelGamedetail->setInfo([DATA_STATUS_NAME=>DATA_NORMAL],['gameid'=>$id,'ifdown'=>1]);
             }else{
                 //新增
-                $this->modelGame->setInfo($arr=['name'=>'下载'.$data['name'],'ifdown'=>1,'gameid'=>$result,'btn'=>'去下载']);
+                $this->modelGamedetail->setInfo($arr=['name'=>'下载'.$data['name'],'ifdown'=>1,'remark'=>'下载送金币啦！','gameid'=>$id,'btn'=>'去下载']);
             }
+        }else{
+            //不需要（删除签到任务）
+            $this->modelGamedetail->setInfo([DATA_STATUS_NAME=>DATA_DELETE],['gameid'=>$id,'ifdown'=>1]);
         }
 
         $handle_text = empty($data['id']) ? '新增' : '编辑';

@@ -50,7 +50,7 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label>任务横图</label>
+                    <label>列表图</label>
                     <span class="">（任务类请上传单张横向）</span>
                     <br/>
                     {assign name="dphoto" value="$info.dphoto|default='0'" /}
@@ -70,6 +70,11 @@
                     <input class="form-control" name="score" placeholder="请输入奖励积分" value="{$info['score']|default=''}"
                            type="text">
                 </div>
+                <div class="form-group col-md-3">
+                    <label>应用评分</label>
+                    <input class="form-control" name="grade" placeholder="请输入应用推荐评分" value="{$info['grade']|default=''}"
+                           type="text">
+                </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-3">
@@ -78,10 +83,28 @@
                            value="{$info['appbtn']|default=''}" type="text">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label>是否需要下载</label>
+                    <span class="">（选择是将会自动添加一个下载的子任务）</span>
+                    <div>
+                        <label class="margin-r-5"><input type="radio" name="needdown" value="0" {if info['needdown']!=1}checked {/if}> 不需要</label>
+                        <label><input type="radio"  name="needdown"  value="1" {notempty name="info['needdown']"}{if condition="$info['needdown'] eq 1"} checked {/if}{/notempty}> 需要</label>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>是否H5应用</label>
+                    <span class="">（此标识客户端直接跳转H5）</span>
+                    <div>
+                        <label class="margin-r-5"><input type="radio" name="if_h5" value="0" {if info['if_h5']!=1}checked {/if}> 否</label>
+                        <label><input type="radio"  name="if_h5"  value="1" {notempty name="info['if_h5']"}{if condition="$info['if_h5'] eq 1"} checked {/if}{/notempty}> 是</label>
+                    </div>
+                </div>
+
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>高额推荐</label>
-                    <br><br>
+                    <span class="">（此标识会显示在首页高额推荐模块）</span>
                     <div>
                         <label class="margin-r-5"><input type="radio" name="gstatus" value="0" {notempty
                                                          name="info['gstatus']" }{if condition="$info['gstatus'] eq 0" }
@@ -90,6 +113,7 @@
                                       condition="$info['gstatus'] eq 1" } checked {/if}{/notempty}> 推荐</label>
                     </div>
                 </div>
+            </div>
             </div>
             <div class="row">
                 <div class="col-md-6 form-group" id="describe">
@@ -100,41 +124,7 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="row col-md-12">-->
-                <!--<label>任务详情</label>-->
-                <!--<table class="table table-bordered moretask">-->
-                    <!--<tr>-->
-                        <!--<td>任务名称</td>-->
-                        <!--<td>任务简介</td>-->
-                        <!--<td>任务积分</td>-->
-                        <!--<td>排序</td>-->
-                        <!--<td>标题tips</td>-->
-                        <!--<td>按钮文字</td>-->
-                        <!--<td>是否可重复</td>-->
-                        <!--<td>请求数据格式</td>-->
-                        <!--<td>操作-->
-                        <!--<td>-->
-                    <!--</tr>-->
-                    <!--<tr class="mancar1">-->
-                        <!--<td><input type="text" id="oilfee1" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee2" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee3" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee4" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee5" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee6" value=""></td>-->
-                        <!--<td><input type="text" id="oilfee7" value=""></td>-->
-                        <!--<td><textarea type="text" id="oilfee8" value=""></textarea></td>-->
-                        <!--<td>-->
-                            <!--<a style="font-size: 24px" href="javascript:void(0)" onclick="adpass()" title="添加">+</a>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--<div id="passlist">-->
-
-                    <!--</div>-->
-                <!--</table>-->
-            <!--</div>-->
             <div class="row">
-
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>任务说明</label>
@@ -142,7 +132,6 @@
                         {:widget('editor/index', array('name'=> 'content','value'=> ''))}
                     </div>
                 </div>
-
             </div>
             <div class="box-footer">
 

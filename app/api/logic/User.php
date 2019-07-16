@@ -200,4 +200,84 @@ class User extends ApiBase
         return $this->modelFeedback->getList(['f.userid'=>$userInfo->user_id,'f.status'=>1], 'f.name,content,contact,p.name as p_name,path', 'f.create_time desc', false);
     }
 
+    //签到情况
+    function signin($data = []){
+        $longsign=0;//连续签到天数
+        $userInfo = get_member_by_token($data['user_token']);
+        $userid=$userInfo->user_id;
+        //查询当前用户最新签到情况
+        $info=$this->modelSignin->getInfo(['userid'=>$userid,'status'=>DATA_NORMAL],'*');
+        if(!empty($info)){
+           if($info['longday']==7){
+               $longsign=0;
+           }else{
+               if(date("Y-m-d",strtotime("-1 day"))==date("Y-m-d",strtotime($info['create_time']))){
+                   $longsign=$info['longday'];
+               }else{
+                   $longsign=0;
+               }
+           }
+
+        }
+        //查询该用户当天是否签到
+        $insign=$this->issign($userid);//当天是否签到
+        $rinfo['insign']=$insign;
+        $rinfo['longsign']=$longsign;
+        $rinfo['score_signin']=parse_config_array('score_signin');
+        return $rinfo;
+    }
+    //判断当天是否签到
+    function issign($userid){
+        $insign=0;
+        $start = strtotime(date('Y-m-d 00:00:00'));
+        $end = time();
+        $where['create_time'] = array('between',"$start,$end");
+        $where['userid'] = ['=',$userid];
+        $where['status'] = ['=',DATA_NORMAL];
+        $todaySign=Db::name('signin')->where($where)->find();
+        !empty($todaySign) && $insign=1;
+        return $insign;
+    }
+    //去签到
+    function gosignin($data = []){
+        $score_signin=parse_config_array('score_signin');;
+        $userInfo = get_member_by_token($data['user_token']);
+        $userid=$userInfo->user_id;
+        //查询该用户当天是否签到
+        $insign=$this->issign($userid);
+        if($insign==1){
+            return CodeBase::$userSign;
+        }
+
+        //查询当前用户最新签到情况
+        $info=$this->modelSignin->getList(['userid'=>$userid,'status'=>DATA_NORMAL],'*','id desc',0);
+        if(empty($info[0])){
+            //新用户签到，签到天数第一天开始，连续天数为0
+            $score=$score_signin[1];
+            $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>1,'score'=>$score_signin[1],'create_time'=>time()]);
+        }else{
+            //前几天已有签到
+            //判断是否连续（当前日期减去一天是否与昨天时间是否相等）
+            if(date("Y-m-d",strtotime("-1 day"))==date("Y-m-d",strtotime($info[0]['create_time']))){
+                //时间相等是连续签到,直接赠送金币
+                $longday=$info[0]['longday']+1;
+                //判断当前连续天数是否大于7天
+                if($info[0]['longday']>=7){
+                    $longday=1;
+                }
+                $score=$score_signin[$longday];
+                $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>$longday,'score'=>$score_signin[$longday],'create_time'=>time()]);
+            }else{
+                //非连续签到从0开始
+                $score=$score_signin[1];
+                $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>1,'score'=>$score_signin[1],'create_time'=>time()]);
+            }
+
+        }
+        $handle_text='签到';
+        user_log($handle_text, '用户' . $handle_text . '赠送金币，score：' . $score,$userid);
+        $result=$this->modelScore->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'score'=>$score,'type'=>1,'remark'=>'签到送金币','create_time'=>time()]);
+        return $res;
+    }
+
 }

@@ -11,6 +11,6 @@
 
 // 绑定后台模块
 define('BIND_MODULE', 'admin');
-
+//session_start();
 // 加载公共引导文件
 require './public.php';

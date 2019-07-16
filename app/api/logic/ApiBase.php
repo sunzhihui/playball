@@ -75,6 +75,7 @@ class ApiBase extends LogicBase
     {
 
         $info = $this->modelApi->getInfo(['api_url' => URL]);
+
         empty($info) && $this->apiError(CodeBase::$apiUrlError);
         (empty($param['access_token']) || $param['access_token'] != get_access_token()) && $this->apiError(CodeBase::$accessTokenError);
 

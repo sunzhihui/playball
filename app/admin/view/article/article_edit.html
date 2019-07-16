@@ -39,7 +39,16 @@
                 <!--{:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}-->
             <!--</div>-->
           <!--</div>-->
-            
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label>游戏详情轮播图</label>
+                    <span class="">（请上传多图片）</span>
+                    <br/>
+                    {assign name="img_ids" value="$info.img_ids|default=''" /}
+                    {:widget('file/index', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
+
+                </div>
+            </div>
           <!--<div class="col-md-6">-->
             <!--<div class="form-group">-->
                 <!--<label>附件</label>-->

@@ -64,7 +64,6 @@ class Gamedetail extends AdminBase
     public function setStatus()
     {
         $parm=$this->param;
-
         if(!empty($parm['status']) && $parm['status']=DATA_DELETE){
             !empty($parm['ifdown']) && $parm['ifdown']==1 ? $this->jump([RESULT_ERROR,'该任务为下载任务，无法删除，请在任务头中编辑为非下载任务']):$this->jump($this->logicAdminBase->setStatus('Gamedetail', $this->param));
         }
