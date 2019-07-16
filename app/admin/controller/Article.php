@@ -52,7 +52,7 @@ class Article extends AdminBase
         $info = $this->logicArticle->getArticleInfo(['a.id' => $this->param['id']], 'a.*,m.nickname,c.name as category_name');
         
         !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
-        
+        !empty($info) && $info['gimg_ids_array'] = str2arr($info['gimg_ids']);
         $this->assign('info', $info);
         
         return $this->fetch('article_edit');

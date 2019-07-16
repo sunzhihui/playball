@@ -20,7 +20,7 @@ class Game extends LogicBase
     /**
      * 获取游戏列表
      */
-    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as listpic,s.path as detailpic', $order = 'a.sort',$paginate=0)
+    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as logopic,s.path as listpic', $order = 'a.sort',$paginate=0)
     {
         //如果传入userid 需要过滤掉
         if(!empty($where['userid'])){

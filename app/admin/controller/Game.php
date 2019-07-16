@@ -40,7 +40,6 @@ class Game extends AdminBase
      */
     public function gameAdd()
     {
-
         IS_POST && $this->jump($this->logicGame->gameEdit($this->param));
 
         return $this->fetch('game_edit');
@@ -51,11 +50,10 @@ class Game extends AdminBase
      */
     public function gameEdit()
     {
-
         IS_POST && $this->jump($this->logicGame->gameEdit($this->param));
 
         $info = $this->logicGame->getGameInfo(['id' => $this->param['id']]);
-
+        !empty($info) && $info['img_ids_array'] = str2arr($info['img_ids']);
         $this->assign('info', $info);
 
         return $this->fetch('game_edit');

@@ -26,5 +26,6 @@ class CodeBase
     
     public static $userTokenError       = [API_CODE_NAME => 1000005,   API_MSG_NAME => '用户Toekn解析错误'];
     public static $emptyId              = [API_CODE_NAME => 2000001,   API_MSG_NAME => 'ID不能为空'];
+    public static $emptyItem              = [API_CODE_NAME => 2000002,   API_MSG_NAME => '数据查询结果不存在'];
 
 }

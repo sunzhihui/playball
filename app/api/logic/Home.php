@@ -11,7 +11,8 @@
 
 namespace app\api\logic;
 use think\Db;
-use app\common\Model\Picture as CommonPicture;
+use app\common\Model\Gamedetail as CommonGamedetail;
+use app\api\error\CodeBase;
 /**
  * 接口文档逻辑
  */
@@ -57,6 +58,7 @@ class Home extends ApiBase
         $start = date('Y-m-d 00:00:00');
         $end = date('Y-m-d H:i:s');
         $where.= " and a.status=".DATA_NORMAL;
+
         $sql="select GROUP_CONCAT(gamedetailid) as ids from yb_taskend a left join yb_gamedetail m on a.gamedetailid = m.id where 1 $where";//用户完成的所有子任务id
         if($ifnowday==1){
             $ids1=$ids2=Db::name('taskend')->query("$sql and a.create_time >= unix_timestamp( '$start' ) AND a.create_time <= unix_timestamp( '$end' )");//当日已完成子任务
@@ -78,15 +80,59 @@ class Home extends ApiBase
     //任务详情含任务完成情况
     function getTaskdetail($parm=[]){
         $userInfo = get_member_by_token($parm['user_token']);
-        $where['userid'] = $userInfo->user_id;
-        dy($where['userid']);
+        $userid = $userInfo->user_id;
+        $this->modelGame->alias('a');
+
+        $join = [
+            [SYS_DB_PREFIX . 'picture t', 't.id = a.cover_id','left'],
+            [SYS_DB_PREFIX . 'picture s', 's.id = a.dphoto','left'],
+        ];
+
+        $where['a.status'] =  DATA_NORMAL;
+        $where['a.id'] =  $parm['gameid'];
+
+        $this->modelGame->join = $join;
+
+        $info=$this->modelGame->getInfo($where,'a.*,t.path as logopic,s.path as listpic');
+        empty($info) && $this->apiError(CodeBase::$emptyItem);
+        $ids=$this->logicHome->getEndtaskids(' and userid = '.$userid.' and m.gameid='.$info['id'],0);
+        $info['havefinish']=$ids;
+        //子任务列表
+        $info['childs']=get_sington_object('Gamedetail', CommonGamedetail::class)->getList(['gameid'=>$info['id']],'*','sort asc',false);
+        !empty($info['img_ids']) && $info['img_ids']=$this->getimgUrl($info['img_ids']);
+        !empty($info['gimg_ids']) && $info['gimg_ids']=$this->getimgUrl($info['gimg_ids']);
+
+        //查询历史收益
+        $info['oldtotal']=$this->getoldscore($info['id']);
+
+        $this->apiError($info);
+    }
+    //查询历史收益
+    function getoldscore($pid){
+        $oldtotal=$this->modelScore->getInfo(['pid'=>$pid,'type'=>1],'ifnull(sum(score),0) scores');
+        $res['oldscoreList']=$this->modelScore->getList(['pid'=>$pid,'type'=>1],'remark,create_time,score','',false);
+        $res['oldscore']=$oldtotal['scores'];
+        return $res;
     }
 
-
-
     //通过ID获取图片路径
-    function getimgUrl($cover_id){
-         $img=DB::name('picture')->where("id=$cover_id")->value('path');
-         return $img;
+    function getimgUrl($cover_ids){
+        $imgids=explode(',',$cover_ids);
+        $img_url=[];
+        foreach($imgids as $v){
+            $img=DB::name('picture')->field('path')->where("id = $v")->value('path');
+            $img_url[]=$img;
+        }
+         return $img_url;
+    }
+
+    //去签到
+    function gosign(){
+
+    }
+
+    //签到情况
+    function signList(){
+
     }
 }

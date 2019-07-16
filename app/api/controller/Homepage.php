@@ -109,7 +109,8 @@ class Homepage extends ApiBase
         $result = $this->logicHome->getTaskList(array_merge($where,['a.type'=>3]),$this->filed,'',true);
         $pic=config('ballboon_pic');
         $result['pic']='';
-        !empty($pic) && $result['pic']=$this->logicHome->getimgUrl($pic);
+        $path=$this->logicHome->getimgUrl($pic);
+        !empty($pic) && $result['pic']=$path[0];
         return $this->apiReturn($result);
     }
     //星球游乐园
