@@ -126,13 +126,4 @@ class Home extends ApiBase
          return $img_url;
     }
 
-    //去签到
-    function gosign(){
-
-    }
-
-    //签到情况
-    function signList(){
-
-    }
 }

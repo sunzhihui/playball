@@ -67,4 +67,14 @@ class User extends ApiBase
         return $this->apiReturn($this->logicUser->feedbackList($this->param));
     }
 
+    //用户签到信息
+    public function signin(){
+
+        return $this->apiReturn($this->logicUser->signin($this->param));
+    }
+    //用户去签到
+    public function gosignin(){
+        return $this->apiReturn($this->logicUser->gosignin($this->param));
+    }
+
 }
