@@ -45,7 +45,12 @@
                 <td>{$vo.remark}</td>
                 <td>{$vo.score}</td>
                 <td>{$vo.nickname}</td>
-                <td>{$vo.if_new == 1 ? '<span class="badge" style="background-color: #f36d2d">是</span>' : '<span class="badge" style="background-color: #2db3f3">否</span>'}</td>
+                <td>
+                    <a class="ajax-get" href="{:url('setIfNew', array('id' => $vo['id']))}">
+                        {$vo.if_new == 1 ? '<span class="badge" style="background-color: #f36d2d">是</span>' : '<span class="badge" style="background-color: #ab77b5">否</span>'}
+                    </a>
+                </td>
+
                 <td><ob_link><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
                 <td>{$vo.create_time}</td>
                 <td class="col-md-2 text-center">

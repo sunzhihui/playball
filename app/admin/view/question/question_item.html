@@ -1,0 +1,69 @@
+<div class="box">
+    <div class="box-header">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <ob_link><a class="btn" href="{:url('questionItemAdd')}"><i class="fa fa-plus"></i> 新 增</a></ob_link>
+            </div>
+
+            <div class="col-sm-8">
+                <!--<div class="box-tools search-form pull-right">
+                    <div class="input-group input-group-sm">
+
+                        <input type="text" name="search_data" style="width: 200px;" class="form-control pull-right" value="{:input('search_data')}" placeholder="支持标题|描述">
+
+                        <div class="input-group-btn">
+                            <button type="button" id="search"  url="{:url('questionItem')}" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                        </div>
+
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+    </div>
+    <div class="box-body table-responsive">
+        <table  class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>所属问卷名称</th>
+                <th>标题</th>
+                <th class="status-th">状态</th>
+                <th>选项类型</th>
+                <th>排序</th>
+                <th>创建时间</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+
+            {notempty name='list'}
+            <tbody>
+            {volist name='list' id='vo'}
+            <tr>
+                <td>{$vo.q_name}</td>
+                <td>{$vo.name}</td>
+                <td><ob_link><a class="ajax-get" href="{:url('setItemStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
+                <td>
+                    <a class="ajax-get" href="{:url('questiontype', array('id' => $vo['id']))}">
+                        {$vo.questiontype == 1 ? '<span class="badge" style="background-color: #f36d2d">单选</span>' : '<span class="badge" style="background-color: #ab77b5">多选</span>' }
+                    </a>
+                </td>
+                <td><input type="text" class="sort-th sort-text" href="{:url('setItemSort')}" id="{$vo.id}" value="{$vo.sort}" /></td>
+                <td>{$vo.create_time}</td>
+                <td class="col-md-2 text-center">
+                    <a href="{:url('chooseItem', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 选项列表</a>
+                    <ob_link><a href="{:url('questionItemEdit', array('id' => $vo['id']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
+                    <ob_link><a class="btn confirm ajax-get" href="{:url('questionItemDel', array('id' => $vo['id']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+            {else/}
+            <tbody><tr class="odd"><td colspan="8" class="text-center" valign="top">{:config('empty_list_describe')}</td></tr></tbody>
+            {/notempty}
+        </table>
+    </div>
+    <div class="box-footer clearfix text-center">
+        {$list->render()}
+    </div>
+</div>
