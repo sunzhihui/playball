@@ -98,7 +98,7 @@ class User extends ModelBase
             $scoreSum = 0;
             foreach($sendData as $k=>$v){
                 $vo = explode(',',$v);
-                $score = (int)$vo['1'] * (int)$score_bl;//积分
+                $score = (int)$vo['1'] / (int)$score_bl;//积分
                 //已发放总积分
                 $scoreSum +=$score;
                 if($k == 0){

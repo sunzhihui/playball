@@ -119,7 +119,7 @@ class User extends ApiBase
 
         $reward = $this->modelUser->rewardPoints($getValue,$pcount);
         //积分 = 金额 * 比例
-        $scoreTotal = $reward * $score_bl['0'];
+        $scoreTotal = $reward / $score_bl['0'];
         $result = $this->modelUser->spcmoneyAdd($userInfo,$sendValue,$inviteUser,$score_bl[0],$scoreTotal);
 
         $res = $this->modelUser->yqlistAdd($userInfo,$inviteUser,$scoreTotal);
@@ -278,6 +278,105 @@ class User extends ApiBase
         user_log($handle_text, '用户' . $handle_text . '赠送金币，score：' . $score,$userid);
         $result=$this->modelScore->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'score'=>$score,'type'=>1,'remark'=>'签到送金币','create_time'=>time()]);
         return $res;
+    }
+
+    /**
+     * 调查问卷
+     */
+    public function questionList($data = [])
+    {
+        $userInfo = get_member_by_token($data['user_token']);
+
+        $queClassInfo = $this->modelQuestionclass->getInfo(['if_new'=>1,'status'=>1],'id,name,remark');
+
+        $queLog = $this->modelQuestionLog->getInfo(['userid'=>$userInfo->user_id,'questionclassid'=>$queClassInfo['id']]);
+        if(!$queLog) return '您已参加过此次问卷调查';
+
+        if(!$queClassInfo) return '暂无问卷调查';
+
+        $queInfo = $this->modelQuestion->getList(['questionclassid'=>$queClassInfo['id'],'status'=>1],'id,name,questiontype','sort desc');
+        $list = [];
+        $list['questionclass_id'] = $queClassInfo['id'];
+        $list['name'] = $queClassInfo['name'];
+        $list['remark'] = $queClassInfo['remark'];
+        foreach($queInfo as $k=>$val){
+
+            $data = $this->modelQuestionSel->getList(['questionid' => $val['id'],'status'=>1],'id,title,img','sort desc');
+            $list['data'][] = [
+                'question_id' => $val['id'],
+                'q_name' => $val['name'],
+                'questiontype' => $val['questiontype'],
+            ];
+            foreach($data as &$v){
+                $img = $v['img'] ? get_picture_url($v['img']) : '';
+                $list['data'][$k][] = [
+                    'id' => $v['id'],
+                    'title' => $v['title'],
+                    'img' => $img
+                ];
+            }
+
+        }
+        return $list;
+
+    }
+
+    /**
+     * 调查问卷提交
+     */
+    public function questionPost($data = [])
+    {
+        $userInfo = get_member_by_token($data['user_token']);
+        $queClassInfo = $this->modelQuestionclass->getInfo(['id'=>$data['questionclass_id']]);
+        if($queClassInfo) return '操作有误';
+        Db::startTrans();
+        try{
+            foreach($data['ids'] as $k=>$val){
+                $this->modelQuestionResult->setInfo([
+                    'questionclassid' => $data['questionclass_id'],
+                    'questionid'=>$val,
+                    'answer' => $data['answer'][$k],
+                    'userid' =>$userInfo->user_id,
+                    'create_time' => time()
+                ]);
+            }
+            $this->modelQuestionLog->setInfo([
+                'questionclassid' => $data['questionclass_id'],
+                'userid' => $userInfo->user_id,
+            ]);
+            //用户表用户家积分
+            $this->modelUser->where(['userid' => $userInfo->user_id])->setInc('score',$queClassInfo['score']);
+            //积分比例
+            $score_bl = parse_config_array('score_bl');
+            //积分记录表
+            $this->modelScore->setInfo([
+                'userid' => $userInfo->user_id,
+                'type' => 1,
+                'status' => 1,
+                'remark' => '做调查问卷所获得积分'.$queClassInfo['score'],
+                'score' => $queClassInfo['score'],
+                'money' => $queClassInfo['score'] / $score_bl['0'],
+            ]);
+            user_log('提交调查问卷', '用户' . $userInfo->user_id . '赠送金币，score：' . $queClassInfo['score'],$userInfo->user_id);
+            Db::commit();
+            return true;
+        }catch (\Exception $e){
+            Db::rollback();
+//            return $e->getMessage();
+            return CodeBase::$error;
+        }
+
+    }
+
+    /**
+     * 获取用户信息
+     */
+    public function userInfo($data = [])
+    {
+        $userInfo = get_member_by_token($data['user_token']);
+        $list = $this->modelUser->getInfo(['userid'=>$userInfo->user_id]);
+        unset($list['pwd']);
+        return $list;
     }
 
 }

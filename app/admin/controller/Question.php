@@ -69,7 +69,10 @@ class Question extends AdminBase
      */
     public function setStatus()
     {
-
+        $queInfo = $this->logicQuestion->getQueInfo(['id'=>$this->param['ids']]);
+        if($queInfo['if_new'] == 1){
+            $this->jump($this->logicQuestion->questionMsg());
+        }
         $this->jump($this->logicAdminBase->setStatus('Questionclass', $this->param));
     }
 

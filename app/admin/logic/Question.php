@@ -56,6 +56,10 @@ class Question extends AdminBase
             return [RESULT_ERROR, $this->validateQuestion->getError()];
         }
 
+        if($data['if_new'] == 1){
+            $questionInfo = $this->modelQuestionclass->getInfo(['if_new'=>1], "if_new,id");
+            $questionInfo->setFieldValue(['id'=>$questionInfo['id']],'if_new',0);
+        }
         $url = url('questionList');
 
         $data['remark'] = html_entity_decode($data['remark']);
@@ -107,7 +111,7 @@ class Question extends AdminBase
 
         $where = ['id'=>$data['id']];
 
-        $objInfo = $obj->getInfo($where, $index);
+        $objInfo = $obj->getInfo($where, "$index,status");
 
         $indexInfo = $obj->getInfo([$index=>1], "$index,id");
 
@@ -115,6 +119,9 @@ class Question extends AdminBase
             $obj->setFieldValue([$index=>1],$index,0);
         }
         $type = $objInfo[$index] ? 0 : 1;
+        if(!$status && $objInfo['status'] != 1 && $type == 1){
+            return [RESULT_ERROR, '禁用状态下不能修改为最新状态'];
+        }
         $result = $obj->setFieldValue($where,$index,$type);
 
         $result && action_log('数据状态', '问卷调查是否最新调整成功，id：' . $data['id'] . '，'. $index . '：' . $type);
@@ -122,6 +129,13 @@ class Question extends AdminBase
         return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $obj->getError()];
     }
 
+    /**
+     * 提示信息
+     */
+    public function questionMsg()
+    {
+        return [RESULT_ERROR, '请先取消是最新的状态'];
+    }
 
     /**
      * 获取问题列表

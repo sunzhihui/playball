@@ -45,7 +45,7 @@
                 <td><ob_link><a class="ajax-get" href="{:url('setItemStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></ob_link></td>
                 <td>
                     <a class="ajax-get" href="{:url('questiontype', array('id' => $vo['id']))}">
-                        {$vo.questiontype == 1 ? '<span class="badge" style="background-color: #f36d2d">单选</span>' : '<span class="badge" style="background-color: #2db3f3">多选</span>' }
+                        {$vo.questiontype == 1 ? '<span class="badge" style="background-color: #f36d2d">单选</span>' : '<span class="badge" style="background-color: #ab77b5">多选</span>' }
                     </a>
                 </td>
                 <td><input type="text" class="sort-th sort-text" href="{:url('setItemSort')}" id="{$vo.id}" value="{$vo.sort}" /></td>

@@ -77,4 +77,28 @@ class User extends ApiBase
         return $this->apiReturn($this->logicUser->gosignin($this->param));
     }
 
+    /**
+     * 问卷调查
+     */
+    public function questionList()
+    {
+        return $this->apiReturn($this->logicUser->questionList($this->param));
+    }
+
+    /**
+     * 问卷调查提交
+     */
+    public function questionPost()
+    {
+        return $this->apiReturn($this->logicUser->questionPost($this->param));
+    }
+
+    /**
+     * 用户信息
+     */
+    public function userInfo()
+    {
+        return $this->apiReturn($this->logicUser->userInfo($this->param));
+    }
+
 }
