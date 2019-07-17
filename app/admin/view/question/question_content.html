@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/static/widget/admin/file/Huploadify.css">
 <form action="{:url()}" method="post" class="form_single">
     <div class="box">
         <div class="box-body">
@@ -23,40 +24,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-6 box_a">
-                    <div class="form-group">
-                        <label>选项A</label>
-                        <span>(最少2个选项)</span>
-                        <input class="form-control" name="item1" placeholder="请输入选项A" type="text" value="{$info['item1']|default=''}">
-
-                    </div>
-                </div>
-
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>选项B</label>
-                        <span>(最少2个选项)</span>
-                        <input class="form-control" name="item2" placeholder="请输入选项B" type="text" value="{$info['item2']|default=''}">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>选项C</label>
-                        <span>(没有就不填)</span>
-                        <input class="form-control" name="item3" placeholder="请输入选项C" type="text" value="{$info['item3']|default=''}">
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>选项D</label>
-                        <span>(没有就不填)</span>
-                        <input class="form-control" name="item4" placeholder="请输入选项D" type="text" value="{$info['item4']|default=''}">
-                    </div>
-                </div>
-
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>状态</label>
@@ -79,8 +46,6 @@
                     </div>
                 </div>
 
-
-
             </div>
         </div>
         <div class="box-footer">
@@ -92,9 +57,39 @@
     </div>
 </form>
 
-<script>
+
+
+<script src="/static/widget/admin/file/jquery.Huploadify.js"></script>
+<script src="/static/module/common/util/hex_sha1.js"></script>
+
+<script type="text/javascript">
+
     ob.setValue("questionclassid", {$info.questionclassid|default=0});
     ob.setValue("questiontype", {$info.questiontype|default=1});
     ob.setValue("status", {$info.status|default=1});
 
+    function plus(t) {
+        var tr = $(t).parent('td').parent('tr');
+
+        html = tr.clone(true);
+        html.find("[name='option[]']").val('')
+        html.find("[name='photo[]']").val('')
+        tr.after(html)
+    }
+
+    function lower(t) {
+        var tr = $(t).parent('td').parent('tr');
+        var len = tr.parent('tbody').find('tr').length;
+        if(len <= 1) {
+            return false;
+        }else{
+            tr.remove();
+        }
+    }
+
+
 </script>
+
+
+
+

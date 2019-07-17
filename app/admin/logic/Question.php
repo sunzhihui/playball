@@ -91,6 +91,37 @@ class Question extends AdminBase
         return $result ? [RESULT_SUCCESS, '问卷调查删除成功'] : [RESULT_ERROR, $this->modelQusetionclass->getError()];
     }
 
+    /**
+     * 问卷调查更改是否最新状态
+     */
+    public function setType($model = null,$index = null ,$data = [], $status = true)
+    {
+        if (empty($model) || empty($index)) {
+
+            return [RESULT_ERROR, '非法操作'];
+        }
+
+        $model_str = LAYER_MODEL_NAME . $model;
+
+        $obj = $this->$model_str;
+
+        $where = ['id'=>$data['id']];
+
+        $objInfo = $obj->getInfo($where, $index);
+
+        $indexInfo = $obj->getInfo([$index=>1], "$index,id");
+
+        if(!$status && $data['id'] != $indexInfo['id'] && $objInfo[$index] == 0){
+            $obj->setFieldValue([$index=>1],$index,0);
+        }
+        $type = $objInfo[$index] ? 0 : 1;
+        $result = $obj->setFieldValue($where,$index,$type);
+
+        $result && action_log('数据状态', '问卷调查是否最新调整成功，id：' . $data['id'] . '，'. $index . '：' . $type);
+
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $obj->getError()];
+    }
+
 
     /**
      * 获取问题列表
@@ -170,4 +201,62 @@ class Question extends AdminBase
         return $result ? [RESULT_SUCCESS, '问卷调查问题删除成功'] : [RESULT_ERROR, $this->modelQusetion->getError()];
     }
 
+    /**
+     * 问卷调查问题选项列表
+     */
+    public function getChooseItem($where = [], $field = '*', $order = '', $paginate = DB_LIST_ROWS)
+    {
+
+//        $where[DATA_STATUS_NAME] = ['neq', DATA_DELETE];
+
+        $list = $this->modelQuestionSel->getList($where,$field,$order,$paginate);
+
+        return $list;
+    }
+
+    /**
+     * 问卷调查问题选项编辑
+     */
+    public function chooseEdit($data = [])
+    {
+
+        $validate_result = $this->validateQuestionSel->scene('edit')->check($data);
+
+        if (!$validate_result) {
+
+            return [RESULT_ERROR, $this->validateQuestionSel->getError()];
+        }
+
+        $url = url('chooseitem',['id'=>$data['questionid']]);
+        $data['created_time'] = time();
+
+        $result = $this->modelQuestionSel->setInfo($data);
+
+        $handle_text = empty($data['id']) ? '新增' : '编辑';
+
+        $result && action_log($handle_text, '问卷调查中的问题选项' . $handle_text . '，name：' . $data['title']);
+
+        return $result ? [RESULT_SUCCESS, '问卷调查中的问题选项操作成功', $url] : [RESULT_ERROR, $this->modelQuestionSel->getError()];
+    }
+
+    /**
+     * 获取问卷调查问题信息
+     */
+    public function getChooseInfo($where = [], $field = '*')
+    {
+        return $this->modelQuestionSel->getInfo($where, $field);
+    }
+
+    /**
+     * 问卷调查问题选项删除
+     */
+    public function chooseDel($where = [])
+    {
+
+        $result = $this->modelQuestionSel->deleteInfo($where);
+
+        $result && action_log('删除', '问卷调查问题选项删除成功，where：' . http_build_query($where));
+
+        return $result ? [RESULT_SUCCESS, '问卷调查问题选项删除成功'] : [RESULT_ERROR, $this->modelQuestionSel->getError()];
+    }
 }

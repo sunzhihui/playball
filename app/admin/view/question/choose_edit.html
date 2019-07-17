@@ -1,0 +1,48 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>选项</label>
+                        <span>（调查项目的名称）</span>
+                        <input class="form-control" name="title" placeholder="请输入调查项目的名称" type="text" value="{$info['title']|default=''}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>上传图片</label>
+                        <span>(用于app页面相对应数据展示)</span>
+                        {assign name="img" value="$info.img|default='0'" /}
+                        {:widget('file/index', ['name' => 'img', 'value' => $img, 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>状态</label>
+                        <span>（问卷调查状态）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="status" value="1"> 启用</label>
+                            <label><input type="radio" checked="checked" name="status"  value="0"> 禁止</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+            <input type="hidden" name="questionid" value="{$questionid|default='0'}"/>
+
+            {include file="layout/edit_btn_group"/}
+        </div>
+    </div>
+</form>
+
+<script>
+
+    ob.setValue("status", {$info.status|default=1});
+</script>
