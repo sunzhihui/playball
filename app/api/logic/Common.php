@@ -46,8 +46,10 @@ class Common extends ApiBase
     {
 
         $user = static::$commonUserLogic->getUserInfo(['openid' => $data['openid']]);
+        $text = '微信登录';
 
         if (empty($user)) {
+            $text = '微信注册';
             $data = [
                 'openid' => $data['openid'],
                 'yqcode' => $this->invitation_code(),
@@ -57,6 +59,7 @@ class Common extends ApiBase
 
             $user = static::$commonUserLogic->getUserInfo(['userid' => $ids]);
         }
+        user_log($text, '用户' . $user['userid'] .$text. '，openid：'.$data['openid'],$user['userid']);
         return $this->tokenSign($user);
     }
 
@@ -82,10 +85,10 @@ class Common extends ApiBase
         }
 
         $user = static::$commonUserLogic->getUserInfo(['phone' => $data['phone']]);
-
+        $text = '手机号登录';
         // 若不存在该手机号，新增用户
         if (!$user) {
-
+            $text = '手机号注册';
             $list = [
                 'phone' => $data['phone'],
                 'name' => substr_replace($data['phone'], '****', 3, 4),
@@ -95,7 +98,7 @@ class Common extends ApiBase
             $ids = Db::name('user')->insertGetId($list);
             $user = static::$commonUserLogic->getUserInfo(['userid' => $ids]);
         }
-
+        user_log($text, '用户' . $user['userid'] . $text.'，phone：'.$data['phone'],$user['userid']);
         return $this->tokenSign($user);
     }
 

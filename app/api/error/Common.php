@@ -36,7 +36,15 @@ class Common
 
     public static $pidError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '已存在上级'];
 
+    public static $zfbError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '您已绑定支付宝'];
 
+    public static $wxError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '您已绑定微信'];
+
+    public static $verifiedError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '您已实名认证'];
+
+    public static $verifiedCheckError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '您已提交实名认证申请，审核中~'];
+
+    public static $questionError                = [API_CODE_NAME => 1010010, API_MSG_NAME => '暂无问卷调查'];
 
 
 }

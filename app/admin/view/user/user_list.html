@@ -43,10 +43,10 @@ flat"><i class="fa fa-search"></i></button>
                 <th>性别</th>
                 <th>身份证</th>
                 <th>积分</th>
-                <th>是否认证</th>
                 <th>是否在线</th>
                 <th>状态</th>
                 <th>创建时间</th>
+                <th>是否认证</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -69,23 +69,24 @@ flat"><i class="fa fa-search"></i></button>
                  <td>{$vo.sex == 1 ? '男' : '女'}</td>
                  <td>{$vo.card}</td>
                  <td>{$vo.score}</td>
-                 <td>
-                     {if $vo.ifmanager eq 0}
-                     <span>未认证</span>
-                     {elseif $vo.ifmanager eq 1}
-                     <span>已认证</span>
-                     {elseif $vo.ifmanager eq 2}
-                     <span>认证失败</span>
-                     {else}
-                     <span>认证中</span>
-                     {/if}
-                 </td>
+
                  <td>{$vo.ifonline == 1 ? '在线' : '离开'}</td>
                  <td><a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['userid'], 'status' => (int)!$vo['status']))}">{$vo.status_text}</a></td>
                  <td>{$vo.create_time}</td>
+                 <td>
+                     {if $vo.ifmanager eq 0}
+                     <span class="badge">未认证</span>
+                     {elseif $vo.ifmanager eq 1}
+                     <span class="badge" style="background-color: #e06b27">已认证</span>
+                     {elseif $vo.ifmanager eq 2}
+                     <span class="badge" style="background-color: #2a27e087">认证失败</span>
+                     {else}
+                     <a href="{:url('verified', array('userid' => $vo['userid']))}"><span class="badge" style="background-color: #27e0cf">点击审核</span></a>
+                     {/if}
+                 </td>
                  <td class="col-md-2 text-center">
-                     <ob_link><a href="{:url('userEdit', array('userid' => $vo['userid']))}" class="btn "><i class="fa fa-
- edit"></i> 编辑</a></ob_link>
+
+                     <ob_link><a href="{:url('userEdit', array('userid' => $vo['userid']))}" class="btn "><i class="fa fa-edit"></i> 编辑</a></ob_link>
 
                      <ob_link><a class="btn confirm ajax-get"  href="{:url('userDel', array('userid' => $vo['userid']))}"><i class="fa fa-trash-o"></i> 删 除</a></ob_link>
 

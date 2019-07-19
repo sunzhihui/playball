@@ -15,7 +15,9 @@ class CodeBase
 {
     
     public static $success              = [API_CODE_NAME => 0,         API_MSG_NAME => '操作成功'];
-    
+
+    public static $error           = [API_CODE_NAME => 1000000,         API_MSG_NAME => '操作失败'];
+
     public static $accessTokenError     = [API_CODE_NAME => 1000001,   API_MSG_NAME => '访问Toekn错误'];
     
     public static $userTokenNull        = [API_CODE_NAME => 1000002,   API_MSG_NAME => '用户Toekn不能为空'];
@@ -33,5 +35,6 @@ class CodeBase
 
 
     public static $userSign              = [API_CODE_NAME => 3000001,   API_MSG_NAME => '用户已签到'];
+
 
 }

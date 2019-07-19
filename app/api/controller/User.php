@@ -101,4 +101,28 @@ class User extends ApiBase
         return $this->apiReturn($this->logicUser->userInfo($this->param));
     }
 
+    /**
+     * 账号与安全
+     */
+    public function bindNumber()
+    {
+        return $this->apiReturn($this->logicUser->bindNumber($this->param));
+    }
+
+    /**
+     * 实名认证
+     */
+    public function verified()
+    {
+        return $this->apiReturn($this->logicUser->verified($this->param));
+    }
+
+    /**
+     *  邀请好友列表
+     */
+    public function inviteInfo()
+    {
+        return $this->apiReturn($this->logicUser->inviteInfo($this->param));
+    }
+
 }

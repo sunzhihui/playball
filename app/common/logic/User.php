@@ -95,22 +95,10 @@ class User extends LogicBase
         }
         $url = url('userList');
 
-        $list = [
-            'userid' => $data['userid'],
-            'phone' => $data['phone'],
-            'name' => $data['name'],
-            'birdate' => $data['birdate'],
-            'sex' => $data['sex'],
-            'card' => $data['card'],
-            'ifmanager' => $data['ifmanager'],
-            'status' => $data['status'],
-            'score' => $data['score']
-        ];
+        if($data['pwd']) $data['pwd'] = data_md5_key($data['pwd']);
+        if($data['photo']) $data['photo'] = $data['photo'];
 
-        if($data['pwd']) $list['pwd'] = data_md5_key($data['pwd']);
-        if($data['photo']) $list['photo'] = $data['photo'];
-
-        $result = $this->modelUser->setInfo($list);
+        $result = $this->modelUser->setInfo($data);
 
         $result && action_log('编辑', '编辑用户，userid：' . $data['userid']);
 
@@ -148,6 +136,20 @@ class User extends LogicBase
         action_log('导出', '导出用户列表');
 
         export_excel($titles, $keys, $list, '用户列表');
+    }
+
+    /**
+     * 审核实名认证
+     */
+    public function verified($data = [])
+    {
+        $url = url('userList');
+
+        $result = $this->modelUser->setInfo($data);
+        $text = $data['ifmanager'] == 1 ? '实名认证成功' : '实名认证失败';
+        $result && action_log('审核实名认证', '审核用户，userid：' . $data['userid'].'审核结果：'.$text);
+
+        return $result ? [RESULT_SUCCESS, '用户审核成功', $url] : [RESULT_ERROR, $this->modelUser->getError()];
     }
 
 
