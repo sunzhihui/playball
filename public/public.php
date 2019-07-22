@@ -17,7 +17,6 @@ if (version_compare(PHP_VERSION, '5.6.0', '<')) {
 
 // 定义应用目录
 define('APP_PATH', __DIR__ . '/../app/');
-
 // 检测是否安装
 if (!file_exists(APP_PATH . 'database.php')) {
     
