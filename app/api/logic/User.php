@@ -79,7 +79,6 @@ class User extends ApiBase
         $map = [
             'create_time'=> ['>=', $time],
             'userid' => ['=', $userInfo->user_id],
-            'status' => ['<>', 0]
         ];
         if($type == 1){
             $list = Db::name('score')->where($map)->where(['type'=>1])->field(['score','remark','create_time'])->order('create_time desc')->select();
