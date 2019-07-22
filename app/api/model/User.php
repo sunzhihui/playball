@@ -30,7 +30,7 @@ class User extends ModelBase
     }
 
     /**
-     * 处理收益（支出）明细列表数据
+     * 处理收益明细列表数据
      */
     public function groupVisit($list,$type,$status,$user_id)
     {
@@ -55,6 +55,26 @@ class User extends ModelBase
 //            $todayTotal=Db::table('yb_score')->where($map)->sum('score');
             $listArr[$date]['todayTotal'] = $todayTotal;
             $listArr[$date]['list'][] = $v;
+        }
+        return $listArr;
+    }
+
+    /**
+     * 处理支出明细列表数据
+     */
+    public function pay($list,$status,$user_id)
+    {
+        $year = 2018;
+        $listArr = [];
+
+        foreach ($list as $k=>$v) {
+            if ($year == date('Y', $v['create_time'])) {
+                $date = date('m月', $v['create_time']);
+            } else {
+                $date = date('Y年m月', $v['create_time']);
+            }
+            $listArr[$date][] = $v;
+
         }
         return $listArr;
     }
@@ -96,9 +116,10 @@ class User extends ModelBase
                 $sendData[] = $k.','.$val;
             }
             $scoreSum = 0;
+
             foreach($sendData as $k=>$v){
                 $vo = explode(',',$v);
-                $score = (int)$vo['1'] / (int)$score_bl;//积分
+                $score = (int)$vo['1'] * (int)$score_bl;//积分
                 //已发放总积分
                 $scoreSum +=$score;
                 if($k == 0){
@@ -119,7 +140,12 @@ class User extends ModelBase
                         'create_time' => time()
                     ]);
 
-                    $this->modelUser->setFieldValue(['userid'=>$inviteUser['userid']],$field = 'score', $value = $inviteUser['score']+$score);
+//                    $this->modelUser->setFieldValue(['userid'=>$inviteUser['userid']],$field = 'score', $value = $inviteUser['score']+$score);
+                    $this->modelUser->setInfo([
+                        'userid' => $inviteUser['userid'],
+                        'score' => $inviteUser['score']+$score,
+                        'money' => $inviteUser['money'] + $score/$score_bl
+                    ]);
                     $this->modelUser->setFieldValue(['userid'=>$userInfo->user_id],$field = 'pid', $value = $inviteUser['userid']);
 
                 }
@@ -140,6 +166,14 @@ class User extends ModelBase
                     'cid' => $userInfo->user_id,
                     'score' => $score,
                 ]);
+                //邀请表加数据
+                $this->modelYqlist->setInfo([
+                    'userid' => $userInfo->user_id,
+                    'pid' => $inviteUser['userid'],
+                    'score' => $score,
+                    'status' => 1,
+                    'create_time' => time()
+                ]);
             }
             Db::commit();
         }catch (\Exception $e) {
@@ -148,24 +182,6 @@ class User extends ModelBase
         }
         return true;
 
-    }
-
-    //邀请表加数据
-    public function yqlistAdd($userInfo,$inviteUser,$score)
-    {
-        $result = $this->modelYqlist->setInfo([
-            'userid' => $userInfo->user_id,
-            'pid' => $inviteUser['userid'],
-            'score' => $score,
-            'status' => 1,
-            'create_time' => time()
-        ]);
-
-        if($result) {
-            return true;
-        }else{
-            return false;
-        }
     }
 
 }

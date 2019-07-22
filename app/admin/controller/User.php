@@ -83,4 +83,16 @@ class User extends AdminBase
         $this->jump($this->logicAdminBase->setStatus('User', $this->param,'userid'));
     }
 
+    /**
+     * 用户实名认证待审核信息
+     */
+    public function verified()
+    {
+        IS_POST && $this->jump($this->logicUser->verified($this->param));
+
+        $info = $this->logicUser->getUserInfo(['userid' => $this->param['userid']]);
+        $this->assign('info', $info);
+        return  $this->fetch('verified');
+    }
+
 }

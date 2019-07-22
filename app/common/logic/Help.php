@@ -14,10 +14,7 @@ class Help extends LogicBase
 
     public function getHelpList($where = [], $field = '*', $order = '', $paginate = DB_LIST_ROWS)
     {
-//        $this->modelHelp->alias('h');
         $list = $this->modelHelp->getList($where, $field, $order, $paginate);
-        $helpType = parse_config_array('help_gethelp');
-
         return $list;
     }
 
@@ -76,6 +73,18 @@ class Help extends LogicBase
         $result && action_log('删除', '帮助问题删除成功，where：' . http_build_query($where));
 
         return $result ? [RESULT_SUCCESS, '帮助问题删除删除成功'] : [RESULT_ERROR, $this->modelHelp->getError()];
+    }
+
+    /**
+     * 设置帮助问题信息是否热门
+     */
+    public function setIfhot($data = [])
+    {
+        $data['if_hot'] = $data['if_hot'] == 0 ? 1 : 0;
+        $result = $this->modelHelp->setInfo($data);
+        $result && action_log('数据状态', '帮助问题信息是否热门调整成功，id：' . $data['id'] . '，if_hot:'. $data['if_hot']);
+
+        return $result ? [RESULT_SUCCESS, '操作成功'] : [RESULT_ERROR, $this->modelHelp->getError()];
     }
 
 

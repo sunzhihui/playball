@@ -1,0 +1,61 @@
+<form action="{:url()}" method="post" class="form_single">
+    <div class="box">
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>真实姓名</label>
+                        <input class="form-control" name="cardname" type="text" value="{$info['cardname']|default=''}" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>身份证号</label>
+                        <input class="form-control" name="card" type="text" value="{$info['card']|default=''}" readonly>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>身份证正面</label>
+                        {assign name="card_img1" value="$info.card_img1|default='0'" /}
+                        {:widget('file/index', ['name' => 'card_img1', 'value' => $card_img1, 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>身份证反面</label>
+                        {assign name="card_img2" value="$info.card_img2|default='0'" /}
+                        {:widget('file/index', ['name' => 'card_img2', 'value' => $card_img2, 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-12" style="margin-top: 20px">
+                    <div class="form-group">
+                        <label>认证状态</label>
+                        <span>（查看姓名和身份证号是否与图片相符）</span>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="ifmanager" value="1"> 认证成功</label>
+                            <label><input type="radio"  name="ifmanager"  value="2"> 认证失败</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="box-footer">
+
+            <input type="hidden" name="userid" value="{$info['userid']|default='0'}"/>
+                        {include file="layout/edit_btn_group"/}
+        </div>
+    </div>
+</form>
+<script>
+    $(function () {
+
+        $('.pic_del').remove();
+        $('.uploadify-button').remove();
+    });
+</script>

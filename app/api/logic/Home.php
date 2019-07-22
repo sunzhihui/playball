@@ -34,7 +34,7 @@ class Home extends ApiBase
         $where['a.status'] = ['=', DATA_NORMAL];
 
         $this->modelAdv->join = $join;
-        return $this->modelAdv->getList(['ifindex'=>1], $field, 'sort', $paginate);
+        return $this->modelAdv->getList($where, $field, 'sort', $paginate);
     }
     public function getScore($where = [], $field = 'a.*,m.path', $order = ''){
         $res=$this->modelUser->getInfo($where, $field, 'sort');

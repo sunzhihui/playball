@@ -31,7 +31,6 @@ function decoded_user_token($token = '')
 // 获取解密信息中的data
 function get_member_by_token($token = '')
 {
-    
     $result = decoded_user_token($token);
 
     return $result['data'];

@@ -88,6 +88,6 @@ class ApiBase extends LogicBase
             
             is_string($decoded_user_token) && $this->apiError(CodeBase::$userTokenError);
         }
-        $info['is_request_sign']    && (empty($param['data_sign'])      || create_sign_filter($param) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError);
+        //$info['is_request_sign']    && (empty($param['data_sign'])      || create_sign_filter($param) != $param['data_sign']) && $this->apiError(CodeBase::$dataSignError);
     }
 }

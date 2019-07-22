@@ -25,8 +25,7 @@ class Homepage extends ApiBase
 
         //首页轮播
         $parm=$this->param;
-        $list['adv'] = $this->logicHome->getAdvList();
-
+        $list['adv'] = $this->logicHome->getAdvList(['ifindex'=>1]);
         //可提现余额
         $list['score']=0;
         //gtype=1时
@@ -36,10 +35,13 @@ class Homepage extends ApiBase
         $where['a.gtype'] =  2;
         $where['a.status'] =  1;
         if(!empty($parm['user_token'])){
-            $userInfo = get_member_by_token($parm['user_token']);
-            $where['userid'] = $userInfo->user_id;
+            $userInfo = $this->logicUser->userInfo($parm);
+            //检验新用户是否注册专属活动
+            if ($userInfo['if_havespc'] != 1) {
+                $this->logicUser->newpeople_init($parm);
+            }
+            $where['userid'] = $userInfo['userid'];
             $list['score'] = $this->logicHome->getScore(['userid'=>$where['userid']],'score');
-            $where['userid'] = $parm['userid'];
         }
         $list['today_top'] = $this->logicHome->getTaskList(array_merge($where,['a.type'=>2,'iftop'=>1]),$this->filed,'',false);
         //高额奖励推荐

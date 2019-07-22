@@ -14,7 +14,7 @@ class Membermoney extends AdminBase
      * 获取兑换记录信息
      */
 
-    public function getScoreList($where = [], $field = 's.*,u.phone,photo,name,openid,zfbnum,zfbname', $order = '', $paginate = DB_LIST_ROWS)
+    public function getScoreList($where = [], $field = 's.*,u.phone,photo,name,openid,zfbnum,zfbname', $order = 's.create_time desc', $paginate = DB_LIST_ROWS)
     {
         $this->modelScore -> alias('s');
 
@@ -65,7 +65,7 @@ class Membermoney extends AdminBase
         $result = $this->modelScore->updateInfo($where,['status' => $param['status'],'update_time' =>time()]);
 
         if($result && $param['status'] == 2){
-
+            action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
             $scoreInfo = $this->modelScore->getInfo($where);
             Db::startTrans();
             try {
@@ -73,14 +73,14 @@ class Membermoney extends AdminBase
                 $this->modelUser->setFieldValue(['userid'=>$scoreInfo['userid']],'score',$userInfo['score']+$scoreInfo['score']);
                 if($scoreInfo['type'] == 3){
                     $this->modelSpcmoney->updateInfo(['id'=>$scoreInfo['pid']],['status'=>1,'cantixian'=>1]);
-                    action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
-                }else{
-                    action_log('提现申请', '审核成功' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
+
                 }
                 Db::commit();
             }catch (\Exception $e){
                 Db::rollback();
             }
+        }else{
+            action_log('提现申请', '提现申请审核成功' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
         }
         return $result ? [RESULT_SUCCESS,'操作成功',$url] : [RESULT_ERROR, $this->modelScore->getError()];
 

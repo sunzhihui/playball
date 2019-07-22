@@ -53,9 +53,9 @@
                 <td>{$vo.name}</td>
                 <td>{$helpType[$vo.catid]}</td>
                 <td>{$vo.content}</td>
-                <td>
+                <td> 
                     <ob_link>
-                        <a class="ajax-get" href="{:url('setStatus', array('ids' => $vo['id'], 'status' => (int)!$vo['status']))}">
+                        <a class="ajax-get" href="{:url('setIfhot', array('id' => $vo['id'], 'if_hot' => $vo['if_hot']))}">
                             {if $vo.if_hot eq 1}
                             <span class="badge" style="background-color: #f39c12">是</span>
                             {else}

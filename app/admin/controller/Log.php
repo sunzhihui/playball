@@ -45,4 +45,31 @@ class Log extends AdminBase
         
         $this->jump($this->logicLog->logDel([DATA_STATUS_NAME => DATA_NORMAL]));
     }
+
+
+    /**
+     * 用户日志列表
+     */
+    public function userlogList()
+    {
+        $this->assign('list', $this->logicUserLog->getLogList());
+
+        return $this->fetch('userlog_list');
+    }
+    /**
+     * 用户日志删除
+     */
+    public function userlogDel($id = 0)
+    {
+
+        $this->jump($this->logicUserLog->userlogDel(['id' => $id]));
+    }
+    /**
+     * 用户日志清空
+     */
+    public function userlogClean()
+    {
+
+        $this->jump($this->logicUserLog->userlogDel([DATA_STATUS_NAME => DATA_NORMAL]));
+    }
 }
