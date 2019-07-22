@@ -14,27 +14,27 @@ namespace app\api\error;
 class CodeBase
 {
     
-    public static $success              = [API_CODE_NAME => 0,         API_MSG_NAME => '²Ù×÷³É¹¦'];
+    public static $success              = [API_CODE_NAME => 0,         API_MSG_NAME => 'æ“ä½œæˆåŠŸ'];
 
-    public static $error           = [API_CODE_NAME => 1000000,         API_MSG_NAME => '²Ù×÷Ê§°Ü'];
+    public static $error           = [API_CODE_NAME => 1000000,         API_MSG_NAME => 'æ“ä½œå¤±è´¥'];
 
-    public static $accessTokenError     = [API_CODE_NAME => 1000001,   API_MSG_NAME => '·ÃÎÊToekn´íÎó'];
+    public static $accessTokenError     = [API_CODE_NAME => 1000001,   API_MSG_NAME => 'è®¿é—®Toekné”™è¯¯'];
     
-    public static $userTokenNull        = [API_CODE_NAME => 1000002,   API_MSG_NAME => 'ÓÃ»§Toekn²»ÄÜÎª¿Õ'];
+    public static $userTokenNull        = [API_CODE_NAME => 1000002,   API_MSG_NAME => 'ç”¨æˆ·Toeknä¸èƒ½ä¸ºç©º'];
     
-    public static $apiUrlError          = [API_CODE_NAME => 1000003,   API_MSG_NAME => '½Ó¿ÚÂ·¾¶´íÎó'];
+    public static $apiUrlError          = [API_CODE_NAME => 1000003,   API_MSG_NAME => 'æŽ¥å£è·¯å¾„é”™è¯¯'];
     
-    public static $dataSignError        = [API_CODE_NAME => 1000004,   API_MSG_NAME => 'Êý¾ÝÇ©Ãû´íÎó'];
+    public static $dataSignError        = [API_CODE_NAME => 1000004,   API_MSG_NAME => 'æ•°æ®ç­¾åé”™è¯¯'];
     
-    public static $userTokenError       = [API_CODE_NAME => 1000005,   API_MSG_NAME => 'ÓÃ»§Toekn½âÎö´íÎó'];
-    public static $userLogError       = [API_CODE_NAME => 1000006,   API_MSG_NAME => 'ÓÃ»§ÈÕÖ¾Éú³É´íÎó'];
-    public static $emptyId              = [API_CODE_NAME => 2000001,   API_MSG_NAME => 'ID²»ÄÜÎª¿Õ'];
-    public static $emptyItem              = [API_CODE_NAME => 2000002,   API_MSG_NAME => 'Êý¾Ý²éÑ¯½á¹û²»´æÔÚ'];
+    public static $userTokenError       = [API_CODE_NAME => 1000005,   API_MSG_NAME => 'ç”¨æˆ·Toeknè§£æžé”™è¯¯'];
+    public static $userLogError       = [API_CODE_NAME => 1000006,   API_MSG_NAME => 'ç”¨æˆ·æ—¥å¿—ç”Ÿæˆé”™è¯¯'];
+    public static $emptyId              = [API_CODE_NAME => 2000001,   API_MSG_NAME => 'IDä¸èƒ½ä¸ºç©º'];
+    public static $emptyItem              = [API_CODE_NAME => 2000002,   API_MSG_NAME => 'æ•°æ®æŸ¥è¯¢ç»“æžœä¸å­˜åœ¨'];
 
 
+    public static $statusError              = [API_CODE_NAME => 1000010,   API_MSG_NAME => 'è´¦æˆ·å·²ç¦ç”¨'];
 
-
-    public static $userSign              = [API_CODE_NAME => 3000001,   API_MSG_NAME => 'ÓÃ»§ÒÑÇ©µ½'];
+    public static $userSign              = [API_CODE_NAME => 3000001,   API_MSG_NAME => 'ç”¨æˆ·å·²ç­¾åˆ°'];
 
 
 }

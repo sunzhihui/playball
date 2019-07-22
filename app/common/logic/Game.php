@@ -20,7 +20,7 @@ class Game extends LogicBase
     /**
      * 获取游戏列表
      */
-    public function getGameList($where = [], $field = 'a.*,m.nickname,t.path as logopic,s.path as listpic', $order = 'a.sort',$paginate=0)
+    public function getGameList($where = [], $field = 'a.*,m.nickname,t.imgurl as logopic,s.imgurl as listpic', $order = 'a.sort',$paginate=0)
     {
         //如果传入userid 需要过滤掉
         if(!empty($where['userid'])){
@@ -33,10 +33,18 @@ class Game extends LogicBase
             [SYS_DB_PREFIX . 'picture t', 't.id = a.cover_id','left'],
             [SYS_DB_PREFIX . 'picture s', 's.id = a.dphoto','left'],
         ];
+        $str=implode('-',$where);
         $where['a.' . DATA_STATUS_NAME] = ['neq', DATA_DELETE];
 
         $this->modelGame->join = $join;
-        $list=$this->modelGame->getList($where, $field, $order,$paginate);
+        //这是redis缓存
+        $redis=_redis();
+        if(unserialize($redis->get('getGameList_'.$paginate.$str))!==false){
+            $list=unserialize($redis->get('getGameList_'.$paginate.$str));
+        }else{
+            $list=$this->modelGame->getList($where, $field, $order,$paginate);
+            $redis->set('getGameList_'.$paginate.$str,serialize($list));
+        }
         if(!empty($wherestr)){
             foreach($list as &$v){
                 if(!empty($v['id'])){

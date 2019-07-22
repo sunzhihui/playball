@@ -10,7 +10,7 @@
 // +---------------------------------------------------------------------+
 
 /**
- * Ó¦ÓÃ¹«¹²£¨º¯Êı£©ÎÄ¼ş
+ * åº”ç”¨å…¬å…±ï¼ˆå‡½æ•°ï¼‰æ–‡ä»¶
  */
 
 use think\Db;
@@ -20,12 +20,12 @@ use app\common\logic\File as LogicFile;
 
 
 // +---------------------------------------------------------------------+
-// | ÏµÍ³Ïà¹Øº¯Êı
+// | ç³»ç»Ÿç›¸å…³å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * ¼ì²âÓÃ»§ÊÇ·ñµÇÂ¼
- * @return integer 0-Î´µÇÂ¼£¬´óÓÚ0-µ±Ç°µÇÂ¼ÓÃ»§ID
+ * æ£€æµ‹ç”¨æˆ·æ˜¯å¦ç™»å½•
+ * @return integer 0-æœªç™»å½•ï¼Œå¤§äº0-å½“å‰ç™»å½•ç”¨æˆ·ID
  */
 function is_login()
 {
@@ -42,8 +42,8 @@ function is_login()
 }
 
 /**
- * ÏµÍ³·Ç³£¹æMD5¼ÓÃÜ·½·¨
- * @param  string $str Òª¼ÓÃÜµÄ×Ö·û´®
+ * ç³»ç»Ÿéå¸¸è§„MD5åŠ å¯†æ–¹æ³•
+ * @param  string $str è¦åŠ å¯†çš„å­—ç¬¦ä¸²
  * @return string 
  */
 function data_md5($str, $key = 'OneBase')
@@ -52,8 +52,8 @@ function data_md5($str, $key = 'OneBase')
 }
 
 /**
- * Ê¹ÓÃÉÏÃæµÄº¯ÊıÓëÏµÍ³¼ÓÃÜKEYÍê³É×Ö·û´®¼ÓÃÜ
- * @param  string $str Òª¼ÓÃÜµÄ×Ö·û´®
+ * ä½¿ç”¨ä¸Šé¢çš„å‡½æ•°ä¸ç³»ç»ŸåŠ å¯†KEYå®Œæˆå­—ç¬¦ä¸²åŠ å¯†
+ * @param  string $str è¦åŠ å¯†çš„å­—ç¬¦ä¸²
  * @return string 
  */
 function data_md5_key($str, $key = '')
@@ -74,34 +74,34 @@ function data_md5_key($str, $key = '')
 }
 
 /**
- * Êı¾İÇ©ÃûÈÏÖ¤
- * @param  array  $data ±»ÈÏÖ¤µÄÊı¾İ
- * @return string       Ç©Ãû
+ * æ•°æ®ç­¾åè®¤è¯
+ * @param  array  $data è¢«è®¤è¯çš„æ•°æ®
+ * @return string       ç­¾å
  */
 function data_auth_sign($data)
 {
     
-    // Êı¾İÀàĞÍ¼ì²â
+    // æ•°æ®ç±»å‹æ£€æµ‹
     if (!is_array($data)) {
         
         $data = (array)$data;
     }
     
-    // ÅÅĞò
+    // æ’åº
     ksort($data);
     
-    // url±àÂë²¢Éú³Équery×Ö·û´®
+    // urlç¼–ç å¹¶ç”Ÿæˆqueryå­—ç¬¦ä¸²
     $code = http_build_query($data);
     
-    // Éú³ÉÇ©Ãû
+    // ç”Ÿæˆç­¾å
     $sign = sha1($code);
     
     return $sign;
 }
 
 /**
- * ¼ì²âµ±Ç°ÓÃ»§ÊÇ·ñÎª¹ÜÀíÔ±
- * @return boolean true-¹ÜÀíÔ±£¬false-·Ç¹ÜÀíÔ±
+ * æ£€æµ‹å½“å‰ç”¨æˆ·æ˜¯å¦ä¸ºç®¡ç†å‘˜
+ * @return boolean true-ç®¡ç†å‘˜ï¼Œfalse-éç®¡ç†å‘˜
  */
 function is_administrator($member_id = null)
 {
@@ -112,7 +112,7 @@ function is_administrator($member_id = null)
 }
 
 /**
- * »ñÈ¡µ¥Àı¶ÔÏó
+ * è·å–å•ä¾‹å¯¹è±¡
  */
 function get_sington_object($object_name = '', $class = null)
 {
@@ -125,8 +125,8 @@ function get_sington_object($object_name = '', $class = null)
 }
 
 /**
- * »ñÈ¡²å¼şÀàµÄÀàÃû
- * @param strng $name ²å¼şÃû
+ * è·å–æ’ä»¶ç±»çš„ç±»å
+ * @param strng $name æ’ä»¶å
  */
 function get_addon_class($name = '')
 {
@@ -139,7 +139,7 @@ function get_addon_class($name = '')
 }
 
 /**
- * ¹³×Ó
+ * é’©å­
  */
 function hook($tag = '', $params = [])
 {
@@ -148,9 +148,9 @@ function hook($tag = '', $params = [])
 }
 
 /**
- * ²å¼şÏÔÊ¾ÄÚÈİÀïÉú³É·ÃÎÊ²å¼şµÄurl
+ * æ’ä»¶æ˜¾ç¤ºå†…å®¹é‡Œç”Ÿæˆè®¿é—®æ’ä»¶çš„url
  * @param string $url url
- * @param array $param ²ÎÊı
+ * @param array $param å‚æ•°
  */
 function addons_url($url, $param = array())
 {
@@ -160,25 +160,25 @@ function addons_url($url, $param = array())
     $controller =  $parse_url['host'];
     $action     =  $parse_url['path'];
 
-    /* »ù´¡²ÎÊı */
+    /* åŸºç¡€å‚æ•° */
     $params_array = array(
         'addon_name'      => $addons,
         'controller_name' => $controller,
         'action_name'     => substr($action, 1),
     );
 
-    $params = array_merge($params_array, $param); //Ìí¼Ó¶îÍâ²ÎÊı
+    $params = array_merge($params_array, $param); //æ·»åŠ é¢å¤–å‚æ•°
     
     return url('addon/execute', $params);
 }
 
 /**
- * ²å¼ş¶ÔÏó×¢Èë
+ * æ’ä»¶å¯¹è±¡æ³¨å…¥
  */
 function addon_ioc($this_class, $name, $layer)
 {
     
-    !str_prefix($name, $layer) && exception('Âß¼­ÓëÄ£ĞÍ²ãÒıÓÃĞèÇ°×º:' . $layer);
+    !str_prefix($name, $layer) && exception('é€»è¾‘ä¸æ¨¡å‹å±‚å¼•ç”¨éœ€å‰ç¼€:' . $layer);
 
     $class_arr = explode(SYS_DS_CONS, get_class($this_class));
 
@@ -190,7 +190,7 @@ function addon_ioc($this_class, $name, $layer)
 }
 
 /**
- * Å×³öÏìÓ¦Òì³£
+ * æŠ›å‡ºå“åº”å¼‚å¸¸
  */
 function throw_response_exception($data = [], $type = 'json')
 {
@@ -201,7 +201,7 @@ function throw_response_exception($data = [], $type = 'json')
 }
 
 /**
- * »ñÈ¡·ÃÎÊtoken
+ * è·å–è®¿é—®token
  */
 function get_access_token()
 {
@@ -210,10 +210,10 @@ function get_access_token()
 }
 
 /**
- * ¸ñÊ½»¯×Ö½Ú´óĞ¡
- * @param  number $size      ×Ö½ÚÊı
- * @param  string $delimiter Êı×ÖºÍµ¥Î»·Ö¸ô·û
- * @return string            ¸ñÊ½»¯ºóµÄ´øµ¥Î»µÄ´óĞ¡
+ * æ ¼å¼åŒ–å­—èŠ‚å¤§å°
+ * @param  number $size      å­—èŠ‚æ•°
+ * @param  string $delimiter æ•°å­—å’Œå•ä½åˆ†éš”ç¬¦
+ * @return string            æ ¼å¼åŒ–åçš„å¸¦å•ä½çš„å¤§å°
  */
 function format_bytes($size, $delimiter = '')
 {
@@ -230,20 +230,20 @@ function format_bytes($size, $delimiter = '')
 
 
 // +---------------------------------------------------------------------+
-// | Êı×éÏà¹Øº¯Êı
+// | æ•°ç»„ç›¸å…³å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * °Ñ·µ»ØµÄÊı¾İ¼¯×ª»»³ÉTree
- * @param array $list Òª×ª»»µÄÊı¾İ¼¯
- * @param string $pid parent±ê¼Ç×Ö¶Î
- * @param string $level level±ê¼Ç×Ö¶Î
+ * æŠŠè¿”å›çš„æ•°æ®é›†è½¬æ¢æˆTree
+ * @param array $list è¦è½¬æ¢çš„æ•°æ®é›†
+ * @param string $pid parentæ ‡è®°å­—æ®µ
+ * @param string $level levelæ ‡è®°å­—æ®µ
  * @return array
  */
 function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
 {
     
-    // ´´½¨Tree
+    // åˆ›å»ºTree
     $tree = [];
     
     if (!is_array($list)) {
@@ -251,7 +251,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
         return false;
     }
     
-    // ´´½¨»ùÓÚÖ÷¼üµÄÊı×éÒıÓÃ
+    // åˆ›å»ºåŸºäºä¸»é”®çš„æ•°ç»„å¼•ç”¨
     $refer = [];
 
     foreach ($list as $key => $data) {
@@ -261,7 +261,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 
     foreach ($list as $key => $data) {
 
-        // ÅĞ¶ÏÊÇ·ñ´æÔÚparent
+        // åˆ¤æ–­æ˜¯å¦å­˜åœ¨parent
         $parentId =  $data[$pid];
 
         if ($root == $parentId) {
@@ -282,7 +282,7 @@ function list_to_tree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 
 }
 
 /**
- * ·ÖÎöÊı×é¼°Ã¶¾ÙÀàĞÍÅäÖÃÖµ ¸ñÊ½ a:Ãû³Æ1,b:Ãû³Æ2
+ * åˆ†ææ•°ç»„åŠæšä¸¾ç±»å‹é…ç½®å€¼ æ ¼å¼ a:åç§°1,b:åç§°2
  * @return array
  */
 function parse_config_attr($string)
@@ -309,19 +309,19 @@ function parse_config_attr($string)
 }
 
 /**
- * ½âÎöÊı×éÅäÖÃ
+ * è§£ææ•°ç»„é…ç½®
  */
 function parse_config_array($name = '')
 {
     
     return parse_config_attr(config($name));
 }
-//½âÎö×Ö·û´®ÅäÖÃ
+//è§£æå­—ç¬¦ä¸²é…ç½®
 function parse_config_str($name = ''){
     $arr=parse_config_attr(config($name));
     return $arr[0];
 }
-//¶©µ¥ºÅ
+//è®¢å•å·
 function trade_no()
 {
     list($usec, $sec) = explode(" ", microtime());
@@ -330,7 +330,7 @@ function trade_no()
     return date("YmdHis") . $usec . $str;
 }
 
-//Ëæ»úÊı×ÖÉú³É£¬²»Î¨Ò»
+//éšæœºæ•°å­—ç”Ÿæˆï¼Œä¸å”¯ä¸€
 function random($length, $chars = '0123456789')
 {
     $hash = '';
@@ -341,7 +341,7 @@ function random($length, $chars = '0123456789')
     return $hash;
 }
 /**
- * ½«¶şÎ¬Êı×éÊı×é°´Ä³¸ö¼üÌáÈ¡³öÀ´×é³ÉĞÂµÄË÷ÒıÊı×é
+ * å°†äºŒç»´æ•°ç»„æ•°ç»„æŒ‰æŸä¸ªé”®æå–å‡ºæ¥ç»„æˆæ–°çš„ç´¢å¼•æ•°ç»„
  */
 function array_extract($array = [], $key = 'id')
 {
@@ -362,7 +362,7 @@ function array_extract($array = [], $key = 'id')
 }
 
 /**
- * ¸ù¾İÄ³¸ö×Ö¶Î»ñÈ¡¹ØÁªÊı×é
+ * æ ¹æ®æŸä¸ªå­—æ®µè·å–å…³è”æ•°ç»„
  */
 function array_extract_map($array = [], $key = 'id'){
     
@@ -380,7 +380,7 @@ function array_extract_map($array = [], $key = 'id'){
 }
 
 /**
- * Ò³ÃæÊı×éÌá½»ºó¸ñÊ½×ª»» 
+ * é¡µé¢æ•°ç»„æäº¤åæ ¼å¼è½¬æ¢ 
  */
 function transform_array($array)
 {
@@ -412,7 +412,7 @@ function transform_array($array)
 }
 
 /**
- * Ò³ÃæÊı×é×ª»»ºóµÄÊı×é×ªjson
+ * é¡µé¢æ•°ç»„è½¬æ¢åçš„æ•°ç»„è½¬json
  */
 function transform_array_to_json($array)
 {
@@ -421,7 +421,7 @@ function transform_array_to_json($array)
 }
 
 /**
- * ¹ØÁªÊı×é×ªË÷ÒıÊı×é
+ * å…³è”æ•°ç»„è½¬ç´¢å¼•æ•°ç»„
  */
 function relevance_arr_to_index_arr($array)
 {
@@ -445,9 +445,9 @@ function relevance_arr_to_index_arr($array)
 }
 
 /**
- * Êı×é×ª»»Îª×Ö·û´®£¬Ö÷ÒªÓÃÓÚ°Ñ·Ö¸ô·ûµ÷Õûµ½µÚ¶ş¸ö²ÎÊı
- * @param  array  $arr  ÒªÁ¬½ÓµÄÊı×é
- * @param  string $glue ·Ö¸î·û
+ * æ•°ç»„è½¬æ¢ä¸ºå­—ç¬¦ä¸²ï¼Œä¸»è¦ç”¨äºæŠŠåˆ†éš”ç¬¦è°ƒæ•´åˆ°ç¬¬äºŒä¸ªå‚æ•°
+ * @param  array  $arr  è¦è¿æ¥çš„æ•°ç»„
+ * @param  string $glue åˆ†å‰²ç¬¦
  * @return string
  */
 function arr2str($arr, $glue = ',')
@@ -457,9 +457,9 @@ function arr2str($arr, $glue = ',')
 }
 
 /**
- * Êı×é×ª×Ö·û´®¶şÎ¬
- * @param  array  $arr  ÒªÁ¬½ÓµÄÊı×é
- * @param  string $glue ·Ö¸î·û
+ * æ•°ç»„è½¬å­—ç¬¦ä¸²äºŒç»´
+ * @param  array  $arr  è¦è¿æ¥çš„æ•°ç»„
+ * @param  string $glue åˆ†å‰²ç¬¦
  * @return string
  */
 function arr22str($arr)
@@ -480,13 +480,13 @@ function arr22str($arr)
 
 
 // +---------------------------------------------------------------------+
-// | ×Ö·û´®Ïà¹Øº¯Êı
+// | å­—ç¬¦ä¸²ç›¸å…³å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * ×Ö·û´®×ª»»ÎªÊı×é£¬Ö÷ÒªÓÃÓÚ°Ñ·Ö¸ô·ûµ÷Õûµ½µÚ¶ş¸ö²ÎÊı
- * @param  string $str  Òª·Ö¸îµÄ×Ö·û´®
- * @param  string $glue ·Ö¸î·û
+ * å­—ç¬¦ä¸²è½¬æ¢ä¸ºæ•°ç»„ï¼Œä¸»è¦ç”¨äºæŠŠåˆ†éš”ç¬¦è°ƒæ•´åˆ°ç¬¬äºŒä¸ªå‚æ•°
+ * @param  string $str  è¦åˆ†å‰²çš„å­—ç¬¦ä¸²
+ * @param  string $glue åˆ†å‰²ç¬¦
  * @return array
  */
 function str2arr($str, $glue = ',')
@@ -496,7 +496,7 @@ function str2arr($str, $glue = ',')
 }
 
 /**
- * ×Ö·û´®Ìæ»»
+ * å­—ç¬¦ä¸²æ›¿æ¢
  */
 function sr($str = '', $target = '', $content = '')
 {
@@ -505,7 +505,7 @@ function sr($str = '', $target = '', $content = '')
 }
 
 /**
- * ×Ö·û´®Ç°×ºÑéÖ¤
+ * å­—ç¬¦ä¸²å‰ç¼€éªŒè¯
  */
 function str_prefix($str, $prefix)
 {
@@ -514,11 +514,11 @@ function str_prefix($str, $prefix)
 }
 
 // +---------------------------------------------------------------------+
-// | ÎÄ¼şÏà¹Øº¯Êı
+// | æ–‡ä»¶ç›¸å…³å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * »ñÈ¡Ä¿Â¼ÏÂËùÓĞÎÄ¼ş
+ * è·å–ç›®å½•ä¸‹æ‰€æœ‰æ–‡ä»¶
  */
 function file_list($path = '')
 {
@@ -537,7 +537,7 @@ function file_list($path = '')
 }
 
 /**
- * »ñÈ¡Ä¿Â¼ÁĞ±í
+ * è·å–ç›®å½•åˆ—è¡¨
  */
 function get_dir($dir_name)
 {
@@ -565,7 +565,7 @@ function get_dir($dir_name)
 }
 
 /**
- * »ñÈ¡ÎÄ¼ş¸ùÄ¿Â¼
+ * è·å–æ–‡ä»¶æ ¹ç›®å½•
  */
 function get_file_root_path()
 {
@@ -580,7 +580,7 @@ function get_file_root_path()
 }
 
 /**
- * »ñÈ¡Í¼Æ¬url
+ * è·å–å›¾ç‰‡url
  */
 function get_picture_url($id = 0)
 {
@@ -591,7 +591,7 @@ function get_picture_url($id = 0)
 }
 
 /**
- * »ñÈ¡ÎÄ¼şurl
+ * è·å–æ–‡ä»¶url
  */
 function get_file_url($id = 0)
 {
@@ -602,8 +602,8 @@ function get_file_url($id = 0)
 }
 
 /**
- * É¾³ıËùÓĞ¿ÕÄ¿Â¼ 
- * @param String $path Ä¿Â¼Â·¾¶ 
+ * åˆ é™¤æ‰€æœ‰ç©ºç›®å½• 
+ * @param String $path ç›®å½•è·¯å¾„ 
  */
 function rm_empty_dir($path)
 {
@@ -621,7 +621,7 @@ function rm_empty_dir($path)
            continue;
         }
         
-        $curfile = $path . SYS_DS_PROS . $file;// µ±Ç°Ä¿Â¼
+        $curfile = $path . SYS_DS_PROS . $file;// å½“å‰ç›®å½•
 
         if (!is_dir($curfile)) {
             
@@ -641,13 +641,13 @@ function rm_empty_dir($path)
 
 
 // +---------------------------------------------------------------------+
-// | Ê±¼äÏà¹Øº¯Êı
+// | æ—¶é—´ç›¸å…³å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * Ê±¼ä´Á¸ñÊ½»¯
+ * æ—¶é—´æˆ³æ ¼å¼åŒ–
  * @param int $time
- * @return string ÍêÕûµÄÊ±¼äÏÔÊ¾
+ * @return string å®Œæ•´çš„æ—¶é—´æ˜¾ç¤º
  */
 function format_time($time = null, $format='Y-m-d H:i:s')
 {
@@ -661,9 +661,9 @@ function format_time($time = null, $format='Y-m-d H:i:s')
 }
 
 /**
- * »ñÈ¡Ö¸¶¨ÈÕÆÚ¶ÎÄÚÃ¿Ò»ÌìµÄÈÕÆÚ
- * @param Date $startdate ¿ªÊ¼ÈÕÆÚ
- * @param Date $enddate  ½áÊøÈÕÆÚ
+ * è·å–æŒ‡å®šæ—¥æœŸæ®µå†…æ¯ä¸€å¤©çš„æ—¥æœŸ
+ * @param Date $startdate å¼€å§‹æ—¥æœŸ
+ * @param Date $enddate  ç»“æŸæ—¥æœŸ
  * @return Array
  */
 function get_date_from_range($startdate, $enddate)
@@ -672,10 +672,10 @@ function get_date_from_range($startdate, $enddate)
   $stimestamp = strtotime($startdate);
   $etimestamp = strtotime($enddate);
   
-  // ¼ÆËãÈÕÆÚ¶ÎÄÚÓĞ¶àÉÙÌì
+  // è®¡ç®—æ—¥æœŸæ®µå†…æœ‰å¤šå°‘å¤©
   $days = ($etimestamp-$stimestamp)/86400+1;
   
-  // ±£´æÃ¿ÌìÈÕÆÚ
+  // ä¿å­˜æ¯å¤©æ—¥æœŸ
   $date = [];
   
   for($i=0; $i<$days; $i++) {
@@ -687,11 +687,11 @@ function get_date_from_range($startdate, $enddate)
 }
 
 // +---------------------------------------------------------------------+
-// | µ÷ÊÔº¯Êı
+// | è°ƒè¯•å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * ½«Êı¾İ±£´æÎªPHPÎÄ¼ş£¬ÓÃÓÚµ÷ÊÔ
+ * å°†æ•°æ®ä¿å­˜ä¸ºPHPæ–‡ä»¶ï¼Œç”¨äºè°ƒè¯•
  */
 function sf($arr = [], $fpath = './test.php')
 {
@@ -702,7 +702,7 @@ function sf($arr = [], $fpath = './test.php')
 }
 
 /**
- * dumpº¯ÊıËõĞ´
+ * dumpå‡½æ•°ç¼©å†™
  */
 function d($arr = [])
 {
@@ -710,7 +710,7 @@ function d($arr = [])
 }
 
 /**
- * dumpÓëdie×éºÏº¯ÊıËõĞ´
+ * dumpä¸dieç»„åˆå‡½æ•°ç¼©å†™
  */
 function dd($arr = [])
 {
@@ -719,11 +719,11 @@ function dd($arr = [])
 
 
 // +---------------------------------------------------------------------+
-// | ÆäËûº¯Êı
+// | å…¶ä»–å‡½æ•°
 // +---------------------------------------------------------------------+
 
 /**
- * Í¨¹ıÀà´´½¨Âß¼­±Õ°ü
+ * é€šè¿‡ç±»åˆ›å»ºé€»è¾‘é—­åŒ…
  */
 function create_closure($object = null, $method_name = '', $parameter = [])
 {
@@ -737,7 +737,7 @@ function create_closure($object = null, $method_name = '', $parameter = [])
 }
 
 /**
- * Í¨¹ı±Õ°ü¿ØÖÆ»º´æ
+ * é€šè¿‡é—­åŒ…æ§åˆ¶ç¼“å­˜
  */
 function auto_cache($key = '', $func = '', $time = 3)
 {
@@ -755,7 +755,7 @@ function auto_cache($key = '', $func = '', $time = 3)
 }
 
 /**
- * Í¨¹ı±Õ°üÁĞ±í¿ØÖÆÊÂÎñ
+ * é€šè¿‡é—­åŒ…åˆ—è¡¨æ§åˆ¶äº‹åŠ¡
  */
 function closure_list_exe($list = [])
 {
@@ -781,7 +781,7 @@ function closure_list_exe($list = [])
 }
 
 /**
- * ×Ô¶¯·â×°ÊÂÎñ
+ * è‡ªåŠ¨å°è£…äº‹åŠ¡
  */
 function trans($parameter = [], $callback = null)
 {
@@ -811,7 +811,7 @@ function trans($parameter = [], $callback = null)
 }
 
 /**
- * ¸üĞÂ»º´æ°æ±¾
+ * æ›´æ–°ç¼“å­˜ç‰ˆæœ¬
  */
 function update_cache_version($obj = null)
 {
@@ -821,4 +821,14 @@ function update_cache_version($obj = null)
     is_string($obj) ? $ob_auto_cache[$obj]['version']++ : $ob_auto_cache[$obj->getTable()]['version']++;
 
     cache('ob_auto_cache', $ob_auto_cache);
+}
+function _redis(){
+    $redis=new \Redis();
+    $redis->connect('127.0.0.1','6379');
+    return $redis;
+}
+//ç”¨æˆ·è¡Œä¸ºè½¨è¿¹
+function user_log($name = '', $describe = '',$userid=''){
+    $logLogic = get_sington_object('LogicuserLog', LogicuserLog::class);
+    $logLogic->userlogAdd($name, $describe,$userid);
 }

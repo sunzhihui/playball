@@ -1,86 +1,119 @@
 <form action="{:url()}" method="post" class="form_single">
     <div class="box">
-      <div class="box-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>标题</label>
-              <span class="">（文章标题名称）</span>
-              <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
-            </div>
-          </div>
-            
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>分类</label>
-              <span class="">（文章分类）</span>
-                <select name="category_id" class="form-control">
-                    {volist name='article_category_list' id='vo'}
-                        <option value="{$vo['id']}" {notempty name="info['category_id']"}{if condition="$info['category_id'] eq $vo['id']"} selected="selected" {/if}{/notempty} >{$vo['name']}</option>
-                    {/volist}
-                </select>
-            </div>
-          </div>
-            
-          <div class="col-md-6">
-            <div class="form-group">
-                <label>描述</label>
-                <span class="">（文章描述信息/简介）</span>
-                <textarea class="form-control" name="describe" rows="3" placeholder="请输入文章描述信息/简介">{$info['describe']|default=''}</textarea>
-            </div>
-          </div>
-            
-          <!--<div class="col-md-6">-->
-            <!--<div class="form-group">-->
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>标题</label>
+                        <span class="">（文章标题名称）</span>
+                        <input class="form-control" name="name" placeholder="请输入文章标题名称" value="{$info['name']|default=''}" type="text">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>文章来源</label>
+                        <input class="form-control" name="from" placeholder="请输入文章来源" value="{$info['from']|default=''}" type="text">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>分类</label>
+                        <span class="">（文章分类）</span>
+                        <select name="category_id" class="form-control">
+                            {volist name='article_category_list' id='vo'}
+                            <option value="{$vo['id']}" {notempty name="info['category_id']"}{if condition="$info['category_id'] eq $vo['id']"} selected="selected" {/if}{/notempty} >{$vo['name']}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>描述</label>
+                        <span class="">（文章描述信息/简介）</span>
+                        <textarea class="form-control" name="describe" rows="3" placeholder="请输入文章描述信息/简介">{$info['describe']|default=''}</textarea>
+                    </div>
+                </div>
+
+                <!--<div class="col-md-6">-->
+                <!--<div class="form-group">-->
                 <!--<label>封面图片</label>-->
                 <!--<span class="">（请上传单张封面图片）</span>-->
                 <!--<br/>-->
                 <!--{assign name="cover_id" value="$info.cover_id|default='0'" /}-->
                 <!--{:widget('file/index', ['name' => 'cover_id', 'value' => $cover_id, 'type' => 'img'])}-->
-            <!--</div>-->
-          <!--</div>-->
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label>游戏详情轮播图</label>
-                    <span class="">（请上传多图片）</span>
-                    <br/>
-                    {assign name="img_ids" value="$info.img_ids|default=''" /}
-                    {:widget('file/index', ['name' => 'img_ids', 'value' => $img_ids, 'type' => 'imgs'])}
-
-                </div>
-            </div>
-          <!--<div class="col-md-6">-->
-            <!--<div class="form-group">-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-md-6">-->
+                <!--<div class="form-group">-->
                 <!--<label>附件</label>-->
                 <!--<span class="">（文章可下载附件）</span>-->
                 <!--<br/>-->
                 <!--{assign name="file_id" value="$info.file_id|default='0'" /}-->
                 <!--{:widget('file/index', ['name' => 'file_id', 'value' => $file_id, 'type' => 'file'])}-->
-            <!--</div>-->
-          <!--</div>-->
-            
-          </div>
-        <div class="row">
-           
-            
-          <div class="col-md-12">
-            <div class="form-group">
-                <label>文章内容</label>
-                <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
-                {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+                <!--</div>-->
+                <!--</div>-->
+
             </div>
-          </div>
-            
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>广告</label>
+                    <span class="">（选择文章广告）</span>
+                    <input name="adv_id" id="adv_id" type="text"  class="form-control" value="{$info['adv_id']|default=''}" placeholder="点击选择" onclick="dianji()">
+                </div>
+            </div>
+
+            <!--<div class="col-md-12">
+
+                <iframe src="{:url('article/advlist',array('id' => $info['adv_id']))}"  width="100%" height="100%" style="border-style:dotted" id="ifm" name="ifm" onload="javascript:dyniframesize('ifm');"></iframe>
+            </div>-->
+            <div class="row">
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>文章内容</label>
+                        <textarea class="form-control textarea_editor" name="content" placeholder="请输入文章内容">{$info['content']|default=''}</textarea>
+                        {:widget('editor/index', array('name'=> 'content','value'=> ''))}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="box-footer">
+
+                <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
+
+                {include file="layout/edit_btn_group"/}
+
+            </div>
+
         </div>
-        
-      <div class="box-footer">
-          
-        <input type="hidden" name="id" value="{$info['id']|default='0'}"/>
-        
-        {include file="layout/edit_btn_group"/}
-        
-      </div>
-        
-      </div>
-      </div>
+    </div>
 </form>
+
+<script>
+
+
+
+    function dianji(){
+        var adv_id = $("#adv_id").val();
+        layer.open({
+            type: 2,
+            title: '选择广告',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['1250px', '700px'],
+            content: "{:url('article/advlist')}?id="+adv_id,
+        });
+
+    }
+    //获取iframe页面js
+    function GetData(data)
+    {
+
+        document.getElementById("adv_id").value=data;
+        layer.close(layer.index);
+    }
+
+</script>

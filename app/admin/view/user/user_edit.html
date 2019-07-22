@@ -20,7 +20,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <!--<div class="col-md-6">
                     <div class="form-group">
                         <label>密码</label>
                         <span>（用户密码不能少于6位）</span>
@@ -34,7 +34,7 @@
                         <span>（确认密码需要和密码一致）</span>
                         <input class="form-control" name="pwd_confirm" placeholder="请输入确认密码" type="password">
                     </div>
-                </div>
+                </div>-->
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -77,6 +77,80 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label>支付宝账号</label>
+                        <span class="">(支付宝账号，用于提现)</span>
+                        <input class="form-control" name="zfbnum" placeholder="请输入支付宝账号" type="text" value="{$info['zfbnum']}">
+
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>支付宝姓名</label>
+                        <span class="">(必须与支付宝账户姓名一致，否则会造成提现失败)</span>
+                        <input class="form-control" name="zfbname" placeholder="请输入支付宝姓名" type="text" value="{$info['zfbname']}">
+
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>是否认证</label>
+                        <span class="">(用户身份信息是否认证)</span>
+                        <br/>
+                        <div>
+                            <label class="margin-r-5"><input type="radio" name="ifmanager" value="1" > 已认证</label>
+                            <label><input type="radio"  name="ifmanager"  value="2" > 认证成功</label>
+                            <label><input type="radio"  name="ifmanager"  value="3" > 认证失败</label>
+                            <label><input type="radio" checked="checked"  name="ifmanager"  value="0" > 未认证</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ifmanager" style="display: none">
+                    <div class="form-group">
+                        <label>身份证号</label>
+                        <span class="">(用户身份证号)</span>
+                        <div>
+                            <input class="form-control" name="card" placeholder="请输入用户身份证号" value="{$info['card']|default=''}" type="text">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ifmanager" style="display: none">
+                    <div class="form-group">
+                        <label>身份证姓名</label>
+                        <span class="">(用户身份证姓名)</span>
+                        <div>
+                            <input class="form-control" name="cardname" placeholder="请输入用户身份证姓名" type="text" value="{$info['card']|default=''}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ifmanager">
+                    <div class="form-group">
+                        <label>身份证正面</label>
+                        <span class="">（请上传身份证正面）</span>
+                        <br/>
+                        {assign name="card_img1" value="$info.card_img1|default='0'" /}
+                        {:widget('file/index', ['name' => 'card_img1', 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-6 ifmanager">
+                    <div class="form-group">
+                        <label>身份证反面</label>
+                        <span class="">（请上传身份证反面）</span>
+                        <br/>
+                        {assign name="card_img2" value="$info.card_img2|default='0'" /}
+                        {:widget('file/index', ['name' => 'card_img2', 'type' => 'img'])}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label>状态</label>
                         <span class="">(用户账号状态)</span>
                         <br/>
@@ -91,35 +165,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>是否认证</label>
-                        <span class="">(用户身份信息是否认证)</span>
-                        <br/>
-                        <div>
-                            <label class="margin-r-5"><input type="radio" name="ifmanager" value="1" > 是</label>
-                            <label><input type="radio"  name="ifmanager"  value="2" > 否</label>
-                            <label><input type="radio"  name="ifmanager"  value="3" > 申请中</label>
-                            <label><input type="radio" checked="checked"  name="ifmanager"  value="0" > 未认证</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 card" style="display: none">
-                    <div class="form-group">
-                        <label>身份证号</label>
-                        <span class="">(用户身份证号)</span>
-                        <div>
-                            <input class="form-control" name="card" placeholder="请输入用户身份证号" value="{$info['card']|default=''}" type="text">
-                        </div>
-                    </div>
-                </div>
-
 
             </div>
-
-
-
 
         </div>
         <div class="box-footer">
@@ -144,19 +191,19 @@
 
     $(function () {
         var ifmanager = $("input[name='ifmanager']:checked").val();
-        if(ifmanager == 1){
-            $('.card').show();
+        if(ifmanager == 0){
+            $('.ifmanager').hide();
         }else{
-            $('.card').hide();
+            $('.ifmanager').show();
         }
     });
 
     $("input[name='ifmanager']").change(function () {
         var ifmanager = $("input[name='ifmanager']:checked").val();
-        if(ifmanager == 1){
-            $('.card').show();
+        if(ifmanager == 0){
+            $('.ifmanager').hide();
         }else{
-            $('.card').hide();
+            $('.ifmanager').show();
         }
     })
 

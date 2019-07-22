@@ -17,7 +17,7 @@ use app\api\error\CodeBase;
  */
 class Article extends ApiBase
 {
-    
+
     /**
      * 新闻分类接口
      */
@@ -25,7 +25,7 @@ class Article extends ApiBase
     {
         return $this->apiReturn($this->logicArticle->getArticleCategoryList());
     }
-    
+
     /**
      * 新闻列表接口
      */
@@ -37,7 +37,9 @@ class Article extends ApiBase
     }
     //新闻详情
     public function ArticleInfo(){
-        empty($this->param['article_id']) && $this->logicApiBase->apiError(CodeBase::$emptyId);
+
+        empty($this->param['id']) && $this->logicApiBase->apiError(CodeBase::$emptyId);
+
         return $this->apiReturn($this->logicArticle->getArticleInfo($this->param));
     }
 }

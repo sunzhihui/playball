@@ -15,7 +15,6 @@ class Help extends AdminBase
     public function helpList()
     {
         $where = $this->logicHelp->getWhere($this->param);
-
         $this->assign('list', $this->logicHelp->getHelpList($where));
 
         $helpType = parse_config_array('help_gethelp');
@@ -74,6 +73,15 @@ class Help extends AdminBase
     {
 
         $this->jump($this->logicAdminBase->setStatus('Help', $this->param));
+    }
+
+    /**
+     * 设置是否热门
+     */
+    public function setIfhot()
+    {
+
+        $this->jump($this->logicHelp->setIfhot($this->param));
     }
 
     /**

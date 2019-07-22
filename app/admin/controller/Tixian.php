@@ -33,7 +33,10 @@ class Tixian extends AdminBase
     public function  scoreExamine()
     {
 
-        $this->jump($this->logicMembermoney->examine($this->param));
+        IS_POST && $this->jump($this->logicMembermoney->examine($this->param));
+
+        $this->assign('scoreid',$this->param['scoreid']);
+        return $this->fetch('score_examine');
     }
 
 

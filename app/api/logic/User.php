@@ -15,11 +15,11 @@ class User extends ApiBase
     public static $commonFileLogic = null;
 
     /**
-     * »ùÀà³õÊ¼»¯
+     * åŸºç±»åˆå§‹åŒ–
      */
     public function __construct()
     {
-        // Ö´ĞĞ¸¸Àà¹¹Ôì·½·¨
+        // æ‰§è¡Œçˆ¶ç±»æ„é€ æ–¹æ³•
         parent::__construct();
 
         if(empty(static::$commonFileLogic)){
@@ -28,7 +28,7 @@ class User extends ApiBase
 
     }
     /**
-     * °ó¶¨ÊÖ»úºÅ
+     * ç»‘å®šæ‰‹æœºå·
      */
     public function setPhone($data = [])
     {
@@ -41,7 +41,7 @@ class User extends ApiBase
         if (!CommonApi::is_mobile_phone($data['phone'])) return CommonError::$phoneError;
 
         begin:
-        //¸ù¾İcode_id²éÑ¯ÑéÖ¤Âë
+        //æ ¹æ®code_idæŸ¥è¯¢éªŒè¯ç 
 
         $codeInfo = $this->modelCode->getInfo(['id' => $data['code_id']]);
 
@@ -60,12 +60,12 @@ class User extends ApiBase
         ];
 
         $result = $this->logicUser->setInfo($list);
-        $result && user_log('°ó¶¨ÊÖ»úºÅ', 'ÓÃ»§' . $userInfo->user_id . '°ó¶¨ÊÖ»úºÅ'.$data['phone'],$userInfo->user_id );
+        $result && user_log('ç»‘å®šæ‰‹æœºå·', 'ç”¨æˆ·' . $userInfo->user_id . 'ç»‘å®šæ‰‹æœºå·'.$data['phone'],$userInfo->user_id );
         return $result ? $data['phone'] : CommonError::$setPhoneFail;
     }
 
     /**
-     * ÎÒµÄÇ®°ü
+     * æˆ‘çš„é’±åŒ…
      */
     public function wallet($data = [])
     {
@@ -73,112 +73,135 @@ class User extends ApiBase
         $status = $data['type'] == 1 ? 2 : 0;
 
         $userInfo = get_member_by_token($data['user_token']);
-        //ÊÕÒæÃ÷Ï¸Õ¹Ê¾3ÈÕ¼ÇÂ¼ Ö§³öÃ÷Ï¸Õ¹Ê¾6¸öÔÂ¼ÇÂ¼
-        $time =$data['type'] == 1 ? strtotime(date("Y-m-d", strtotime("-3 days"))) : strtotime(date("Y-m-d", strtotime("-6 months")));
 
-        $map = [
-            'create_time'=> ['>=', $time],
-            'userid' => ['=', $userInfo->user_id],
-        ];
         if($type == 1){
-            $list = Db::name('score')->where($map)->where(['type'=>1])->field(['score','remark','create_time'])->order('create_time desc')->select();
+            //æ”¶ç›Šæ˜ç»†å±•ç¤º3æ—¥è®°å½•
+            $time = strtotime(date("Y-m-d", strtotime("-3 days")));
+
+            $map = [
+                'create_time'=> ['>=', $time],
+                'userid' => ['=', $userInfo->user_id],
+            ];
+            $list = Db::name('score')->where($map)->where(['type'=>1])->field(['score','remark','create_time',])->order('create_time desc')->select();
             $arr['list'] = $this->modelUser->groupVisit($list,$type,$status,$userInfo->user_id);
         }else{
-            $list = Db::name('score')->where($map)->where(['type'=>['<>',1]])->field(['score','remark','create_time'])->order('create_time desc')->select();
-            $arr['list'] = $this->modelUser->pay($list,$status,$userInfo->user_id);
+            //æ”¯å‡ºè®°å½•å±•ç¤ºåŠå¹´
+//            $time = 1556150400;
+            $old_time = strtotime('-5 month',time());
+            for($i = 0;$i <= 5; ++$i){
+                $t = strtotime("+$i month",$old_time);
+                if(date('Y') == date('Y',$t)) $m = date('m',$t);
+                else $m = date('Y-m',$t);
+                $date[$m] = explode('/',date('Y-m-01',$t).'/'.date('Y-m-',$t).date('t',$t));
+            }
+            $arr['list'] = $this->modelUser->pay($date);
         }
-        //½ñÈÕÊÕÒæ½ğ±Ò
-        $post = [
-            'type' => 1,
-            'userid' => $userInfo->user_id,
-            'status' => 1
-        ];
-        $arr['todayScore'] = Score::where($post)->whereTime('create_time','today')->sum('score');
-        //ÀÛ¼ÆÊÕÒæ½ğ±Ò
+        //ä»Šæ—¥æ”¶ç›Šé‡‘å¸
+        $arr['todayScore'] = Score::where(['type' => 1,'userid' => $userInfo->user_id,'status' => 1])->whereTime('create_time','today')->sum('score');
+        //ç´¯è®¡æ”¶ç›Šé‡‘å¸
         $arr['totalScore'] = Score::where(['type' => 1,'userid' => $userInfo->user_id,'status'=>1])->sum('score');
-        //ÀÛ¼ÆÖ§³ö½ğ±Ò
-        $where = [
-            'type' => ['=', 2],
-            'status' => ['<>' ,2],
-            'userid' => $userInfo->user_id,
-        ];
-        $arr['outScore'] = Score::where($where)->sum('score');
+        //ç´¯è®¡æ”¯å‡ºé‡‘å¸
 
-        $userData = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'score,money');
+        $arr['outScore'] = Score::where(['type' => ['=', 2],'status' => ['<>' ,2],'userid' => $userInfo->user_id,])->sum('score');
+
+        $userData = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'score');
 
         $arr['useableScore'] = $userData['score'];
-        //»ı·Ö±ÈÀı
+        //ç§¯åˆ†æ¯”ä¾‹
         $score_bl = parse_config_array('score_bl');
-        //»ãÂÊ
+        //æ±‡ç‡
         $arr['exchangeRate'] = $score_bl['0'];
-        $arr['useableMoney'] = $userData['money'];
+        $arr['useableMoney'] = $arr['useableScore'] * $score_bl['0'];
         return $arr;
     }
 
     /**
-     * ÑûÇëºÃÓÑĞÅÏ¢
+     * æ”¯å‡ºæ˜ç»†å¾…å®¡æ ¸/æ‹’ç»çš„è¯¦ç»†ä¿¡æ¯
+     */
+    public function walletInfo($data = [])
+    {
+        $list = $this->modelScore->getInfo(['scoreid'=>$data['id']],'score,paytype,tx_orderno,create_time,update_time'); 
+        return $list;
+    }
+
+    /**
+     * é‚€è¯·å¥½å‹ä¿¡æ¯
      */
     public function inviteInfo($data = [])
     {
 
         $userInfo = get_member_by_token($data['user_token']);
+        //ç§¯åˆ†æ¯”ä¾‹
+        $score_bl = parse_config_array('score_bl');
         if($data['type'] == 1){
-            //ÑûÇëºÃÓÑĞÅÏ¢
-            //½±Àø·¢·Å¹æÔò
+            //é‚€è¯·å¥½å‹ä¿¡æ¯
+            //å¥–åŠ±å‘æ”¾è§„åˆ™
             $list['sendValue'] = parse_config_array('yqconfig_send');
             $list['getValue'] = parse_config_array('yqconfig_get');
             $userArr = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'yqcode');
             $list['yqcode'] = $userArr['yqcode'];
-            //ÓĞĞ§ºÃÓÑ
-            $list['effectiveFriend'] = $this->modelUser->where(['pid'=>$userInfo->user_id,'status'=>1])->count();
-            //ÒÑµ½ÕËÊÕÒæ
-            $list['revenue'] = $this->modelYqmoney->where(['userid'=>$userInfo->user_id,'status'=>1,'ifsend'=>1])->sum('score');
-            //Ô¤¼ÆÊÕÒæ
-            $list['expectedReturn'] = $this->modelYqmoney->where(['userid'=>$userInfo->user_id,'status'=>0,'ifsend'=>0])->sum('score');
-
+            //æœ‰æ•ˆå¥½å‹
+            $list['inviteFriend'] = $this->modelUser->where(['pid'=>$userInfo->user_id,'status'=>1])->count();
+            //å·²åˆ°è´¦æ”¶ç›Š
+            $list['income'] = $this->modelYqmoney->where(['userid'=>$userInfo->user_id,'status'=>1,'ifsend'=>1])->sum('score') / $score_bl['0'];
+            //é¢„è®¡æ”¶ç›Š
+            $list['expectedReturn'] = $this->modelYqmoney->where(['userid'=>$userInfo->user_id,'status'=>0,'ifsend'=>0])->sum('score') / $score_bl['0'];
+            //å¿«é€Ÿæç°é‡‘é¢
+            $list['money'] = $this->modelSpcmoney->where(['userid'=>$userInfo->user_id,'status'=>1,'cantixian'=>1])->sum('score') / $score_bl['0'];
         }else{
-            //ÑûÇëÊÕÒæ
+            //é‚€è¯·æ”¶ç›Š
             $this->modelYqmoney->alias('y');
             $join = [
                 [SYS_DB_PREFIX . 'user u', 'y.cid = u.userid', 'LEFT'],
             ];
-            $this->modelYqmoney->join = $join;
-            $list['data'] = $this->modelYqmoney->getInfo(['y.userid'=>$userInfo->user_id,'y.status'=>1,'y.ifsend'=>1],'u.name,y.score,paydate,day');
+            $arr = $this->modelYqmoney
+                ->join($join)
+                ->where(['y.userid'=>$userInfo->user_id,'y.status'=>1,'y.ifsend'=>1])
+                ->field('u.name,y.paydate,yqlistid,sum(y.score) as income')
+                ->group('y.cid')->select();
+
+            foreach($arr as $k=>$val){
+                $scoreAll = $this->modelYqlist->getInfo(['id'=>$val['yqlistid']],'score');
+                $expectedReturn = $scoreAll['score'] - $val['income'];
+                $arr[$k]['income'] = $val['income'] / $score_bl['0'];
+                $arr[$k]['expectedReturn'] = $expectedReturn / $score_bl['0'];
+            }
+            $list = $arr;
         }
         return $list;
-
     }
 
     /**
-     * ÑûÇëºÃÓÑ
+     * é‚€è¯·å¥½å‹
      */
     public function invite($data = [])
     {
         $userInfo = get_member_by_token($data['user_token']);
-        $userList = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'pid');
-        if($userList['pid']){
-            return CommonError::$pidError;
-        }
-        //ÑûÇëÈËĞÅÏ¢
-        $inviteUser = $this->modelUser->getInfo(['yqcode' => $data['code']],'score,userid,money');
-        //ÑûÇëÈËÒÑ¾­ÑûÇëµÄÈËÊı
+        $userList = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'pid,userid');
+
+        if($userList['pid']) return CommonError::$pidError;
+
+        if($userList['userid'] == $userInfo->user_id) return CommonError::$inviteError;
+        //é‚€è¯·äººä¿¡æ¯
+        $inviteUser = $this->modelUser->getInfo(['yqcode' => $data['code']],'score,userid');
+        //é‚€è¯·äººå·²ç»é‚€è¯·çš„äººæ•°
         $pcount =$this->modelUser->getInviteCount(['pid'=>$inviteUser['userid'],'status'=>1]);
-        //²éÑ¯ÅäÖÃ
+        //æŸ¥è¯¢é…ç½®
         $getValue = parse_config_array('yqconfig_get');
-        //»ı·Ö±ÈÀı
+        //ç§¯åˆ†æ¯”ä¾‹
         $score_bl = parse_config_array('score_bl');
-        //½±Àø·¢·Å¹æÔò
+        //å¥–åŠ±å‘æ”¾è§„åˆ™
         $sendValue = parse_config_array('yqconfig_send');
 
         $reward = $this->modelUser->rewardPoints($getValue,$pcount);
-        //»ı·Ö = ½ğ¶î * ±ÈÀı
+        //ç§¯åˆ† = é‡‘é¢ * æ¯”ä¾‹
         $scoreTotal = $reward * $score_bl['0'];
         $result = $this->modelUser->spcmoneyAdd($userInfo,$sendValue,$inviteUser,$score_bl[0],$scoreTotal);
 
         if($result ){
-            //ÅĞ¶Ï½ñÈÕÊÕÒæÊÇ·ñ²úÉú×¨ÊôËÍ½ğ±Ò»î¶¯
+            //åˆ¤æ–­ä»Šæ—¥æ”¶ç›Šæ˜¯å¦äº§ç”Ÿä¸“å±é€é‡‘å¸æ´»åŠ¨
             $this->ifspcmoney($inviteUser['userid']);
-            user_log('ÑûÇëºÃÓÑ', 'ÓÃ»§' . $inviteUser['userid'] . 'ÑûÇëºÃÓÑ'.$userInfo->user_id.'£¬»ñµÃ½ğ±Òscore£º' . $scoreTotal,$inviteUser['userid']);
+            user_log('é‚€è¯·å¥½å‹', 'ç”¨æˆ·é‚€è¯·å¥½å‹'.$userInfo->name.'ï¼Œè·å¾—é‡‘å¸scoreï¼š' . $scoreTotal,$inviteUser['userid']);
             return CodeBase::$success;
         }else{
             return CodeBase::$error;
@@ -186,7 +209,7 @@ class User extends ApiBase
     }
 
     /**
-     * °ïÖúÎÊÌâÁĞ±í
+     * å¸®åŠ©é—®é¢˜åˆ—è¡¨
      */
     public function helpList()
     {
@@ -196,20 +219,20 @@ class User extends ApiBase
     }
 
     /**
-     * ¸ù¾İtypeÖµ ÅĞ¶Ï
-     * ¸ù¾İidÖµ ²éÑ¯
+     * æ ¹æ®typeå€¼ åˆ¤æ–­
+     * æ ¹æ®idå€¼ æŸ¥è¯¢
      */
     public function helpDetail($data = [])
     {
         if($data['type'] == 1){
-            //·ÖÀàid²éÑ¯±êÌâ
+            //åˆ†ç±»idæŸ¥è¯¢æ ‡é¢˜
             $type = parse_config_array('help_gethelp');
             $typeList['typeName'] = $type[$data['id']];
 
             $helpList = $this->logicHelp->getHelpList(['catid'=>$data['id'],'status'=>1],'id,name','create_time desc',false);
             $list = array_merge($typeList,$helpList);
         }else{
-            //±êÌâid²éÑ¯ÏêÇéÄÚÈİ
+            //æ ‡é¢˜idæŸ¥è¯¢è¯¦æƒ…å†…å®¹
 
             $list = $this->logicHelp->getHelpInfo(['id'=>$data['id']],'name,content');
         }
@@ -217,7 +240,7 @@ class User extends ApiBase
     }
 
     /**
-     * ·´À¡
+     * åé¦ˆ
      */
     public function feedback($data = [])
     {
@@ -239,7 +262,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÎÒµÄ·´À¡
+     * æˆ‘çš„åé¦ˆ
      */
     public function feedbackList($data = [])
     {
@@ -255,12 +278,12 @@ class User extends ApiBase
         return $this->modelFeedback->getList(['f.userid'=>$userInfo->user_id,'f.status'=>1], 'f.name,content,contact,p.name as p_name,path', 'f.create_time desc', false);
     }
 
-    //Ç©µ½Çé¿ö
+    //ç­¾åˆ°æƒ…å†µ
     function signin($data = []){
-        $longsign=0;//Á¬ĞøÇ©µ½ÌìÊı
+        $longsign=0;//è¿ç»­ç­¾åˆ°å¤©æ•°
         $userInfo = get_member_by_token($data['user_token']);
         $userid=$userInfo->user_id;
-        //²éÑ¯µ±Ç°ÓÃ»§×îĞÂÇ©µ½Çé¿ö
+        //æŸ¥è¯¢å½“å‰ç”¨æˆ·æœ€æ–°ç­¾åˆ°æƒ…å†µ
         $info=$this->modelSignin->getInfo(['userid'=>$userid,'status'=>DATA_NORMAL],'*');
         if(!empty($info)){
            if($info['longday']==7){
@@ -274,14 +297,14 @@ class User extends ApiBase
            }
 
         }
-        //²éÑ¯¸ÃÓÃ»§µ±ÌìÊÇ·ñÇ©µ½
-        $insign=$this->issign($userid);//µ±ÌìÊÇ·ñÇ©µ½
+        //æŸ¥è¯¢è¯¥ç”¨æˆ·å½“å¤©æ˜¯å¦ç­¾åˆ°
+        $insign=$this->issign($userid);//å½“å¤©æ˜¯å¦ç­¾åˆ°
         $rinfo['insign']=$insign;
         $rinfo['longsign']=$longsign;
         $rinfo['score_signin']=parse_config_array('score_signin');
         return $rinfo;
     }
-    //ÅĞ¶Ïµ±ÌìÊÇ·ñÇ©µ½
+    //åˆ¤æ–­å½“å¤©æ˜¯å¦ç­¾åˆ°
     function issign($userid){
         $insign=0;
         $start = strtotime(date('Y-m-d 00:00:00'));
@@ -293,50 +316,51 @@ class User extends ApiBase
         !empty($todaySign) && $insign=1;
         return $insign;
     }
-    //È¥Ç©µ½
+    //å»ç­¾åˆ°
     function gosignin($data = []){
         $score_signin=parse_config_array('score_signin');;
-        $userInfo = get_member_by_token($data['user_token']);
+        $userInfo=$this->userInfo($data);
         $userid=$userInfo->user_id;
-        //²éÑ¯¸ÃÓÃ»§µ±ÌìÊÇ·ñÇ©µ½
+        //æŸ¥è¯¢è¯¥ç”¨æˆ·å½“å¤©æ˜¯å¦ç­¾åˆ°
         $insign=$this->issign($userid);
         if($insign==1){
             return CodeBase::$userSign;
         }
 
-        //²éÑ¯µ±Ç°ÓÃ»§×îĞÂÇ©µ½Çé¿ö
+        //æŸ¥è¯¢å½“å‰ç”¨æˆ·æœ€æ–°ç­¾åˆ°æƒ…å†µ
         $info=$this->modelSignin->getList(['userid'=>$userid,'status'=>DATA_NORMAL],'*','id desc',0);
         if(empty($info[0])){
-            //ĞÂÓÃ»§Ç©µ½£¬Ç©µ½ÌìÊıµÚÒ»Ìì¿ªÊ¼£¬Á¬ĞøÌìÊıÎª0
+            //æ–°ç”¨æˆ·ç­¾åˆ°ï¼Œç­¾åˆ°å¤©æ•°ç¬¬ä¸€å¤©å¼€å§‹ï¼Œè¿ç»­å¤©æ•°ä¸º0
             $score=$score_signin[1];
             $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>1,'score'=>$score_signin[1],'create_time'=>time()]);
         }else{
-            //Ç°¼¸ÌìÒÑÓĞÇ©µ½
-            //ÅĞ¶ÏÊÇ·ñÁ¬Ğø£¨µ±Ç°ÈÕÆÚ¼õÈ¥Ò»ÌìÊÇ·ñÓë×òÌìÊ±¼äÊÇ·ñÏàµÈ£©
+            //å‰å‡ å¤©å·²æœ‰ç­¾åˆ°
+            //åˆ¤æ–­æ˜¯å¦è¿ç»­ï¼ˆå½“å‰æ—¥æœŸå‡å»ä¸€å¤©æ˜¯å¦ä¸æ˜¨å¤©æ—¶é—´æ˜¯å¦ç›¸ç­‰ï¼‰
             if(date("Y-m-d",strtotime("-1 day"))==date("Y-m-d",strtotime($info[0]['create_time']))){
-                //                //Ê±¼äÏàµÈÊÇÁ¬ĞøÇ©µ½,Ö±½ÓÔùËÍ½ğ±Ò
+                //                //æ—¶é—´ç›¸ç­‰æ˜¯è¿ç»­ç­¾åˆ°,ç›´æ¥èµ é€é‡‘å¸
                 $longday=$info[0]['longday']+1;
-                //ÅĞ¶Ïµ±Ç°Á¬ĞøÌìÊıÊÇ·ñ´óÓÚ7Ìì
+                //åˆ¤æ–­å½“å‰è¿ç»­å¤©æ•°æ˜¯å¦å¤§äº7å¤©
                 if($info[0]['longday']>=7){
                     $longday=1;
                 }
                 $score=$score_signin[$longday];
                 $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>$longday,'score'=>$score_signin[$longday],'create_time'=>time()]);
             }else{
-                //·ÇÁ¬ĞøÇ©µ½´Ó0¿ªÊ¼
+                //éè¿ç»­ç­¾åˆ°ä»0å¼€å§‹
                 $score=$score_signin[1];
                 $res=$this->modelSignin->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'longday'=>1,'score'=>$score_signin[1],'create_time'=>time()]);
             }
 
         }
-        $handle_text='Ç©µ½';
-        user_log($handle_text, 'ÓÃ»§' . $handle_text . 'ÔùËÍ½ğ±Ò£¬score£º' . $score,$userid);
-        $result=$this->modelScore->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'score'=>$score,'type'=>1,'remark'=>'Ç©µ½ËÍ½ğ±Ò','create_time'=>time()]);
+        $handle_text='ç­¾åˆ°';
+        user_log($handle_text, 'ç”¨æˆ·' . $handle_text . 'èµ é€é‡‘å¸ï¼Œscoreï¼š' . $score,$userid);
+        $result=$this->modelScore->setInfo(['userid'=>$userid,'status'=>DATA_NORMAL,'score'=>$score,'type'=>1,'remark'=>'ç­¾åˆ°é€é‡‘å¸','create_time'=>time()]);
+        $this->modelUser->setInfo(['score' => ($userInfo['score'] + $score)], ['userid' => $userid]);
         return $res;
     }
 
     /**
-     * µ÷²éÎÊ¾í
+     * è°ƒæŸ¥é—®å·
      */
     public function questionList($data = [])
     {
@@ -345,9 +369,9 @@ class User extends ApiBase
         $queClassInfo = $this->modelQuestionclass->getInfo(['if_new'=>1,'status'=>1],'id,name,remark');
 
         $queLog = $this->modelQuestionLog->getInfo(['userid'=>$userInfo->user_id,'questionclassid'=>$queClassInfo['id']]);
-        if(!$queLog) return 'ÄúÒÑ²Î¼Ó¹ı´Ë´ÎÎÊ¾íµ÷²é';
+        if(!$queClassInfo) return CommonError::$questionError;
 
-        if(!$queClassInfo) return 'ÔİÎŞÎÊ¾íµ÷²é';
+        if(!$queLog) return CommonError::$completeError;
 
         $queInfo = $this->modelQuestion->getList(['questionclassid'=>$queClassInfo['id'],'status'=>1],'id,name,questiontype','sort desc');
         $list = [];
@@ -377,7 +401,7 @@ class User extends ApiBase
     }
 
     /**
-     * µ÷²éÎÊ¾íÌá½»
+     * è°ƒæŸ¥é—®å·æäº¤
      */
     public function questionPost($data = [])
     {
@@ -400,60 +424,78 @@ class User extends ApiBase
                 'questionclassid' => $data['questionclass_id'],
                 'userid' => $userInfo->user_id,
             ]);
-            //ÓÃ»§±íÓÃ»§¼Ó»ı·Ö,¼ÓÓà¶î
-            $userData = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'score,money');
-            //»ı·Ö±ÈÀı
-            $score_bl = parse_config_array('score_bl');
-//            $this->modelUser->where(['userid' => $userInfo->user_id])->setInc('score',$queClassInfo['score']);
-            //Ôö¼ÓÓÃ»§»ı·ÖÓà¶î
+            //ç”¨æˆ·è¡¨ç”¨æˆ·åŠ ç§¯åˆ†,åŠ ä½™é¢
+            $userData = $this->modelUser->getInfo(['userid' => $userInfo->user_id],'score');
+
+            //å¢åŠ ç”¨æˆ·ç§¯åˆ†ä½™é¢
             $this->modelUser->setInfo([
                 'userid' => $userInfo->user_id,
                 'score' => $userData['score'] + $queClassInfo['score'],
-                'money' => $userData['money'] + $queClassInfo['score'] / $score_bl['0']
             ]);
-            //»ı·Ö±ÈÀı
+            //ç§¯åˆ†æ¯”ä¾‹
             $score_bl = parse_config_array('score_bl');
-            //»ı·Ö¼ÇÂ¼±í
+            //ç§¯åˆ†è®°å½•è¡¨
             $this->modelScore->setInfo([
                 'userid' => $userInfo->user_id,
                 'type' => 1,
                 'status' => 1,
-                'remark' => '×öµ÷²éÎÊ¾íËù»ñµÃ»ı·Ö'.$queClassInfo['score'],
+                'remark' => 'åšè°ƒæŸ¥é—®å·æ‰€è·å¾—ç§¯åˆ†'.$queClassInfo['score'],
                 'score' => $queClassInfo['score'],
                 'money' => $queClassInfo['score'] / $score_bl['0'],
             ]);
             $this->ifspcmoney($userInfo->user_id);
-            user_log('Ìá½»µ÷²éÎÊ¾í', 'ÓÃ»§' . $userInfo->user_id . 'ÔùËÍ½ğ±Ò£¬score£º' . $queClassInfo['score'],$userInfo->user_id);
+            user_log('æäº¤è°ƒæŸ¥é—®å·', 'ç”¨æˆ·å‚ä¸é—®å·è°ƒæŸ¥ï¼Œèµ é€é‡‘å¸ï¼Œscoreï¼š' . $queClassInfo['score'],$userInfo->user_id);
             Db::commit();
             return true;
         }catch (\Exception $e){
             Db::rollback();
-//            return $e->getMessage();
             return CodeBase::$error;
         }
 
     }
 
     /**
-     * »ñÈ¡ÓÃ»§ĞÅÏ¢
+     * è·å–ç”¨æˆ·ä¿¡æ¯
      */
-    public function userInfo($data = [])
+    public function userInfo($data = [],$flid=true)
     {
-        $userInfo = get_member_by_token($data['user_token']);
-        $list = $this->modelUser->getInfo(['userid'=>$userInfo->user_id]);
+        if(!empty($data['userid'])){
+            $userid=$data['userid'];
+        }else{
+            $userInfo = get_member_by_token($data['user_token']);
+            $userid=$userInfo->user_id;
+        }
+
+        $list = $this->modelUser->getInfo(['userid'=>$userid],$flid);
+        //ç§¯åˆ†æ¯”ä¾‹
+        if($list){
+            $score_bl = parse_config_array('score_bl');
+            $list['money']=($list['score']/$score_bl[0])?:0;
+            $list['score_bl']=$score_bl[0];
+            //ä»Šæ—¥æ”¶ç›Šé‡‘å¸
+            $post = [
+                'type' => 1,
+                'userid' => $userid,
+                'status' => 1
+            ];
+            $list['todayScore'] = (Score::where($post)->whereTime('create_time','today')->sum('score'))?:0;
+        }else{
+            return CommonError::$emptyUser;
+        }
+
         unset($list['pwd']);
         return $list;
     }
 
     /**
-     * °ó¶¨Ö§¸¶±¦/Î¢ĞÅÕËºÅ
+     * ç»‘å®šæ”¯ä»˜å®/å¾®ä¿¡è´¦å·
      */
     public function bindNumber($data = [])
     {
         $userInfo = get_member_by_token($data['user_token']);
 
         $userData = $this->modelUser->getInfo(['userid' => $userInfo->user_id]);
-        //°ó¶¨Ö§¸¶±¦ÕËºÅ
+        //ç»‘å®šæ”¯ä»˜å®è´¦å·
         if($data['type'] == 1){
             if($userData['zfbname'] && $userData['zfbnum']) return CommonError::$zfbError;
 
@@ -462,27 +504,27 @@ class User extends ApiBase
                 'zfbname' => $data['zfbname'],
                 'zfbnum' => $data['zfbnum'],
             ]);
-            $text = '°ó¶¨Ö§¸¶±¦';
+            $text = 'ç»‘å®šæ”¯ä»˜å®';
             $msg = ',zfbname:'.$data['zfbname'].',zfbnum:'.$data['zfbnum'];
         }elseif($data['type'] == 2){
-            //°ó¶¨Î¢ĞÅÕËºÅ
+            //ç»‘å®šå¾®ä¿¡è´¦å·
             if($userData['openid']) return CommonError::$wxError;
             $openIdInfo = $this->modelUser->getInfo(['openid'=>$data['openid']]);
-            if($openIdInfo) return $this->apiReturn([API_CODE_NAME => 100002, API_MSG_NAME => 'ÊÚÈ¨Ê§°Ü£¬¸ÃÎ¢ĞÅºÅÒÑÊÚÈ¨ÆäËûÕËºÅ'.$openIdInfo['name']],'','');
+            if($openIdInfo) return $this->apiReturn([API_CODE_NAME => 100002, API_MSG_NAME => 'æˆæƒå¤±è´¥ï¼Œè¯¥å¾®ä¿¡å·å·²æˆæƒå…¶ä»–è´¦å·'.$openIdInfo['name']],'','');
 
             $result = $this->modelUser->setInfo([
                 'userid' => $userInfo->user_id,
                 'openid' => $data['openid'],
             ]);
-            $text = '°ó¶¨Î¢ĞÅ';
+            $text = 'ç»‘å®šå¾®ä¿¡';
             $msg = ',openid:'.$data['openid'];
         }
-        $result && user_log($text, 'ÓÃ»§' . $userInfo->user_id . $text.$msg,$userInfo->user_id);
+        $result && user_log($text, 'ç”¨æˆ·' .$text.$msg,$userInfo->user_id);
         $result ? true : CodeBase::$error;
     }
 
     /**
-     * ÊµÃûÈÏÖ¤
+     * å®åè®¤è¯
      */
     public function verified($data = [])
     {
@@ -510,14 +552,14 @@ class User extends ApiBase
 
         $result = $this->modelUser->setInfo($post);
 
-        $result && user_log('ÊµÃûÈÏÖ¤', 'ÓÃ»§' . $userInfo->user_id . 'ÊµÃûÈÏÖ¤£¬cardname£º'.$data['cardname'].',card:'.$data['card'],$userInfo->user_id);
+        $result && user_log('å®åè®¤è¯', 'ç”¨æˆ·è¿›è¡Œå®åè®¤è¯ï¼Œcardnameï¼š'.$data['cardname'].',card:'.$data['card'],$userInfo->user_id);
         $result ? true : CodeBase::$error;
     }
 
-    //ÅĞ¶Ï½ñÈÕÊÕÒæÊÇ·ñ²úÉú×¨ÊôËÍ½ğ±Ò»î¶¯
+    //åˆ¤æ–­ä»Šæ—¥æ”¶ç›Šæ˜¯å¦äº§ç”Ÿå¯æç°ä¸“å±é€é‡‘å¸æ´»åŠ¨
     public function ifspcmoney($userid)
     {
-        //½ñÈÕÊÕÒæ½ğ±Ò
+        //ä»Šæ—¥æ”¶ç›Šé‡‘å¸
         $post = [
             'type' => 1,
             'userid' => $userid,
@@ -527,22 +569,22 @@ class User extends ApiBase
         $needscore = parse_config_array('txconfig_needscore');
         $todayScore = Score::where($post)->whereTime('create_time', 'today')->sum('score');
         empty($todayScore) && $todayScore = 0;
-        //ÅĞ¶Ïµ±ÌìÊÇ·ñ³¬¹ı1500
+        //åˆ¤æ–­å½“å¤©æ˜¯å¦è¶…è¿‡1500
         if ($todayScore >= $needscore[0]) {
-            //ÅĞ¶Ïµ±ÌìÊÇ·ñÎªÒÑ±ê¼ÇÈÕÆÚ
+            //åˆ¤æ–­å½“å¤©æ˜¯å¦ä¸ºå·²æ ‡è®°æ—¥æœŸ
             $nowdate = date('Y-m-d', time());
             if ($nowdate == $uinfo['getcount_date']) {
-                //½ñÈÕÒÑ±ê¼ÇÖ±½ÓÌø¹ı
+                //ä»Šæ—¥å·²æ ‡è®°ç›´æ¥è·³è¿‡
                 return false;
             } else {
-                //Ã»±ê¼Ç£¬ÅĞ¶Ï×òÌìÊÇ·ñ±ê¼Ç
+                //æ²¡æ ‡è®°ï¼Œåˆ¤æ–­æ˜¨å¤©æ˜¯å¦æ ‡è®°
                 if (date("Y-m-d", strtotime("-1 day")) == $uinfo['getcount_date']) {
-                    //×òÌìÒÑ±ê¼Ç£¬¼ÆÈëÁ¬ĞøÌìÊı²¢½«Ê±¼ä±ê¼ÇÎ»¸ÄÎª½ñÌì
+                    //æ˜¨å¤©å·²æ ‡è®°ï¼Œè®¡å…¥è¿ç»­å¤©æ•°å¹¶å°†æ—¶é—´æ ‡è®°ä½æ”¹ä¸ºä»Šå¤©
                     $getcount=($uinfo['getcount'] + 1);
                 } else {
-                    //×òÌìÎ´±ê¼Ç£¬Á¬Ğø»ñÈ¡½ğ±ÒÌìÊı¶Ï²ã£¬Ê±¼ä±ê¼ÇÎ»¸ÄÎª½ñÌì²¢Á¬ĞøÌìÊı¼Ç1Ìì
+                    //æ˜¨å¤©æœªæ ‡è®°ï¼Œè¿ç»­è·å–é‡‘å¸å¤©æ•°æ–­å±‚ï¼Œæ—¶é—´æ ‡è®°ä½æ”¹ä¸ºä»Šå¤©å¹¶è¿ç»­å¤©æ•°è®°1å¤©
                     $getcount=1;
-                    //Î´ÌáÏÖµÄ×¨Êô»î¶¯»îÔ¾¹éÁã
+                    //æœªæç°çš„ä¸“å±æ´»åŠ¨æ´»è·ƒå½’é›¶
                     Db::name('Spcmoney')->where(['userid' => $userid,'type' => [['=',1],['=',3],'or'],'status' => 1,'cantixian'=>0])->update(['day'=>0]);
 
                 }
@@ -559,7 +601,7 @@ class User extends ApiBase
         }
     }
 
-    //×¨ÊôÌáÏÖ»î¶¯Ö´ĞĞÌìÊıÔö¼Ó
+    //ä¸“å±æç°æ´»åŠ¨æ‰§è¡Œå¤©æ•°å¢åŠ 
     public function setaddday($spcinfo, $userid, $type)
     {
         if ($type == 1) {
@@ -568,7 +610,7 @@ class User extends ApiBase
             $day = 10;
         }
         if (!empty($spcinfo)) {
-            //ÊÇ·ñ¿ÉÌáÏÖ
+            //æ˜¯å¦å¯æç°
             if ($spcinfo['cantixian'] != 1) {
                 $addday = $spcinfo['day'] + 1;
                 $data['userid'] = $userid;
@@ -583,13 +625,163 @@ class User extends ApiBase
         }
     }
 
-    //¶¨Ê±ÈÎÎñ£¨Ã¿Ìì0µãÖ´ĞĞ£©
+    //å®šæ—¶ä»»åŠ¡ï¼ˆæ¯å¤©0ç‚¹æ‰§è¡Œï¼‰
     public function timed()
     {
-        //½ñÈÕÒÑÍê³ÉÈÎÎñÊı´ıÁìÈ¡½ğ±Ò+ÒÑÁìÈ¡Çå¿Õ
+        //ä»Šæ—¥å·²å®Œæˆä»»åŠ¡æ•°å¾…é¢†å–é‡‘å¸+å·²é¢†å–æ¸…ç©º
 
 
-        //ÅĞ¶Ïµ±Ç°ÈÕÆÚ-1ÊÇ·ñÎªÁ¬Ğø»ñÈ¡½ğ±ÒµÄÈÕÆÚ£¬²»ÊÇÔòÁ¬Ğø»îÔ¾ÌìÊı¶Ï²ã getcount=0 getcount_date=''£¬Î´ÌáÏÖµÄÁ½Ìõ¼ÇÂ¼ÌìÊı¹éÁã
+        //åˆ¤æ–­å½“å‰æ—¥æœŸ-1æ˜¯å¦ä¸ºè¿ç»­è·å–é‡‘å¸çš„æ—¥æœŸï¼Œä¸æ˜¯åˆ™è¿ç»­æ´»è·ƒå¤©æ•°æ–­å±‚ getcount=0 getcount_date=''ï¼Œæœªæç°çš„ä¸¤æ¡è®°å½•å¤©æ•°å½’é›¶
+
+        //é‚€è¯·å¥½å‹çš„é‡‘å¸æŒ‰å¤©å‘æ”¾
     }
+
+
+    public function percenter($data=[]){
+        $userInfo = $this->userInfo($data);
+        //æ˜¯å¦æ³¨å†Œä¸“å±æ´»åŠ¨
+        if ($userInfo['if_havespc'] != 1) {
+            $this->newpeople_init($data);
+        }
+        //åŠ¨æ€
+        $money_active=[];
+        //type=0ä¸è·³è½¬  type=1 æç°é¡µé¢ type=2 å»ç­¾åˆ° type=3 æ¸¸æˆä¸­å¿ƒ type=4é¦–é¡µ
+        //1.æ˜¯å¦æœ‰å¾…å®¡æ ¸é‡‘å¸
+        $checkscore=Db::name('score')->where(['userid'=>$userInfo['userid'],'status'=>0,'type'=>[['=',2],['=',3],'or']])->find();
+        if($checkscore){
+            $arr['msg']='æ‚¨'.date('Y-m-d',$checkscore['create_time']).'æœ‰'.$checkscore['remark'].'æç°ç”³è¯·å¾…å®¡æ ¸';
+            $arr['type']=1;
+            $money_active[]=$arr;
+        }
+        getOrderON();
+        //2.ä»Šæ—¥æ˜¯å¦è·å¾—æœ€æ–°çš„é‡‘å¸ï¼ˆa.ä»Šæ—¥æ˜¯å¦è·å¾—æœ€æ–°çš„é‡‘å¸ bï¼‰
+        if($userInfo['todayScore']>0){
+            //ä»Šæ—¥æ”¶ç›Šå æ‰€æœ‰ç”¨æˆ·çš„æ¯”ä¾‹
+            //ä»Šæ—¥æ”¶ç›Šå°äºè‡ªå·±çš„äººæ•°
+            $start = strtotime(date('Y-m-d 00:00:00'));
+            $end = time();
+            $sql="select count(1) as count from (SELECT sum(score) as scores,userid FROM `yb_score` where type=1 and create_time>=$start and create_time<=$end group by userid) a where a.scores<=20";
+            $minScorecount=Score::query("$sql");
+            $minScorecount[0]['count']?:$minScorecount[0]['count']=0;
+            //ä»Šæ—¥æ‰€æœ‰æ”¶ç›Šè¿‡çš„äººæ•°
+            $Scorecount = (Score::where(['type' => 1, 'status' => 1])->group('userid')->whereTime('create_time','today')->count());
+            $daymoneybl=round($minScorecount[0]['count']/$Scorecount,2)*100;
+
+            $arr['msg']='ä»Šæ—¥å·²èµš'.$userInfo['todayScore'].'é‡‘å¸ï¼Œå·²è¶…è¿‡'.$daymoneybl.'%çš„äºº!å»èµšæ›´å¤š';
+            $arr['type']=3;
+            $money_active[]=$arr;
+        }else{
+            //ä»Šæ—¥è¿˜æœªè·å¾—é‡‘å¸ï¼Œå»ç­¾åˆ°
+            $arr['msg']='æ‚¨ä»Šæ—¥æœªè·å¾—ä»»ä½•é‡‘å¸ï¼Œå»ç­¾åˆ°èµšé’±';
+            $arr['type']=4;
+            $money_active[]=$arr;
+        }
+        //3.ä»Šæ—¥æ˜¯å¦ç­¾åˆ°
+        $issign=$this->issign($userInfo['userid']);
+        if($issign!=1){
+            //æç¤ºå»ç­¾åˆ°
+            $arr['msg']='æ‚¨ä»Šæ—¥æœªç­¾åˆ°ï¼Œå»ç­¾åˆ°èµšé’±';
+            $arr['type']=4;
+            $money_active[]=$arr;
+        }
+        $res['userInfo']=$userInfo;
+        $res['money_active']=$money_active;
+        $res['adv'] = $this->logicHome->getAdvList(['ifmy'=>1]);
+        $score_newzc=parse_config_array('score_newzc');
+        $score_newtask=parse_config_array('score_newtask');
+        $score_newread=parse_config_array('score_newread');
+        $score_newtx=parse_config_array('score_newtx');
+        $newtxinfo=$this->modelSpcmoney->getInfo(['userid'=>$userInfo['userid'],'type'=>4,'status'=>1]);
+        $iftx=0;
+        !empty($newtxinfo) && $iftx=$newtxinfo['cantixian'];
+        //throw_response_exception($userInfo);
+        $res['newpeopletask']=[
+            ['score'=>$score_newzc[0],'ifget'=>1,'title'=>'æ³¨å†Œå¥–åŠ±','type'=>'1'],
+            ['score'=>$score_newread[0],'ifget'=>$userInfo['if_read'],'title'=>'çœ‹æ–°é—»å¾—é‡‘å¸','type'=>'2'],
+            ['score'=>$score_newtask[0],'ifget'=>$userInfo['if_task'],'title'=>'åšä»»åŠ¡å¼€1ä¸ªå®ç®±','type'=>'3'],
+            ['score'=>$score_newtx[0],'ifget'=>$iftx,'title'=>'1å…ƒæç°æ–°äººä¸“äº«','type'=>'4'],
+        ];
+
+        return $res ? $res : CodeBase::$error;;
+    }
+    //ç”¨æˆ·æç°åˆå§‹åŒ–ç•Œé¢
+    public function tixian_init($data=[],$filed=''){
+        $userInfo = $this->userInfo($data);
+        $res['userInfo']=$userInfo;
+        $this->modelSpcmoney->group('type');
+        $res['spc']=$this->modelSpcmoney->getList(['userid'=>$userInfo['userid'],'cantixian'=>1,'status'=>1],$filed,'',false);
+        //æ™®é€šæç°é…ç½®
+        $res['txconfig_get']=parse_config_array('txconfig_get');
+        return $res;
+    }
+    //ç”¨æˆ·ç”³è¯·æç°
+    public function tixian_apply($data=[]){
+        $this->newpeople_init($data);
+        $userInfo = $this->userInfo($data);
+        $userid=$userInfo['userid'];
+        //
+        if($data['txtype']==1){
+            //ä¸“å±æç°
+            $spcmoney=$this->modelSpcmoney->getInfo(['id'=>$data['score'],'userid'=>$userid]);
+            empty($spcmoney) && $this->apiError(CommonError::$emptyItem);
+            $score=$spcmoney['score'];
+            $pid=$spcmoney['id'];
+            $type=3;
+            $remark='ä¸“å±æ´»åŠ¨æç°';
+        }else{
+            //æ™®é€šæç°
+            //é‡‘å¸ä½™é¢ä¿®æ”¹ï¼Œæ·»åŠ æ—¥å¿—ï¼Œé‡‘å¸è¡¨æ·»åŠ æç°è®°å½•
+            $score=$data['score'];
+            $pid='';
+            $type=2;
+            $remark='é‡‘å¸æç°';
+        }
+        Db::startTrans();
+        try{
+            !($userInfo['score']-$score>=0) && $this->apiError(CommonError::$emptyscore);
+            //é‡‘å¸ä½™é¢ä¿®æ”¹ï¼Œæ·»åŠ æ—¥å¿—ï¼Œé‡‘å¸è¡¨æ·»åŠ æç°è®°å½•
+            $this->modelScore->setInfo(['score'=>$score,'userid'=>$userid,'remark'=>$remark,'status'=>0,'pid'=>$pid,'paytype'=>$data['type'],'type'=>$type,'tx_orderno'=>random(11)]);
+            //ä¿®æ”¹ä½™é¢
+            $this->modelUser->setInfo(['score'=>($userInfo['score']-$score)],['userid'=>$userid]);
+            //çŠ¶æ€æ”¹ä¸ºä¸å¯æç°
+            if($pid){
+                $this->modelSpcmoney->setInfo(['cantixian'=>0],['id'=>$pid]);
+            }
+            user_log($remark, $userInfo['name'].'ç”³è¯·'.$remark.$score,$userid);
+            Db::commit();
+            return true;
+        }catch (\Exception $e){
+            Db::rollback();
+            return CodeBase::$error;
+        }
+
+    }
+
+    //æ–°ç”¨æˆ·æ³¨å†Œåæ·»åŠ ä¸“å±æ´»åŠ¨ï¼Œå¹¶èµ é€æ–°ç”¨æˆ·æ³¨å†Œé‡‘å¸
+    function newpeople_init($data=[])
+    {
+        $userInfo = $this->userInfo($data);
+        if ($userInfo['if_havespc'] != 1) {
+            //å…ˆåˆ é™¤ç”¨æˆ·ä¸‹é¢çš„æ‰€æœ‰ç‰¹æ®Šæ´»åŠ¨
+            $this->modelSpcmoney->setInfo(['status' => 0, 'cantixian' => 0], ['userid' => $userInfo['userid'], 'type' => ['neq', 2]]);
+            $userid = $userInfo['userid'];
+            //æ·»åŠ æ–°çš„ç‰¹æ®Šæ´»åŠ¨
+            //è¿ç»­5å¤©æ´»è·ƒ
+            $this->modelSpcmoney->setInfo(['status' => 1, 'score' => parse_config_str('txconfig_fiveday'), 'type' => 1, 'userid' => $userid]);
+            //è¿ç»­10å¤©æ´»è·ƒ
+            $this->modelSpcmoney->setInfo(['status' => 1, 'score' => parse_config_str('txconfig_tenday'), 'type' => 3, 'userid' => $userid]);
+            //æ–°ç”¨æˆ·é¦–æ¬¡æç°1å…ƒ,å¯ç›´æ¥æç°
+            $this->modelSpcmoney->setInfo(['status' => 1, 'cantixian' => 1, 'score' => parse_config_str('txconfig_frist'), 'type' => 4, 'userid' => $userid]);
+            //ä¿®æ”¹ç”¨æˆ·ä¿¡æ¯if_havespcç­‰äº1
+            $remark = 'æ–°ç”¨æˆ·æ³¨å†Œé€é‡‘å¸';
+            $this->modelScore->setInfo(['score' => parse_config_str('score_newzc'), 'userid' => $userInfo['userid'], 'remark' => $remark, 'status' => 1, 'type' => 1]);
+            user_log($remark, $userInfo['name'] . $remark . parse_config_str('score_newzc'), $userid);
+            //ä¿®æ”¹ä½™é¢
+            $this->modelUser->setInfo(['if_havespc' => 1, 'score' => ($userInfo['score'] + parse_config_str('score_newzc'))], ['userid' => $userid]);
+            return true;
+        } else {
+            return true;
+        }
+    } 
 
 }

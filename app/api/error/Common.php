@@ -14,37 +14,52 @@ namespace app\api\error;
 class Common
 {
 
-    public static $error                = [API_CODE_NAME => 1010000, API_MSG_NAME => '²Ù×÷Ê§°Ü'];
+    public static $error                = [API_CODE_NAME => 1010000, API_MSG_NAME => 'æ“ä½œå¤±è´¥'];
 
-    public static $passwordError            = [API_CODE_NAME => 1010001, API_MSG_NAME => 'µÇÂ¼ÃÜÂë´íÎó'];
+    public static $passwordError            = [API_CODE_NAME => 1010001, API_MSG_NAME => 'ç™»å½•å¯†ç é”™è¯¯'];
 
-    public static $codewordError            = [API_CODE_NAME => 1010002, API_MSG_NAME => 'ÑéÖ¤Âë´íÎó'];
+    public static $codewordError            = [API_CODE_NAME => 1010002, API_MSG_NAME => 'éªŒè¯ç é”™è¯¯'];
 
-    public static $phoneError            = [API_CODE_NAME => 1010003, API_MSG_NAME => 'ÊÖ»úºÅ¸ñÊ½´íÎó'];
+    public static $phoneError            = [API_CODE_NAME => 1010003, API_MSG_NAME => 'æ‰‹æœºå·æ ¼å¼é”™è¯¯'];
 
-    public static $phoneExist            = [API_CODE_NAME => 1010004, API_MSG_NAME => 'ÊÖ»úºÅÒÑ´æÔÚ'];
+    public static $phoneExist            = [API_CODE_NAME => 1010004, API_MSG_NAME => 'æ‰‹æœºå·å·²å­˜åœ¨'];
 
-    public static $phoneBindError            = [API_CODE_NAME => 1010005, API_MSG_NAME => 'ÒÑ°ó¶¨ÊÖ»úºÅ'];
+    public static $phoneBindError            = [API_CODE_NAME => 1010005, API_MSG_NAME => 'å·²ç»‘å®šæ‰‹æœºå·'];
 
-    public static $phoneCodeEmpty           = [API_CODE_NAME => 1010006, API_MSG_NAME => 'ÊÖ»úºÅ»òÑéÖ¤Âë²»ÄÜÎª¿Õ'];
+    public static $phoneCodeEmpty           = [API_CODE_NAME => 1010006, API_MSG_NAME => 'æ‰‹æœºå·æˆ–éªŒè¯ç ä¸èƒ½ä¸ºç©º'];
 
-    public static $registerFail             = [API_CODE_NAME => 1010007, API_MSG_NAME => '×¢²áÊ§°Ü'];
+    public static $registerFail             = [API_CODE_NAME => 1010007, API_MSG_NAME => 'æ³¨å†Œå¤±è´¥'];
 
-    public static $phoneFail                = [API_CODE_NAME => 1010008, API_MSG_NAME => 'ÊÖ»úºÅÒÑÊ¹ÓÃ'];
+    public static $phoneFail                = [API_CODE_NAME => 1010008, API_MSG_NAME => 'æ‰‹æœºå·å·²ä½¿ç”¨'];
 
-    public static $setPhoneFail                = [API_CODE_NAME => 1010009, API_MSG_NAME => 'ÊÖ»úºÅ°ó¶¨Ê§°Ü'];
+    public static $setPhoneFail                = [API_CODE_NAME => 1010009, API_MSG_NAME => 'æ‰‹æœºå·ç»‘å®šå¤±è´¥'];
 
-    public static $pidError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÒÑ´æÔÚÉÏ¼¶'];
+    public static $pidError                = [API_CODE_NAME => 1010011, API_MSG_NAME => 'å·²å­˜åœ¨ä¸Šçº§'];
 
-    public static $zfbError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÄúÒÑ°ó¶¨Ö§¸¶±¦'];
+    public static $zfbError                = [API_CODE_NAME => 1010012, API_MSG_NAME => 'æ‚¨å·²ç»‘å®šæ”¯ä»˜å®'];
+ 
+    public static $wxError                = [API_CODE_NAME => 1010013, API_MSG_NAME => 'æ‚¨å·²ç»‘å®šå¾®ä¿¡'];
 
-    public static $wxError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÄúÒÑ°ó¶¨Î¢ÐÅ'];
+    public static $verifiedError                = [API_CODE_NAME => 1010014, API_MSG_NAME => 'æ‚¨å·²å®žåè®¤è¯'];
 
-    public static $verifiedError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÄúÒÑÊµÃûÈÏÖ¤'];
+    public static $verifiedCheckError                = [API_CODE_NAME => 1010015, API_MSG_NAME => 'æ‚¨å·²æäº¤å®žåè®¤è¯ç”³è¯·ï¼Œå®¡æ ¸ä¸­~'];
 
-    public static $verifiedCheckError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÄúÒÑÌá½»ÊµÃûÈÏÖ¤ÉêÇë£¬ÉóºËÖÐ~'];
+    public static $questionError                = [API_CODE_NAME => 1010016, API_MSG_NAME => 'æš‚æ— é—®å·è°ƒæŸ¥'];
 
-    public static $questionError                = [API_CODE_NAME => 1010010, API_MSG_NAME => 'ÔÝÎÞÎÊ¾íµ÷²é'];
+    public static $completeError                = [API_CODE_NAME => 1010017, API_MSG_NAME => 'æ‚¨å·²å‚åŠ è¿‡æ­¤æ¬¡é—®å·è°ƒæŸ¥'];
+
+    public static $inviteError                = [API_CODE_NAME => 1010018, API_MSG_NAME => 'ä¸èƒ½å¡«å†™è‡ªå·±çš„é‚€è¯·ç '];
+
+    public static $emptyUser                = [API_CODE_NAME => 1010019, API_MSG_NAME => 'ç”¨æˆ·ä¸å­˜åœ¨'];
+    public static $emptyId              = [API_CODE_NAME => 2000001,   API_MSG_NAME => 'IDä¸èƒ½ä¸ºç©º'];
+    public static $emptyItem              = [API_CODE_NAME => 2000002,   API_MSG_NAME => 'æ•°æ®æŸ¥è¯¢ç»“æžœä¸å­˜åœ¨'];
+    public static $haveTask              = [API_CODE_NAME => 2000003,   API_MSG_NAME => 'å­ä»»åŠ¡å·²å®Œæˆï¼Œæ— æ³•ç»§ç»­æäº¤'];
+
+
+
+
+
+    public static $userSign              = [API_CODE_NAME => 3000001,   API_MSG_NAME => 'ç”¨æˆ·å·²ç­¾åˆ°'];
 
 
 }

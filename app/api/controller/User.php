@@ -5,12 +5,12 @@ namespace app\api\controller;
 use app\common\model\Help;
 
 /**
- * ÓÃ»§¿ØÖÆÆ÷
+ * ç”¨æˆ·æ§åˆ¶å™¨
  */
 class User extends ApiBase
 {
     /**
-     * °ó¶¨ÊÖ»úºÅ·½·¨
+     * ç»‘å®šæ‰‹æœºå·æ–¹æ³•
      */
     public function setPhone()
     {
@@ -19,7 +19,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÎÒµÄÇ®°ü
+     * æˆ‘çš„é’±åŒ…
      */
     public function wallet()
     {
@@ -28,7 +28,15 @@ class User extends ApiBase
     }
 
     /**
-     * ÑûÇëºÃÓÑ
+     * æ”¯å‡ºæ˜ç»†å¾…å®¡æ ¸/æ‹’ç»çš„è¯¦ç»†ä¿¡æ¯
+     */
+    public function walletInfo()
+    {
+        return $this->apiReturn($this->logicUser->walletInfo($this->param));
+    }
+
+    /**
+     * é‚€è¯·å¥½å‹
      */
     public function invite()
     {
@@ -36,7 +44,7 @@ class User extends ApiBase
     }
 
     /**
-     * °ïÖúÎÊÌâ
+     * å¸®åŠ©é—®é¢˜
      */
     public function helpList()
     {
@@ -44,7 +52,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÎÊÌâÏêÇé
+     * é—®é¢˜è¯¦æƒ…
      */
     public function helpDetail()
     {
@@ -52,7 +60,7 @@ class User extends ApiBase
     }
 
     /**
-     * ·´À¡ĞÅÏ¢
+     * åé¦ˆä¿¡æ¯
      */
     public function feedback()
     {
@@ -60,25 +68,25 @@ class User extends ApiBase
     }
 
     /**
-     * ·´À¡ĞÅÏ¢ÁĞ±í
+     * åé¦ˆä¿¡æ¯åˆ—è¡¨
      */
     public function feedbackList()
     {
         return $this->apiReturn($this->logicUser->feedbackList($this->param));
     }
 
-    //ÓÃ»§Ç©µ½ĞÅÏ¢
+    //ç”¨æˆ·ç­¾åˆ°ä¿¡æ¯
     public function signin(){
 
         return $this->apiReturn($this->logicUser->signin($this->param));
     }
-    //ÓÃ»§È¥Ç©µ½
+    //ç”¨æˆ·å»ç­¾åˆ°
     public function gosignin(){
         return $this->apiReturn($this->logicUser->gosignin($this->param));
     }
 
     /**
-     * ÎÊ¾íµ÷²é
+     * é—®å·è°ƒæŸ¥
      */
     public function questionList()
     {
@@ -86,7 +94,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÎÊ¾íµ÷²éÌá½»
+     * é—®å·è°ƒæŸ¥æäº¤
      */
     public function questionPost()
     {
@@ -94,7 +102,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÓÃ»§ĞÅÏ¢
+     * ç”¨æˆ·ä¿¡æ¯
      */
     public function userInfo()
     {
@@ -102,7 +110,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÕËºÅÓë°²È«
+     * è´¦å·ä¸å®‰å…¨
      */
     public function bindNumber()
     {
@@ -110,7 +118,7 @@ class User extends ApiBase
     }
 
     /**
-     * ÊµÃûÈÏÖ¤
+     * å®åè®¤è¯
      */
     public function verified()
     {
@@ -118,11 +126,26 @@ class User extends ApiBase
     }
 
     /**
-     *  ÑûÇëºÃÓÑÁĞ±í
+     *  é‚€è¯·å¥½å‹åˆ—è¡¨
      */
     public function inviteInfo()
     {
         return $this->apiReturn($this->logicUser->inviteInfo($this->param));
+    }
+
+    //ä¸ªäººä¸­å¿ƒ
+    public function percenter(){
+        return $this->apiReturn($this->logicUser->percenter($this->param));
+    }
+
+    //ç”¨æˆ·æç°åˆå§‹åŒ–
+    public function tixian_init(){
+        return $this->apiReturn($this->logicUser->tixian_init($this->param));
+    }
+
+    //ç”¨æˆ·ç”³è¯·æç°
+    public function tixian_apply(){
+        return $this->apiReturn($this->logicUser->tixian_apply($this->param));
     }
 
 }

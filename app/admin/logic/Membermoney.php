@@ -56,17 +56,18 @@ class Membermoney extends AdminBase
     /**
      * 审核兑换申请
      */
-    public function examine($param)
+    public function examine($data = [])
     {
         $url=url('tixianlist');
 
-        $where = ['scoreid' => $param['scoreid']];
+//        $where = ['scoreid' => $param['scoreid']];
 
-        $result = $this->modelScore->updateInfo($where,['status' => $param['status'],'update_time' =>time()]);
+        $data['update_time'] = time();
 
-        if($result && $param['status'] == 2){
-            action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
-            $scoreInfo = $this->modelScore->getInfo($where);
+        $result = $this->modelScore->setInfo($data);
+        if($result && $data['status'] == 2){
+            action_log('提现申请', '提现申请被拒绝，积分已返回余额' . '，scoreid：' . $data['scoreid'] . '，status：' . $data['status']);
+            $scoreInfo = $this->modelScore->getInfo(['scoreid' => $data['scoreid']]);
             Db::startTrans();
             try {
                 $userInfo = $this->modelUser->getInfo(['userid'=>$scoreInfo['userid']],'score');
@@ -76,13 +77,14 @@ class Membermoney extends AdminBase
 
                 }
                 Db::commit();
+//                echo "<script>parent.parent.layer.closeAll();parent.parent.layer.msg('添加成功，页面正在刷新');parent.parent.setTimeout('refresh()',2000);</script>";
             }catch (\Exception $e){
                 Db::rollback();
             }
         }else{
-            action_log('提现申请', '提现申请审核成功' . '，scoreid：' . $param['scoreid'] . '，status：' . $param['status']);
+            action_log('提现申请', '提现申请审核成功' . '，scoreid：' . $data['scoreid'] . '，status：' . $data['status']);
         }
-        return $result ? [RESULT_SUCCESS,'操作成功',$url] : [RESULT_ERROR, $this->modelScore->getError()];
+        return $result ? [RESULT_SUCCESS,"<script>parent.parent.layer.closeAll();parent.parent.layer.msg('审核成功，页面正在刷新');parent.parent.setTimeout('refresh()',2000);window.parent.location.reload();</script>",$url] : [RESULT_ERROR, $this->modelScore->getError()];
 
 
     }

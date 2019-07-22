@@ -16,13 +16,12 @@ namespace app\api\controller;
  */
 class Homepage extends ApiBase
 {
-    protected $filed='a.*,m.nickname,t.path as listpic,s.path as detailpic';
+    protected $filed='a.*,m.nickname,t.imgurl as listpic,s.imgurl as detailpic';
     /**
      * 首页
      */
     public function home()
     {
-
         //首页轮播
         $parm=$this->param;
         $list['adv'] = $this->logicHome->getAdvList(['ifindex'=>1]);
@@ -50,7 +49,7 @@ class Homepage extends ApiBase
         return $this->apiReturn($list);
     }
 
-
+    
     //任务中心
     public function taskCenter(){
         $parm=$this->param;
@@ -62,13 +61,23 @@ class Homepage extends ApiBase
         $ifget=0;
         $score_taskend_config=parse_config_array('score_taskend');
         if(!empty($parm['user_token'])){
-            $userInfo = get_member_by_token($parm['user_token']);
-            $where['userid'] = $userInfo->user_id;
-            $uinfo=$this->logicUser->getuinfo(['userid'=>$userInfo['userid']],'userid,outendcount,getendcount');
+            $uinfo=$this->logicUser->userInfo($parm);
+            $where['userid'] = $uinfo['userid'];
+            $outendcount=explode(',',$uinfo['outendcount']);//在不在已领取任务数中出现
+            $getendcount=explode(',',$uinfo['getendcount']);//在不在未领取任务数中出现
             foreach($score_taskend_config as $k=>$v){
-                strpos($uinfo['getendcount'],$k)?$ifget=1:'';//等于1可领取
-                strpos($uinfo['outendcount'],$k)?$ifget=2:'';//等于2已领取
+                if($k==8){
+                    if(in_array($k,$getendcount)){
+                        $ifget=1;
+                    }
+                    if(in_array($k,$outendcount)){
+                        $ifget=2;
+                    }
+                }
+                in_array($k,$getendcount)!==false?$ifget=1:'';//等于1可领取
+                in_array($k,$outendcount)!==false?$ifget=2:'';//等于2已领取
                 $scoredata[]=['count'=>$k,'score'=>$v,'ifget'=>$ifget];
+                $ifget=0;
             }
         }else{
             foreach($score_taskend_config as $k=>$v){
@@ -98,6 +107,7 @@ class Homepage extends ApiBase
 
         return $this->apiReturn($result);
     }
+
 
 
     //星球福利社
@@ -143,8 +153,36 @@ class Homepage extends ApiBase
     }
     //任务详情（含任务完成情况，必须传user_token）
     public function Taskdetail(){
-        $parm=$this->param;
-        return $info=$this->logicHome->getTaskdetail($parm);
+        return $this->apiReturn($this->logicHome->getTaskdetail($this->param));
+    }
+    //完成相应子任务
+    function setChildTask(){
+        return $this->apiReturn($this->logicHome->setChildTask($this->param));
+    }
+
+    //时间段奖励
+    public function timeReward()
+    {
+//        $userInfo = get_member_by_token($this->param['user_token']);
+//        $scoreTimes = parse_config_array('score_times');
+//        //当前用户能获取奖励的阶段
+//
+//        foreach ($scoreTimes as $k=>$v){
+//            $list = $this->logicHome->getTimeScore(['userid'=>$userInfo->user_id,'time'=>$k]);
+//            $data = "";
+//            if(!$list){
+//                $data = explode(',',$k . ',' . $v);
+//                break;
+//            }
+//        }
+//        return $this->apiReturn($data);
+        return $this->apiReturn($this->logicHome->getTimeScore($this->param));
+    }
+
+    //领取奖励
+    public function receiveAward()
+    {
+        return $this->apiReturn($this->logicHome->receiveAward($this->param));
     }
 
 }

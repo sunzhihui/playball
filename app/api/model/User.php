@@ -62,21 +62,12 @@ class User extends ModelBase
     /**
      * 处理支出明细列表数据
      */
-    public function pay($list,$status,$user_id)
+    public function pay($arr)
     {
-        $year = 2018;
-        $listArr = [];
-
-        foreach ($list as $k=>$v) {
-            if ($year == date('Y', $v['create_time'])) {
-                $date = date('m月', $v['create_time']);
-            } else {
-                $date = date('Y年m月', $v['create_time']);
-            }
-            $listArr[$date][] = $v;
-
+        foreach ($arr as $k=>$v){
+            $list[$k] = $this->modelScore->where(['type'=>['<>',1]])->whereTime('create_time','between',$v)->field('score,remark,status,scoreid,paytype,create_time,update_time')->order('create_time desc')->select();
         }
-        return $listArr;
+        return $list;
     }
 
     /**
@@ -131,7 +122,7 @@ class User extends ModelBase
                         'score' => $score,
                         'create_time' =>time()
                     ]);
-                    $this->modelSpcmoney->setInfo([
+                    $yqlistid = $this->modelSpcmoney->setInfo([
                         'score' => $score,
                         'userid' => $inviteUser['userid'],
                         'status' =>1,
@@ -139,12 +130,11 @@ class User extends ModelBase
                         'type' =>2,
                         'create_time' => time()
                     ]);
-
+ 
 //                    $this->modelUser->setFieldValue(['userid'=>$inviteUser['userid']],$field = 'score', $value = $inviteUser['score']+$score);
                     $this->modelUser->setInfo([
                         'userid' => $inviteUser['userid'],
                         'score' => $inviteUser['score']+$score,
-                        'money' => $inviteUser['money'] + $score/$score_bl
                     ]);
                     $this->modelUser->setFieldValue(['userid'=>$userInfo->user_id],$field = 'pid', $value = $inviteUser['userid']);
 
@@ -165,6 +155,7 @@ class User extends ModelBase
                     'paydate' => $time,
                     'cid' => $userInfo->user_id,
                     'score' => $score,
+                    'yqlistid' => $yqlistid
                 ]);
                 //邀请表加数据
                 $this->modelYqlist->setInfo([

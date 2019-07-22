@@ -51,8 +51,8 @@ class File extends LogicBase
         Image::open($save_path)->thumb($thumb_config['small']   , $thumb_config['small'])->save($thumb_dir_path  . DS . 'small_'  . $filename);
         Image::open($save_path)->thumb($thumb_config['medium']  , $thumb_config['medium'])->save($thumb_dir_path . DS . 'medium_' . $filename);
         Image::open($save_path)->thumb($thumb_config['big']     , $thumb_config['big'])->save($thumb_dir_path    . DS . 'big_'    . $filename);
-        
-        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename, 'sha1' => $sha1];
+
+        $data = ['name' => $filename, 'path' => $picture_dir_name. SYS_DS_PROS . $filename,'imgurl'=>'/public/picture'. SYS_DS_PROS.$picture_dir_name. SYS_DS_PROS . $filename,'sha1' => $sha1];
         
         $result = $this->modelPicture->setInfo($data);
 

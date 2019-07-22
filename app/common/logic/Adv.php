@@ -10,6 +10,7 @@
 // +---------------------------------------------------------------------+
 namespace app\common\logic;
 use think\Db;
+use app\api\logic\Home;
 
 /**
  * 回收站逻辑
@@ -78,8 +79,13 @@ class Adv extends LogicBase
      */
     public function getAdvInfo($where = [], $field = true)
     {
-
         $info = $this->modelAdv->getInfo($where, $field);
+        if($info['cover_id']){
+            $info['img']=Home::getimgUrl($info['cover_id']);
+        }else{
+            $info['img']='';
+        }
+
         return $info;
     }
 
